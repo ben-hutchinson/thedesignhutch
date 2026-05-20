@@ -1,0 +1,270 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "The Design Hutch home" [ref=e5] [cursor=pointer]:
+          - /url: "#top"
+          - generic [ref=e8]: The Design Hutch
+        - button "Open menu" [ref=e343] [cursor=pointer]:
+          - generic [ref=e10]: Menu
+    - main [ref=e11]:
+      - generic [ref=e14]:
+        - img "The Design Hutch" [ref=e18]
+        - generic [ref=e19]:
+          - heading "Premium websites that make local businesses look established." [level=1] [ref=e20]
+          - generic [ref=e21]:
+            - link "Book Free Consultation" [ref=e22] [cursor=pointer]:
+              - /url: "#contact"
+              - generic [ref=e23]: Book Free Consultation
+            - link "Send Enquiry" [ref=e24] [cursor=pointer]:
+              - /url: "#contact"
+              - generic [ref=e25]: Send Enquiry
+      - generic [ref=e27]:
+        - generic [ref=e29]:
+          - paragraph [ref=e30]: Services
+          - heading "Premium services designed for local-business growth." [level=2] [ref=e31]
+          - paragraph [ref=e32]: Clear scope, practical delivery, and modern web capability without clutter or agency overhead.
+        - generic [ref=e35]:
+          - generic [ref=e344]:
+            - generic [ref=e345]:
+              - heading "Automation / AI" [level=3] [ref=e346]
+              - paragraph [ref=e347]: Thoughtful automation that removes repetitive tasks and improves response speed.
+            - generic [ref=e348]:
+              - paragraph [ref=e349]: Best for
+              - paragraph [ref=e350]: Teams ready to reduce manual work and operate more efficiently.
+          - generic [ref=e44]:
+            - button "Show previous service" [ref=e45] [cursor=pointer]:
+              - img [ref=e46]
+            - generic [ref=e48]:
+              - button "Show Brochure Websites" [ref=e49] [cursor=pointer]
+              - button "Show E-commerce Stores" [ref=e50] [cursor=pointer]
+              - button "Show Booking Systems" [ref=e51] [cursor=pointer]
+              - button "Show Hosting Help" [ref=e52] [cursor=pointer]
+              - button "Show Automation / AI" [ref=e53] [cursor=pointer]
+            - button "Show next service" [ref=e54] [cursor=pointer]:
+              - img [ref=e55]
+        - generic [ref=e58]:
+          - paragraph [ref=e59]: Need a combination of services? I can scope a custom plan around your business stage and goals.
+          - link "Discuss Your Project" [ref=e60] [cursor=pointer]:
+            - /url: "#contact"
+            - generic [ref=e61]: Discuss Your Project
+      - generic [ref=e63]:
+        - generic [ref=e65]:
+          - paragraph [ref=e66]: Portfolio
+          - heading "Portfolio" [level=2] [ref=e67]
+        - generic [ref=e70]:
+          - generic [ref=e72]:
+            - img "Double Double Good website desktop content screenshot" [ref=e351]
+            - generic [ref=e74]:
+              - paragraph [ref=e75]: Desktop detail
+              - generic [ref=e76]:
+                - button "Show previous portfolio screenshot" [ref=e77] [cursor=pointer]:
+                  - img [ref=e78]
+                - generic [ref=e80]:
+                  - button "Show Desktop home" [ref=e81] [cursor=pointer]
+                  - button "Show Desktop detail" [ref=e82] [cursor=pointer]
+                  - button "Show Mobile view" [ref=e83] [cursor=pointer]
+                - button "Show next portfolio screenshot" [ref=e84] [cursor=pointer]:
+                  - img [ref=e85]
+          - generic [ref=e87]:
+            - paragraph [ref=e88]: doubledoublegood.co.uk
+            - heading "Double Double Good" [level=3] [ref=e89]
+            - link "Visit Live Website" [ref=e90] [cursor=pointer]:
+              - /url: https://doubledoublegood.co.uk
+              - generic [ref=e91]: Visit Live Website
+      - generic [ref=e94]:
+        - generic [ref=e96]:
+          - paragraph [ref=e97]: Process
+          - heading "Simple, transparent steps from first call to launch." [level=2] [ref=e98]
+          - paragraph [ref=e99]: The process is built to reduce uncertainty and keep momentum. You always know what happens next and why.
+        - generic [ref=e100]:
+          - generic [ref=e103]:
+            - generic [ref=e104]: "01"
+            - generic [ref=e105]:
+              - heading "Free Consultation" [level=3] [ref=e106]
+              - paragraph [ref=e107]: We clarify your goals, audience, and what your website needs to improve first.
+              - paragraph [ref=e108]: You get practical direction before committing to a build.
+          - generic [ref=e111]:
+            - generic [ref=e112]: "02"
+            - generic [ref=e113]:
+              - heading "Design Approval" [level=3] [ref=e114]
+              - paragraph [ref=e115]: You review a tailored design direction aligned to your brand and conversion goals.
+              - paragraph [ref=e116]: No payment is due until this direction is approved.
+          - generic [ref=e119]:
+            - generic [ref=e120]: "03"
+            - generic [ref=e121]:
+              - heading "Build & Launch" [level=3] [ref=e122]
+              - paragraph [ref=e123]: I develop the site for speed, SEO, and a smooth journey from landing to enquiry.
+              - paragraph [ref=e124]: Everything is tested for mobile performance and clarity.
+          - generic [ref=e127]:
+            - generic [ref=e128]: "04"
+            - generic [ref=e129]:
+              - heading "Support" [level=3] [ref=e130]
+              - paragraph [ref=e131]: Post-launch support is available for updates, hosting help, and growth improvements.
+              - paragraph [ref=e132]: You keep a direct line to the same person after launch.
+      - generic [ref=e134]:
+        - generic [ref=e136]:
+          - paragraph [ref=e137]: FAQ
+          - heading "Answers that remove hesitation before you enquire." [level=2] [ref=e138]
+          - paragraph [ref=e139]: If you are comparing options, these are the practical questions most owners ask before moving forward.
+        - generic [ref=e140]:
+          - generic [ref=e142]:
+            - generic [ref=e143]:
+              - heading "How much does a website cost?" [level=3] [ref=e144]:
+                - button "How much does a website cost?" [expanded] [ref=e145] [cursor=pointer]:
+                  - generic [ref=e146]: How much does a website cost?
+                  - generic [ref=e147]: +
+              - region "How much does a website cost?" [ref=e148]:
+                - paragraph [ref=e150]: Pricing depends on scope, features, and content readiness. After the free consultation, you receive a clear proposal with no vague pricing and no payment until the design direction is approved.
+            - generic [ref=e151]:
+              - heading "How long does a project take?" [level=3] [ref=e152]:
+                - button "How long does a project take?" [ref=e153] [cursor=pointer]:
+                  - generic [ref=e154]: How long does a project take?
+                  - generic [ref=e155]: +
+              - region "How long does a project take?":
+                - paragraph [ref=e156]: Most local business websites launch in 2 to 5 weeks. Timelines vary by features like e-commerce or bookings, but every project starts with a clear delivery plan.
+            - generic [ref=e157]:
+              - heading "Can you redesign my current website?" [level=3] [ref=e158]:
+                - button "Can you redesign my current website?" [ref=e159] [cursor=pointer]:
+                  - generic [ref=e160]: Can you redesign my current website?
+                  - generic [ref=e161]: +
+              - region "Can you redesign my current website?":
+                - paragraph [ref=e162]: Yes. We keep what works, fix what causes friction, and modernise your experience so it looks credible and converts better on mobile.
+            - generic [ref=e163]:
+              - heading "Do you offer support after launch?" [level=3] [ref=e164]:
+                - button "Do you offer support after launch?" [ref=e165] [cursor=pointer]:
+                  - generic [ref=e166]: Do you offer support after launch?
+                  - generic [ref=e167]: +
+              - region "Do you offer support after launch?":
+                - paragraph [ref=e168]: Yes. Ongoing support is available for updates, hosting help, performance checks, and iterative improvements as your business evolves.
+            - generic [ref=e169]:
+              - heading "Can you help with hosting and domains?" [level=3] [ref=e170]:
+                - button "Can you help with hosting and domains?" [ref=e171] [cursor=pointer]:
+                  - generic [ref=e172]: Can you help with hosting and domains?
+                  - generic [ref=e173]: +
+              - region "Can you help with hosting and domains?":
+                - paragraph [ref=e174]: Yes. I can handle migrations, DNS, deployment, and technical setup so your site runs reliably without extra stress on your side.
+            - generic [ref=e175]:
+              - heading "Is this better than a DIY website builder?" [level=3] [ref=e176]:
+                - button "Is this better than a DIY website builder?" [ref=e177] [cursor=pointer]:
+                  - generic [ref=e178]: Is this better than a DIY website builder?
+                  - generic [ref=e179]: +
+              - region "Is this better than a DIY website builder?":
+                - paragraph [ref=e180]: If your business relies on trust and leads, a tailored build gives you stronger branding, cleaner conversion paths, and expert guidance instead of generic templates and trial-and-error.
+          - generic [ref=e182]:
+            - paragraph [ref=e183]: Still deciding?
+            - heading "Get a no-pressure consultation." [level=3] [ref=e184]
+            - paragraph [ref=e185]: You can ask anything about scope, timing, budget, or technical setup before committing.
+            - generic [ref=e186]:
+              - paragraph [ref=e187]:
+                - text: Prefer email first?
+                - link "hello@designhutch.co.uk" [ref=e188] [cursor=pointer]:
+                  - /url: mailto:hello@designhutch.co.uk
+              - link "Send Enquiry" [ref=e189] [cursor=pointer]:
+                - /url: "#contact"
+                - generic [ref=e190]: Send Enquiry
+      - generic [ref=e192]:
+        - generic [ref=e194]:
+          - paragraph [ref=e195]: About
+          - heading "Founder-led delivery with direct accountability." [level=2] [ref=e196]
+          - paragraph [ref=e197]: Minimal layers, clear communication, and practical decisions designed to move your business forward.
+        - generic [ref=e198]:
+          - generic [ref=e200]:
+            - paragraph [ref=e201]: Founder + Developer
+            - heading "Ben Hutchinson" [level=3] [ref=e202]
+            - paragraph [ref=e203]: The Design Hutch is intentionally founder-led. You work directly with the person planning, designing, and building your site from first call to launch.
+          - generic [ref=e205]:
+            - generic [ref=e206]:
+              - generic [ref=e207]:
+                - paragraph [ref=e208]: Years coding
+                - paragraph [ref=e209]: 5+
+              - generic [ref=e210]:
+                - paragraph [ref=e211]: Agency handoffs
+                - paragraph [ref=e212]: "0"
+              - generic [ref=e213]:
+                - paragraph [ref=e214]: Point of contact
+                - paragraph [ref=e215]: "1"
+            - generic [ref=e216]:
+              - paragraph [ref=e219]: Clear, practical advice without technical jargon.
+              - paragraph [ref=e222]: Design and build quality focused on real business outcomes.
+              - paragraph [ref=e225]: Personal accountability and support beyond launch.
+      - generic [ref=e227]:
+        - generic [ref=e229]:
+          - paragraph [ref=e230]: Contact
+          - heading "Get in Touch" [level=2] [ref=e231]
+        - generic [ref=e232]:
+          - generic [ref=e235]:
+            - textbox [ref=e236]
+            - generic [ref=e237]:
+              - generic [ref=e238]:
+                - text: Name
+                - textbox "Name" [ref=e239]:
+                  - /placeholder: Your name
+              - generic [ref=e240]:
+                - text: Email
+                - textbox "Email" [ref=e241]:
+                  - /placeholder: you@business.com
+            - generic [ref=e242]:
+              - generic [ref=e243]:
+                - text: Phone (optional)
+                - textbox "Phone (optional)" [ref=e244]:
+                  - /placeholder: Your number
+              - generic [ref=e245]:
+                - text: Business
+                - textbox "Business" [ref=e246]:
+                  - /placeholder: Business name
+            - generic [ref=e247]:
+              - text: Enquiry
+              - textbox "Enquiry" [ref=e248]:
+                - /placeholder: What do you need, and what should this website improve?
+            - button "Send Enquiry" [ref=e249] [cursor=pointer]:
+              - generic [ref=e250]: Send Enquiry
+          - generic [ref=e252]:
+            - generic [ref=e253]:
+              - paragraph [ref=e254]: Consultation Options
+              - heading "Book a free call or send details now." [level=3] [ref=e255]
+              - paragraph [ref=e256]: Use Calendly if you want to talk first. Prefer async? Email or use the form and I will respond as soon as I can.
+            - generic [ref=e259]:
+              - button "Load Booking Calendar" [ref=e260] [cursor=pointer]:
+                - generic [ref=e261]: Load Booking Calendar
+              - link "Open in New Tab" [ref=e262] [cursor=pointer]:
+                - /url: https://calendly.com/designhutch/free-consultation?hide_event_type_details=1&hide_gdpr_banner=1
+                - generic [ref=e263]: Open in New Tab
+            - generic [ref=e264]:
+              - paragraph [ref=e265]: Email
+              - link "hello@designhutch.co.uk" [ref=e266] [cursor=pointer]:
+                - /url: mailto:hello@designhutch.co.uk
+    - contentinfo [ref=e267]:
+      - generic [ref=e268]:
+        - link "The Design Hutch home" [ref=e269] [cursor=pointer]:
+          - /url: "#top"
+          - img "The Design Hutch" [ref=e271]
+        - generic [ref=e272]:
+          - generic [ref=e273]:
+            - link "Services" [ref=e274] [cursor=pointer]:
+              - /url: "#services"
+            - link "Portfolio" [ref=e275] [cursor=pointer]:
+              - /url: "#portfolio"
+            - link "Process" [ref=e276] [cursor=pointer]:
+              - /url: "#process"
+            - link "FAQ" [ref=e277] [cursor=pointer]:
+              - /url: "#faq"
+            - link "About" [ref=e278] [cursor=pointer]:
+              - /url: "#about"
+            - link "Contact" [ref=e279] [cursor=pointer]:
+              - /url: "#contact"
+            - link "Privacy" [ref=e280] [cursor=pointer]:
+              - /url: /privacy
+          - link "hello@designhutch.co.uk" [ref=e281] [cursor=pointer]:
+            - /url: mailto:hello@designhutch.co.uk
+          - paragraph [ref=e282]: (c) 2026 The Design Hutch.
+    - generic [ref=e284]:
+      - link "Send Enquiry" [ref=e285] [cursor=pointer]:
+        - /url: "#contact"
+        - generic [ref=e286]: Send Enquiry
+      - link "Book Free Consultation" [ref=e287] [cursor=pointer]:
+        - /url: https://calendly.com/designhutch/free-consultation?hide_event_type_details=1&hide_gdpr_banner=1
+        - generic [ref=e288]: Book Free Consultation
+  - button "Open Next.js Dev Tools" [ref=e302] [cursor=pointer]:
+    - img [ref=e303]
+  - alert [ref=e306]

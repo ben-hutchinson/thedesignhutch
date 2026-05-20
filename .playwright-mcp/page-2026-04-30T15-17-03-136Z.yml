@@ -1,0 +1,57 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "The Design Hutch home" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e6]:
+            - img [ref=e7]
+            - generic [ref=e12]:
+              - generic [ref=e13]: The
+              - generic [ref=e14]: Design Hutch
+        - link "Back to site" [ref=e15] [cursor=pointer]:
+          - /url: /
+      - generic [ref=e16]:
+        - paragraph [ref=e17]: Privacy Policy
+        - heading "How The Design Hutch handles enquiry and booking data." [level=1] [ref=e18]
+        - paragraph [ref=e19]: This policy explains what information is collected through the website, why it is used, and how to get in touch about privacy requests. Last updated 30 April 2026.
+      - generic [ref=e20]:
+        - article [ref=e21]:
+          - heading "Information You Provide" [level=2] [ref=e22]
+          - generic [ref=e23]:
+            - paragraph [ref=e24]: When you submit the contact form, email directly, or book a consultation, The Design Hutch may collect your name, email address, business name, project details, and any information you choose to share.
+            - paragraph [ref=e25]: This information is used to respond to enquiries, prepare for consultations, scope projects, and provide requested services.
+        - article [ref=e26]:
+          - heading "Contact Form And Email Delivery" [level=2] [ref=e27]
+          - generic [ref=e28]:
+            - paragraph [ref=e29]: Contact form submissions are validated before being processed. Anti-spam measures may check technical details such as IP address, submission timing, and hidden form fields.
+            - paragraph [ref=e30]: Email delivery may be handled by a third-party email provider such as Resend. If delivery fails, a fallback alert may be sent so the enquiry is not missed.
+        - article [ref=e31]:
+          - heading "Calendly Bookings" [level=2] [ref=e32]
+          - generic [ref=e33]:
+            - paragraph [ref=e34]: If you use the booking calendar, Calendly may process the information needed to schedule and manage your appointment.
+            - paragraph [ref=e35]: Calendly has its own privacy practices, so you should review Calendly's policy when booking through the embedded calendar or external booking page.
+        - article [ref=e36]:
+          - heading "Analytics" [level=2] [ref=e37]
+          - generic [ref=e38]:
+            - paragraph [ref=e39]: The website may use lightweight analytics to understand which calls to action, sections, and pages are useful to visitors.
+            - paragraph [ref=e40]: If Google Analytics is enabled, it may collect usage data such as page views, device information, referral source, and interaction events. This helps improve the website and enquiry flow.
+        - article [ref=e41]:
+          - heading "Cookies And Similar Technologies" [level=2] [ref=e42]
+          - generic [ref=e43]:
+            - paragraph [ref=e44]: The site may use cookies or similar browser storage when analytics, Calendly, or other third-party tools are enabled.
+            - paragraph [ref=e45]: Essential site functionality does not require an account or login.
+        - article [ref=e46]:
+          - heading "How Long Data Is Kept" [level=2] [ref=e47]
+          - generic [ref=e48]:
+            - paragraph [ref=e49]: Enquiry and booking information is kept only for as long as needed to respond, manage project discussions, maintain records, and meet reasonable business or legal requirements.
+            - paragraph [ref=e50]: You can ask for your information to be deleted where there is no ongoing business or legal reason to keep it.
+        - article [ref=e51]:
+          - heading "Your Rights" [level=2] [ref=e52]
+          - generic [ref=e53]:
+            - paragraph [ref=e54]: You can ask what personal information is held about you, request corrections, or ask for deletion where applicable.
+            - paragraph [ref=e55]: To make a privacy request, email hello@designhutch.co.uk.
+        - article [ref=e56]:
+          - heading "Service Area" [level=2] [ref=e57]
+          - paragraph [ref=e59]: The Design Hutch works with local businesses across South Manchester and Cheshire, as well as remote clients where the project is a good fit.
+  - alert [ref=e60]

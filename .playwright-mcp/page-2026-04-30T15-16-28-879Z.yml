@@ -1,0 +1,53 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - link "The Design Hutch home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]:
+          - img [ref=e7]
+          - generic [ref=e12]: TheDesign Hutch
+      - link "Back to site" [ref=e13] [cursor=pointer]:
+        - /url: /
+    - generic [ref=e14]:
+      - paragraph [ref=e15]: Privacy Policy
+      - heading "How The Design Hutch handles enquiry and booking data." [level=1] [ref=e16]
+      - paragraph [ref=e17]: This policy explains what information is collected through the website, why it is used, and how to get in touch about privacy requests. Last updated 30 April 2026.
+    - generic [ref=e18]:
+      - article [ref=e19]:
+        - heading "Information You Provide" [level=2] [ref=e20]
+        - generic [ref=e21]:
+          - paragraph [ref=e22]: When you submit the contact form, email directly, or book a consultation, The Design Hutch may collect your name, email address, business name, project details, and any information you choose to share.
+          - paragraph [ref=e23]: This information is used to respond to enquiries, prepare for consultations, scope projects, and provide requested services.
+      - article [ref=e24]:
+        - heading "Contact Form And Email Delivery" [level=2] [ref=e25]
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: Contact form submissions are validated before being processed. Anti-spam measures may check technical details such as IP address, submission timing, and hidden form fields.
+          - paragraph [ref=e28]: Email delivery may be handled by a third-party email provider such as Resend. If delivery fails, a fallback alert may be sent so the enquiry is not missed.
+      - article [ref=e29]:
+        - heading "Calendly Bookings" [level=2] [ref=e30]
+        - generic [ref=e31]:
+          - paragraph [ref=e32]: If you use the booking calendar, Calendly may process the information needed to schedule and manage your appointment.
+          - paragraph [ref=e33]: Calendly has its own privacy practices, so you should review Calendly's policy when booking through the embedded calendar or external booking page.
+      - article [ref=e34]:
+        - heading "Analytics" [level=2] [ref=e35]
+        - generic [ref=e36]:
+          - paragraph [ref=e37]: The website may use lightweight analytics to understand which calls to action, sections, and pages are useful to visitors.
+          - paragraph [ref=e38]: If Google Analytics is enabled, it may collect usage data such as page views, device information, referral source, and interaction events. This helps improve the website and enquiry flow.
+      - article [ref=e39]:
+        - heading "Cookies And Similar Technologies" [level=2] [ref=e40]
+        - generic [ref=e41]:
+          - paragraph [ref=e42]: The site may use cookies or similar browser storage when analytics, Calendly, or other third-party tools are enabled.
+          - paragraph [ref=e43]: Essential site functionality does not require an account or login.
+      - article [ref=e44]:
+        - heading "How Long Data Is Kept" [level=2] [ref=e45]
+        - generic [ref=e46]:
+          - paragraph [ref=e47]: Enquiry and booking information is kept only for as long as needed to respond, manage project discussions, maintain records, and meet reasonable business or legal requirements.
+          - paragraph [ref=e48]: You can ask for your information to be deleted where there is no ongoing business or legal reason to keep it.
+      - article [ref=e49]:
+        - heading "Your Rights" [level=2] [ref=e50]
+        - generic [ref=e51]:
+          - paragraph [ref=e52]: You can ask what personal information is held about you, request corrections, or ask for deletion where applicable.
+          - paragraph [ref=e53]: To make a privacy request, email hello@designhutch.co.uk.
+      - article [ref=e54]:
+        - heading "Service Area" [level=2] [ref=e55]
+        - paragraph [ref=e57]: The Design Hutch works with local businesses across South Manchester and Cheshire, as well as remote clients where the project is a good fit.

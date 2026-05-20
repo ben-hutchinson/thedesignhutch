@@ -1,0 +1,459 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "The Design Hutch home" [ref=e5] [cursor=pointer]:
+        - /url: "#top"
+        - generic [ref=e6]:
+          - img [ref=e7]
+          - generic [ref=e12]: The Design Hutch
+      - navigation "Primary" [ref=e13]:
+        - link "Services" [ref=e14] [cursor=pointer]:
+          - /url: "#services"
+        - link "Portfolio" [ref=e15] [cursor=pointer]:
+          - /url: "#portfolio"
+        - link "Process" [ref=e16] [cursor=pointer]:
+          - /url: "#process"
+        - link "FAQ" [ref=e17] [cursor=pointer]:
+          - /url: "#faq"
+        - link "About" [ref=e18] [cursor=pointer]:
+          - /url: "#about"
+        - link "Contact" [ref=e19] [cursor=pointer]:
+          - /url: "#contact"
+      - link "Book free consultation" [ref=e21] [cursor=pointer]:
+        - /url: "#contact"
+        - generic [ref=e22]: Book Free Consultation
+  - main [ref=e23]:
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - img [ref=e30]
+            - generic [ref=e35]: The Design Hutch
+          - generic [ref=e36]: Premium Websites for Local Businesses
+        - generic [ref=e37]:
+          - heading "Premium websites that make local businesses look established." [level=1] [ref=e38]
+          - paragraph [ref=e39]: Founder-led design and development for owners who want modern capability without agency overhead. The Design Hutch gives you direct communication, clear scope, and no payment until your design direction is approved.
+        - generic [ref=e40]:
+          - link "Book Free Consultation" [ref=e41] [cursor=pointer]:
+            - /url: "#contact"
+            - generic [ref=e42]: Book Free Consultation
+          - link "Send Enquiry" [ref=e43] [cursor=pointer]:
+            - /url: "#contact"
+            - generic [ref=e44]: Send Enquiry
+        - paragraph [ref=e45]: Free consultation. No obligation. Clear recommendation within one conversation.
+        - generic [ref=e46]:
+          - generic [ref=e47]: Free design consultation
+          - generic [ref=e48]: No payment until design direction is approved
+          - generic [ref=e49]: Built by a professional developer
+          - generic [ref=e50]: Ongoing support after launch
+      - complementary [ref=e51]:
+        - generic [ref=e53]:
+          - generic [ref=e54]:
+            - img [ref=e55]
+            - generic [ref=e61]: The
+            - paragraph [ref=e63]: Design Hutch
+          - generic [ref=e64]:
+            - generic [ref=e65]:
+              - paragraph [ref=e66]: First impression
+              - paragraph [ref=e67]: Premium
+            - generic [ref=e68]:
+              - paragraph [ref=e69]: Owner journey
+              - paragraph [ref=e70]: Clear
+            - generic [ref=e71]:
+              - paragraph [ref=e72]: Build quality
+              - paragraph [ref=e73]: Proper
+            - generic [ref=e74]:
+              - paragraph [ref=e75]: Communication
+              - paragraph [ref=e76]: Direct
+          - generic [ref=e77]:
+            - generic [ref=e78]:
+              - paragraph [ref=e79]: Studio Flow
+              - paragraph [ref=e80]: Free first call
+            - generic [ref=e81]:
+              - generic [ref=e82]:
+                - generic [ref=e83]: "1"
+                - generic [ref=e84]: Consultation
+              - generic [ref=e85]:
+                - generic [ref=e86]: "2"
+                - generic [ref=e87]: Design approval
+              - generic [ref=e88]:
+                - generic [ref=e89]: "3"
+                - generic [ref=e90]: Build + launch
+              - generic [ref=e91]:
+                - generic [ref=e92]: "4"
+                - generic [ref=e93]: Support
+        - generic: Founder-led
+        - generic: Premium look
+        - generic: Conversion-first
+    - generic [ref=e95]:
+      - generic [ref=e97]:
+        - paragraph [ref=e98]: Services
+        - heading "Premium services designed for local-business growth." [level=2] [ref=e99]
+        - paragraph [ref=e100]: Clear scope, practical delivery, and measurable outcomes across design, development, and ongoing support.
+      - generic [ref=e101]:
+        - generic [ref=e104]:
+          - generic [ref=e105]:
+            - paragraph [ref=e106]: "01"
+            - generic [ref=e107]: Tailored Scope
+          - heading "Brochure Websites" [level=3] [ref=e108]
+          - paragraph [ref=e109]: High-trust brochure sites that make your business look established and credible immediately.
+          - generic [ref=e110]:
+            - paragraph [ref=e111]: Best for
+            - paragraph [ref=e112]: Local businesses that rely on first impressions and direct enquiries.
+          - generic [ref=e113]:
+            - generic [ref=e114]: Messaging-led structure
+            - generic [ref=e115]: Mobile-first premium design
+          - paragraph [ref=e116]: Clearer trust signals and stronger enquiry intent.
+        - generic [ref=e119]:
+          - generic [ref=e120]:
+            - paragraph [ref=e121]: "02"
+            - generic [ref=e122]: Tailored Scope
+          - heading "E-commerce Stores" [level=3] [ref=e123]
+          - paragraph [ref=e124]: Conversion-focused storefronts with clearer product hierarchy and friction-free checkout journeys.
+          - generic [ref=e125]:
+            - paragraph [ref=e126]: Best for
+            - paragraph [ref=e127]: Growing businesses that need online sales without clunky platform limitations.
+          - generic [ref=e128]:
+            - generic [ref=e129]: Catalog UX architecture
+            - generic [ref=e130]: Optimized checkout flow
+          - paragraph [ref=e131]: Higher purchase confidence and cleaner sales flow.
+        - generic [ref=e134]:
+          - generic [ref=e135]:
+            - paragraph [ref=e136]: "03"
+            - generic [ref=e137]: Tailored Scope
+          - heading "Booking Systems" [level=3] [ref=e138]
+          - paragraph [ref=e139]: Integrated booking experiences that reduce admin overhead and make appointments easy to secure.
+          - generic [ref=e140]:
+            - paragraph [ref=e141]: Best for
+            - paragraph [ref=e142]: Appointment-based services that lose time to manual scheduling.
+          - generic [ref=e143]:
+            - generic [ref=e144]: Smart booking pathways
+            - generic [ref=e145]: Calendar + form integration
+          - paragraph [ref=e146]: More booked slots with less back-and-forth.
+        - generic [ref=e149]:
+          - generic [ref=e150]:
+            - paragraph [ref=e151]: "04"
+            - generic [ref=e152]: Tailored Scope
+          - heading "Hosting Help" [level=3] [ref=e153]
+          - paragraph [ref=e154]: Practical setup, migration, and performance support to keep your website stable and fast.
+          - generic [ref=e155]:
+            - paragraph [ref=e156]: Best for
+            - paragraph [ref=e157]: Businesses needing reliability without technical stress.
+          - generic [ref=e158]:
+            - generic [ref=e159]: Migration + deployment
+            - generic [ref=e160]: Speed + uptime tuning
+          - paragraph [ref=e161]: A faster, more resilient site owners can trust.
+        - generic [ref=e164]:
+          - generic [ref=e165]:
+            - paragraph [ref=e166]: "05"
+            - generic [ref=e167]: Tailored Scope
+          - heading "Automation / AI" [level=3] [ref=e168]
+          - paragraph [ref=e169]: Thoughtful automation that removes repetitive tasks and improves response speed.
+          - generic [ref=e170]:
+            - paragraph [ref=e171]: Best for
+            - paragraph [ref=e172]: Teams ready to reduce manual work and operate more efficiently.
+          - generic [ref=e173]:
+            - generic [ref=e174]: Workflow mapping
+            - generic [ref=e175]: Practical AI integration
+          - paragraph [ref=e176]: Lower operating drag and faster customer response.
+      - generic [ref=e178]:
+        - paragraph [ref=e179]: Need a combination of services? I can scope a custom plan around your business stage and goals.
+        - link "Discuss Your Project" [ref=e180] [cursor=pointer]:
+          - /url: "#contact"
+          - generic [ref=e181]: Discuss Your Project
+    - generic [ref=e183]:
+      - generic [ref=e185]:
+        - paragraph [ref=e186]: Portfolio
+        - heading "Selected project directions and build examples." [level=2] [ref=e187]
+        - paragraph [ref=e188]: Early portfolio work is presented with clarity around the problem, design focus, and conversion intent so you can see thinking quality, not just visuals.
+      - generic [ref=e189]:
+        - generic [ref=e191]:
+          - generic [ref=e194]:
+            - paragraph [ref=e200]: northlinecycles.co.uk
+            - generic [ref=e201]:
+              - generic [ref=e202]:
+                - generic [ref=e203]:
+                  - paragraph [ref=e204]: Retail + Workshop
+                  - paragraph [ref=e205]: Repairs, stock, and custom builds in one clear journey.
+                - generic [ref=e206]:
+                  - generic [ref=e207]: Service booking clarity
+                  - generic [ref=e208]: Conversion-led product highlights
+              - generic [ref=e209]:
+                - paragraph [ref=e210]: Primary CTA
+                - generic [ref=e211]: Book repair
+          - generic [ref=e216]:
+            - generic [ref=e217]:
+              - generic [ref=e218]: Build Example
+              - paragraph [ref=e219]: Retail + Workshop
+            - heading "Northline Cycles" [level=3] [ref=e220]
+            - paragraph [ref=e221]: An independent bike shop needed one place for repairs, custom builds, and in-store stock updates.
+            - generic [ref=e222]:
+              - generic [ref=e223]: Service booking clarity
+              - generic [ref=e224]: Conversion-led product highlights
+            - paragraph [ref=e225]: A streamlined structure that makes repair enquiries and product discovery feel fast and trustworthy.
+            - link "Discuss a Similar Project" [ref=e226] [cursor=pointer]:
+              - /url: "#contact"
+              - generic [ref=e227]: Discuss a Similar Project
+        - generic [ref=e228]:
+          - generic [ref=e230]:
+            - generic [ref=e233]:
+              - paragraph [ref=e239]: loomandstitch.co.uk
+              - generic [ref=e240]:
+                - generic [ref=e241]:
+                  - generic [ref=e242]:
+                    - paragraph [ref=e243]: Appointment-Based Service
+                    - paragraph [ref=e244]: Premium fittings booked without back-and-forth.
+                  - generic [ref=e245]:
+                    - generic [ref=e246]: Premium booking journey
+                    - generic [ref=e247]: Mobile-first service pages
+                - generic [ref=e248]:
+                  - paragraph [ref=e249]: Primary CTA
+                  - generic [ref=e250]: Book fitting
+            - generic [ref=e251]:
+              - generic [ref=e252]:
+                - paragraph [ref=e253]: Loom & Stitch Tailoring
+                - generic [ref=e254]: Selected Direction
+              - paragraph [ref=e255]: Manual appointment handling slowed turnaround and made the brand feel dated.
+              - paragraph [ref=e256]: Sharper trust positioning and a cleaner route from visitor interest to booked consultation.
+          - generic [ref=e258]:
+            - generic [ref=e261]:
+              - paragraph [ref=e267]: graysonautocare.co.uk
+              - generic [ref=e268]:
+                - generic [ref=e269]:
+                  - generic [ref=e270]:
+                    - paragraph [ref=e271]: Local Garage
+                    - paragraph [ref=e272]: Trust-first service pages for quote-ready customers.
+                  - generic [ref=e273]:
+                    - generic [ref=e274]: Trust-first messaging
+                    - generic [ref=e275]: Quote-focused navigation
+                - generic [ref=e276]:
+                  - paragraph [ref=e277]: Primary CTA
+                  - generic [ref=e278]: Request quote
+            - generic [ref=e279]:
+              - generic [ref=e280]:
+                - paragraph [ref=e281]: Grayson Auto Care
+                - generic [ref=e282]: Selected Direction
+              - paragraph [ref=e283]: The existing site failed to communicate credibility and key services clearly.
+              - paragraph [ref=e284]: Clearer hierarchy and stronger decision support for customers comparing local providers.
+        - generic [ref=e287]:
+          - generic [ref=e288]:
+            - paragraph [ref=e289]: Also in progress
+            - heading "Needlepoint Records" [level=3] [ref=e290]
+            - paragraph [ref=e291]: A niche record shop needed a stronger digital identity and better event promotion flow.
+            - paragraph [ref=e292]: A more distinctive online presence designed to attract repeat visitors and improve brand recall.
+          - link "Request a walkthrough" [ref=e293] [cursor=pointer]:
+            - /url: "#contact"
+    - generic [ref=e296]:
+      - generic [ref=e297]:
+        - generic [ref=e298]:
+          - paragraph [ref=e299]: Process
+          - heading "Simple, transparent steps from first call to launch." [level=2] [ref=e300]
+          - paragraph [ref=e301]: The process is built to reduce uncertainty and keep momentum. You always know what happens next and why.
+        - generic [ref=e302]:
+          - paragraph [ref=e303]: Why this works
+          - paragraph [ref=e304]: Local business owners need speed, clarity, and trust. This flow keeps decisions simple while protecting quality and accountability.
+          - link "Start with a Free Consultation" [ref=e305] [cursor=pointer]:
+            - /url: "#contact"
+            - generic [ref=e306]: Start with a Free Consultation
+      - generic [ref=e307]:
+        - generic [ref=e310]:
+          - generic [ref=e311]: "01"
+          - generic [ref=e312]:
+            - heading "Free Consultation" [level=3] [ref=e313]
+            - paragraph [ref=e314]: We clarify your goals, audience, and what your website needs to improve first.
+            - paragraph [ref=e315]: You get practical direction before committing to a build.
+        - generic [ref=e318]:
+          - generic [ref=e319]: "02"
+          - generic [ref=e320]:
+            - heading "Design Approval" [level=3] [ref=e321]
+            - paragraph [ref=e322]: You review a tailored design direction aligned to your brand and conversion goals.
+            - paragraph [ref=e323]: No payment is due until this direction is approved.
+        - generic [ref=e326]:
+          - generic [ref=e327]: "03"
+          - generic [ref=e328]:
+            - heading "Build & Launch" [level=3] [ref=e329]
+            - paragraph [ref=e330]: I develop the site for speed, SEO, and a smooth journey from landing to enquiry.
+            - paragraph [ref=e331]: Everything is tested for mobile performance and clarity.
+        - generic [ref=e334]:
+          - generic [ref=e335]: "04"
+          - generic [ref=e336]:
+            - heading "Support" [level=3] [ref=e337]
+            - paragraph [ref=e338]: Post-launch support is available for updates, hosting help, and growth improvements.
+            - paragraph [ref=e339]: You keep a direct line to the same person after launch.
+    - generic [ref=e341]:
+      - generic [ref=e343]:
+        - paragraph [ref=e344]: FAQ
+        - heading "Answers that remove hesitation before you enquire." [level=2] [ref=e345]
+        - paragraph [ref=e346]: If you are comparing options, these are the practical questions most owners ask before moving forward.
+      - generic [ref=e347]:
+        - generic [ref=e349]:
+          - generic [ref=e350]:
+            - heading "How much does a website cost?" [level=3] [ref=e351]:
+              - button "How much does a website cost?" [expanded] [ref=e352] [cursor=pointer]:
+                - generic [ref=e353]: How much does a website cost?
+                - generic [ref=e354]: +
+            - region "How much does a website cost?" [ref=e355]:
+              - paragraph [ref=e357]: Pricing depends on scope, features, and content readiness. After the free consultation, you receive a clear proposal with no vague pricing and no payment until the design direction is approved.
+          - generic [ref=e358]:
+            - heading "How long does a project take?" [level=3] [ref=e359]:
+              - button "How long does a project take?" [ref=e360] [cursor=pointer]:
+                - generic [ref=e361]: How long does a project take?
+                - generic [ref=e362]: +
+            - region "How long does a project take?":
+              - paragraph [ref=e363]: Most local business websites launch in 2 to 5 weeks. Timelines vary by features like e-commerce or bookings, but every project starts with a clear delivery plan.
+          - generic [ref=e364]:
+            - heading "Can you redesign my current website?" [level=3] [ref=e365]:
+              - button "Can you redesign my current website?" [ref=e366] [cursor=pointer]:
+                - generic [ref=e367]: Can you redesign my current website?
+                - generic [ref=e368]: +
+            - region "Can you redesign my current website?":
+              - paragraph [ref=e369]: Yes. We keep what works, fix what causes friction, and modernise your experience so it looks credible and converts better on mobile.
+          - generic [ref=e370]:
+            - heading "Do you offer support after launch?" [level=3] [ref=e371]:
+              - button "Do you offer support after launch?" [ref=e372] [cursor=pointer]:
+                - generic [ref=e373]: Do you offer support after launch?
+                - generic [ref=e374]: +
+            - region "Do you offer support after launch?":
+              - paragraph [ref=e375]: Yes. Ongoing support is available for updates, hosting help, performance checks, and iterative improvements as your business evolves.
+          - generic [ref=e376]:
+            - heading "Can you help with hosting and domains?" [level=3] [ref=e377]:
+              - button "Can you help with hosting and domains?" [ref=e378] [cursor=pointer]:
+                - generic [ref=e379]: Can you help with hosting and domains?
+                - generic [ref=e380]: +
+            - region "Can you help with hosting and domains?":
+              - paragraph [ref=e381]: Yes. I can handle migrations, DNS, deployment, and technical setup so your site runs reliably without extra stress on your side.
+          - generic [ref=e382]:
+            - heading "Is this better than a DIY website builder?" [level=3] [ref=e383]:
+              - button "Is this better than a DIY website builder?" [ref=e384] [cursor=pointer]:
+                - generic [ref=e385]: Is this better than a DIY website builder?
+                - generic [ref=e386]: +
+            - region "Is this better than a DIY website builder?":
+              - paragraph [ref=e387]: If your business relies on trust and leads, a tailored build gives you stronger branding, cleaner conversion paths, and expert guidance instead of generic templates and trial-and-error.
+        - generic [ref=e389]:
+          - paragraph [ref=e390]: Still deciding?
+          - heading "Get a no-pressure consultation." [level=3] [ref=e391]
+          - paragraph [ref=e392]: You can ask anything about scope, timing, budget, or technical setup before committing.
+          - generic [ref=e393]:
+            - paragraph [ref=e394]:
+              - text: Prefer email first?
+              - link "hello@designhutch.co.uk" [ref=e395] [cursor=pointer]:
+                - /url: mailto:hello@designhutch.co.uk
+            - link "Send Enquiry" [ref=e396] [cursor=pointer]:
+              - /url: "#contact"
+              - generic [ref=e397]: Send Enquiry
+    - generic [ref=e399]:
+      - generic [ref=e401]:
+        - paragraph [ref=e402]: About
+        - heading "Founder-led delivery with direct accountability." [level=2] [ref=e403]
+        - paragraph [ref=e404]: Minimal layers, clear communication, and practical decisions designed to move your business forward.
+      - generic [ref=e405]:
+        - generic [ref=e407]:
+          - generic [ref=e408]: DH
+          - paragraph [ref=e409]: Founder + Developer
+          - heading "Ben Hutchinson" [level=3] [ref=e410]
+          - paragraph [ref=e411]: The Design Hutch is intentionally founder-led. You work directly with the person planning, designing, and building your site from first call to launch.
+        - generic [ref=e413]:
+          - generic [ref=e414]:
+            - generic [ref=e415]:
+              - paragraph [ref=e416]: Years coding
+              - paragraph [ref=e417]: 5+
+            - generic [ref=e418]:
+              - paragraph [ref=e419]: Agency handoffs
+              - paragraph [ref=e420]: "0"
+            - generic [ref=e421]:
+              - paragraph [ref=e422]: Point of contact
+              - paragraph [ref=e423]: "1"
+          - generic [ref=e424]:
+            - paragraph [ref=e427]: Clear, practical advice without technical jargon.
+            - paragraph [ref=e430]: Design and build quality focused on real business outcomes.
+            - paragraph [ref=e433]: Personal accountability and support beyond launch.
+    - generic [ref=e435]:
+      - generic [ref=e437]:
+        - paragraph [ref=e438]: Contact
+        - heading "Ready to make your website look premium and convert better?" [level=2] [ref=e439]
+        - paragraph [ref=e440]: This is the fastest route from idea to clear next steps. Send an enquiry, book a consultation, or email directly.
+      - generic [ref=e441]:
+        - generic [ref=e443]:
+          - generic [ref=e444]:
+            - generic [ref=e445]:
+              - paragraph [ref=e446]: Reply window
+              - paragraph [ref=e447]: Within 1 business day
+            - generic [ref=e448]:
+              - paragraph [ref=e449]: Consultation
+              - paragraph [ref=e450]: Free initial call
+            - generic [ref=e451]:
+              - paragraph [ref=e452]: Build ownership
+              - paragraph [ref=e453]: Founder-led
+          - generic [ref=e454]:
+            - textbox [ref=e455]
+            - generic [ref=e456]:
+              - generic [ref=e457]:
+                - text: Name
+                - textbox "Name" [ref=e458]:
+                  - /placeholder: Your name
+              - generic [ref=e459]:
+                - text: Email
+                - textbox "Email" [ref=e460]:
+                  - /placeholder: you@business.com
+            - generic [ref=e461]:
+              - text: Business
+              - textbox "Business" [ref=e462]:
+                - /placeholder: Business name
+            - generic [ref=e463]:
+              - text: Project goals
+              - textbox "Project goals" [ref=e464]:
+                - /placeholder: What do you need, and what should this website improve?
+            - button "Send Enquiry" [ref=e465] [cursor=pointer]:
+              - generic [ref=e466]: Send Enquiry
+            - paragraph [ref=e467]: No spam. Just practical next steps for your business.
+        - generic [ref=e469]:
+          - generic [ref=e470]:
+            - paragraph [ref=e471]: Consultation Options
+            - heading "Book a free call or send details now." [level=3] [ref=e472]
+            - paragraph [ref=e473]: Use Calendly if you want to talk first. Prefer async? Email or use the form and I will respond quickly.
+          - generic [ref=e475]:
+            - paragraph [ref=e476]: Open an embedded booking panel here with one click, or jump directly to Calendly in a new tab.
+            - generic [ref=e477]:
+              - button "Load Booking Calendar" [ref=e478] [cursor=pointer]:
+                - generic [ref=e479]: Load Booking Calendar
+              - link "Open in New Tab" [ref=e480] [cursor=pointer]:
+                - /url: https://calendly.com/designhutch/free-consultation?hide_event_type_details=1&hide_gdpr_banner=1
+                - generic [ref=e481]: Open in New Tab
+          - generic [ref=e482]:
+            - paragraph [ref=e483]: Email
+            - link "hello@designhutch.co.uk" [ref=e484] [cursor=pointer]:
+              - /url: mailto:hello@designhutch.co.uk
+          - generic [ref=e485]:
+            - paragraph [ref=e488]: Free consultation with practical recommendations
+            - paragraph [ref=e491]: No payment until design direction is approved
+            - paragraph [ref=e494]: Direct founder communication from start to launch
+  - contentinfo [ref=e495]:
+    - generic [ref=e496]:
+      - generic [ref=e497]:
+        - generic [ref=e498]:
+          - img [ref=e499]
+          - generic [ref=e504]:
+            - generic [ref=e505]: The
+            - generic [ref=e506]: Design Hutch
+        - paragraph [ref=e507]: Premium websites for local businesses, built with founder-led accountability and direct communication.
+        - generic [ref=e508]:
+          - generic [ref=e509]: No agency bloat
+          - generic [ref=e510]: Personal support
+          - generic [ref=e511]: Conversion-first
+      - generic [ref=e512]:
+        - generic [ref=e513]:
+          - link "Services" [ref=e514] [cursor=pointer]:
+            - /url: "#services"
+          - link "Portfolio" [ref=e515] [cursor=pointer]:
+            - /url: "#portfolio"
+          - link "Process" [ref=e516] [cursor=pointer]:
+            - /url: "#process"
+          - link "FAQ" [ref=e517] [cursor=pointer]:
+            - /url: "#faq"
+          - link "About" [ref=e518] [cursor=pointer]:
+            - /url: "#about"
+          - link "Contact" [ref=e519] [cursor=pointer]:
+            - /url: "#contact"
+        - link "hello@designhutch.co.uk" [ref=e520] [cursor=pointer]:
+          - /url: mailto:hello@designhutch.co.uk
+        - paragraph [ref=e521]: (c) 2026 The Design Hutch. Built for local business growth.

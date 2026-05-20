@@ -1,0 +1,36 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#050505"/>
+  <path d="M0 0H1200V180C966 226 788 191 566 133C360 79 179 68 0 132V0Z" fill="#3B82F6"/>
+  <path d="M0 630H1200V461C966 426 790 449 569 501C360 550 180 560 0 507V630Z" fill="#0F0F0F"/>
+  <rect x="120" y="112" width="960" height="406" rx="30" fill="#111111" stroke="#303030"/>
+  <rect x="176" y="182" width="96" height="96" rx="18" fill="#3B82F6"/>
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M194 256H254" stroke-width="5"/>
+    <path d="M200 224L224 208L248 224" stroke-width="5.5"/>
+    <path d="M205 225V255M243 225V255" stroke-width="5.5"/>
+    <path d="M216 254V228H224V239H234V228H243" stroke-width="5.5"/>
+    <path d="M243 255V239" stroke-width="5.5"/>
+    <path d="M247 255C247 244 252 237 257 231C258 240 254 248 247 255Z" stroke-width="4"/>
+    <path d="M248 255C254 252 260 250 264 244" stroke-width="4"/>
+  </g>
+  <text x="304" y="222" fill="#D4D4D8" font-family="Manrope, sans-serif" font-size="24" font-weight="600" letter-spacing="8">
+    THE
+  </text>
+  <text x="304" y="272" fill="white" font-family="Space Grotesk, Manrope, sans-serif" font-size="58" font-weight="600">
+    Design Hutch
+  </text>
+  <text x="176" y="362" fill="#F5F5F5" font-family="Space Grotesk, Manrope, sans-serif" font-size="42" font-weight="600">
+    Premium websites for local businesses
+  </text>
+  <text x="176" y="413" fill="#BDBDBD" font-family="Manrope, sans-serif" font-size="25">
+    Founder-led design and development without agency overhead.
+  </text>
+  <rect x="176" y="454" width="206" height="38" rx="19" fill="#3B82F6"/>
+  <text x="205" y="480" fill="white" font-family="Manrope, sans-serif" font-size="17" font-weight="700">
+    Free consultation
+  </text>
+  <rect x="402" y="454" width="253" height="38" rx="19" fill="#1A1A1A" stroke="#3A3A3A"/>
+  <text x="430" y="480" fill="#F5F5F5" font-family="Manrope, sans-serif" font-size="17" font-weight="700">
+    No payment until approved
+  </text>
+</svg>
