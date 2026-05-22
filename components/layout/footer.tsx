@@ -8,7 +8,7 @@ export function Footer() {
   return (
     <footer className="border-t border-white/10 bg-base-950 py-10 sm:py-12">
       <div className="container-shell flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-        <Link href="#top" aria-label="The Design Hutch home" className="w-fit">
+        <Link href="/" aria-label="The Design Hutch home" className="w-fit">
           <BrandLockup markClassName="w-44 sm:w-52" />
         </Link>
 

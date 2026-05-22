@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { BrandLockup } from "@/components/brand/logo";
 import { navItems } from "@/content/site";
@@ -17,17 +18,19 @@ const mobileMenuMotion = {
   exit: { opacity: 0, y: -8 },
 };
 
+function normalizePath(path: string) {
+  if (path === "/") {
+    return path;
+  }
+
+  return path.replace(/\/$/, "");
+}
+
 export function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>(
-    navItems[0]?.href.replace("#", "") ?? "",
-  );
-
-  const sections = useMemo(
-    () => navItems.map((item) => ({ ...item, id: item.href.replace("#", "") })),
-    [],
-  );
+  const activePath = normalizePath(pathname);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -37,41 +40,6 @@ export function Navbar() {
 
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    const updateActiveSection = () => {
-      const sectionElements = sections
-        .map((section) => document.getElementById(section.id))
-        .filter((element): element is HTMLElement => Boolean(element));
-
-      if (sectionElements.length === 0) {
-        return;
-      }
-
-      const headerOffset = 112;
-      const currentSection = sectionElements.reduce((best, section) => {
-        const bestDistance = Math.abs(
-          best.getBoundingClientRect().top - headerOffset,
-        );
-        const sectionDistance = Math.abs(
-          section.getBoundingClientRect().top - headerOffset,
-        );
-
-        return sectionDistance < bestDistance ? section : best;
-      });
-
-      setActiveSection(currentSection.id);
-    };
-
-    updateActiveSection();
-    window.addEventListener("scroll", updateActiveSection, { passive: true });
-    window.addEventListener("resize", updateActiveSection);
-
-    return () => {
-      window.removeEventListener("scroll", updateActiveSection);
-      window.removeEventListener("resize", updateActiveSection);
-    };
-  }, [sections]);
 
   useEffect(() => {
     if (!menuOpen) {
@@ -104,7 +72,7 @@ export function Navbar() {
     >
       <div className="container-shell flex h-16 items-center justify-between gap-4 sm:h-[4.35rem]">
         <Link
-          href="#top"
+          href="/"
           className="cta-focus rounded-xl"
           aria-label="The Design Hutch home"
         >
@@ -115,13 +83,13 @@ export function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
-          {sections.map((item) => (
+          {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
                 "relative text-sm font-medium tracking-[0.01em] transition after:absolute after:-bottom-2 after:left-0 after:h-px after:w-full after:origin-left after:bg-gradient-to-r after:from-accent-blue after:to-accent-orange after:transition-transform",
-                activeSection === item.id
+                activePath === item.href
                   ? "text-white after:scale-x-100"
                   : "text-zinc-300 after:scale-x-0 hover:text-white",
               )}
@@ -133,14 +101,14 @@ export function Navbar() {
 
         <div className="relative hidden md:block">
           <Link
-            href="#contact"
+            href="/contact"
             className={buttonStyles({ size: "md" })}
             aria-label="Book free consultation"
             onClick={() =>
               trackCtaClick({
                 ctaId: "navbar_primary",
                 source: "navbar",
-                destination: "#contact",
+                destination: "/contact",
               })
             }
           >
@@ -174,13 +142,13 @@ export function Navbar() {
                 className="container-shell flex flex-col gap-3"
                 aria-label="Mobile"
               >
-                {sections.map((item) => (
+                {navItems.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     className={cn(
                       "rounded-xl border px-3 py-2 text-base transition",
-                      activeSection === item.id
+                      activePath === item.href
                         ? "border-accent-blue/35 bg-accent-blue/10 text-white"
                         : "border-transparent text-zinc-200 hover:border-white/10 hover:bg-white/[0.04]",
                     )}
@@ -190,14 +158,14 @@ export function Navbar() {
                   </Link>
                 ))}
                 <Link
-                  href="#contact"
+                  href="/contact"
                   className={cn(buttonStyles({}), "mt-2 w-full")}
                   onClick={() => {
                     setMenuOpen(false);
                     trackCtaClick({
                       ctaId: "navbar_mobile_primary",
                       source: "navbar",
-                      destination: "#contact",
+                      destination: "/contact",
                     });
                   }}
                 >

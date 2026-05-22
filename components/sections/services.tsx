@@ -142,12 +142,12 @@ export function ServicesSection() {
             your business stage and goals.
           </p>
           <TrackedLink
-            href="#contact"
+            href="/contact"
             className={cn(buttonStyles({ size: "md" }), "justify-center")}
             tracking={{
               ctaId: "services_custom_scope",
               source: "services",
-              destination: "#contact",
+              destination: "/contact",
             }}
           >
             <span className="relative z-[1]">Discuss Your Project</span>
