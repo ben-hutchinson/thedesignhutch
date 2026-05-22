@@ -19,12 +19,17 @@ export function Reveal({
   const prefersReducedMotion = useReducedMotion() ?? false;
 
   if (prefersReducedMotion) {
-    return <div className={className}>{children}</div>;
+    return (
+      <div className={className} data-reveal>
+        {children}
+      </div>
+    );
   }
 
   return (
     <motion.div
       className={className}
+      data-reveal
       initial={{ opacity: 0, y: distance, scale: 0.985, filter: "blur(6px)" }}
       whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "-10%" }}

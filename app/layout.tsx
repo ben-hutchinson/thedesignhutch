@@ -53,7 +53,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
       <body className="bg-base-950 font-body text-white antialiased">
         <AnalyticsScript />
         {children}

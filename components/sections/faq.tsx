@@ -66,12 +66,12 @@ export function FaqSection() {
                 </TrackedAnchor>
               </p>
               <TrackedLink
-                href="#contact"
+                href="/contact"
                 className={cn(buttonStyles({}), "w-full justify-center")}
                 tracking={{
                   ctaId: "faq_enquiry",
                   source: "faq",
-                  destination: "#contact",
+                  destination: "/contact",
                 }}
               >
                 <span className="relative z-[1]">Send Enquiry</span>

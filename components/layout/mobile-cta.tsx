@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { buttonStyles } from "@/components/ui/button";
@@ -9,12 +10,14 @@ import { trackCtaClick } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 export function MobileCta() {
+  const pathname = usePathname();
   const [contactInView, setContactInView] = useState(false);
 
   useEffect(() => {
     const contactSection = document.getElementById("contact");
 
     if (!contactSection) {
+      setContactInView(false);
       return;
     }
 
@@ -31,7 +34,7 @@ export function MobileCta() {
     observer.observe(contactSection);
 
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   return (
     <div
@@ -46,13 +49,13 @@ export function MobileCta() {
     >
       <div className="container-shell flex gap-2 !px-0">
         <Link
-          href="#contact"
+          href="/contact"
           className={cn(buttonStyles({ size: "md" }), "flex-1 justify-center")}
           onClick={() =>
             trackCtaClick({
               ctaId: "mobile_sticky_enquiry",
               source: "mobile_sticky",
-              destination: "#contact",
+              destination: "/contact",
             })
           }
         >

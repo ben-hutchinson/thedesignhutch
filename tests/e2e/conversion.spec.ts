@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 import { prepareDeterministicPage } from "./utils";
 
 test.describe("conversion improvements", () => {
-  test("hero and portfolio render specific proof-led conversion copy", async ({
+  test("homepage keeps the hero, contact path, and compact route overview", async ({
     page,
   }) => {
     await prepareDeterministicPage(page);
@@ -29,7 +29,50 @@ test.describe("conversion improvements", () => {
       await expect(page.getByText(chip, { exact: true })).toBeVisible();
     }
 
-    await page.locator("#portfolio").scrollIntoViewIfNeeded();
+    const overview = page.locator("#site-overview");
+    await expect(overview).toBeVisible();
+    await expect(
+      page.getByText("The important detail is still here"),
+    ).toHaveCount(0);
+    await expect(page.getByText("Use the focused pages below")).toHaveCount(0);
+    await expect(overview.getByText("View page")).toHaveCount(0);
+    await expect(
+      overview.getByText(
+        "Review past projects, including the challenge, solution, outcome and a client testimonial.",
+      ),
+    ).toBeVisible();
+    await expect(overview.getByText("See project proof")).toBeVisible();
+
+    for (const route of [
+      { href: "/services", label: "Services" },
+      { href: "/portfolio", label: "Portfolio" },
+      { href: "/process", label: "Process" },
+      { href: "/faq", label: "FAQ" },
+      { href: "/about", label: "About" },
+      { href: "/contact", label: "Contact" },
+    ]) {
+      await expect(
+        overview.getByRole("link", { name: new RegExp(route.label) }),
+      ).toHaveAttribute("href", route.href);
+    }
+
+    const hero = page.locator("main section").first();
+    await expect(
+      hero.getByRole("link", { name: "Book Free Consultation" }),
+    ).toHaveAttribute("href", "/contact");
+    await expect(
+      hero.getByRole("link", { name: "Send Enquiry" }),
+    ).toHaveAttribute("href", "/contact");
+    await expect(page.locator("#contact")).toHaveCount(0);
+  });
+
+  test("portfolio route renders the full project proof content", async ({
+    page,
+  }) => {
+    await prepareDeterministicPage(page);
+    await page.goto("/portfolio");
+    await page.waitForLoadState("networkidle");
+
     await expect(
       page.getByAltText(
         "Double Double Good website desktop homepage screenshot",
@@ -90,10 +133,10 @@ test.describe("conversion improvements", () => {
     expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(880);
   });
 
-  test("about anchor brings the founder photo into view", async ({ page }) => {
+  test("about route brings the founder photo into view", async ({ page }) => {
     await page.setViewportSize({ width: 1000, height: 911 });
     await prepareDeterministicPage(page);
-    await page.goto("/#about");
+    await page.goto("/about");
     await page.waitForLoadState("networkidle");
 
     await expect(
@@ -130,9 +173,8 @@ test.describe("conversion improvements", () => {
       });
     });
 
-    await page.goto("/");
+    await page.goto("/contact");
     await page.waitForLoadState("networkidle");
-    await page.locator("#contact").scrollIntoViewIfNeeded();
 
     await expect(
       page.getByRole("heading", { name: "Book a free website consultation" }),
@@ -173,12 +215,15 @@ test.describe("conversion improvements", () => {
     );
   });
 
-  test("desktop layout uses a wider container", async ({ isMobile, page }) => {
+  test("portfolio route uses a wider desktop container", async ({
+    isMobile,
+    page,
+  }) => {
     test.skip(isMobile, "Desktop container width check only.");
 
     await page.setViewportSize({ width: 1440, height: 900 });
     await prepareDeterministicPage(page);
-    await page.goto("/");
+    await page.goto("/portfolio");
     await page.waitForLoadState("networkidle");
 
     const portfolioBox = await page.locator("#portfolio > div").boundingBox();
@@ -189,9 +234,8 @@ test.describe("conversion improvements", () => {
 
   test("contact validation still shows inline errors", async ({ page }) => {
     await prepareDeterministicPage(page);
-    await page.goto("/");
+    await page.goto("/contact");
     await page.waitForLoadState("networkidle");
-    await page.locator("#contact").scrollIntoViewIfNeeded();
 
     await page
       .locator("form")
@@ -214,7 +258,8 @@ test.describe("conversion improvements", () => {
     const stickyCta = page.getByTestId("mobile-sticky-cta");
     await expect(stickyCta).toBeVisible();
 
-    await page.locator("#contact").scrollIntoViewIfNeeded();
+    await stickyCta.getByRole("link", { name: "Send Enquiry" }).click();
+    await expect(page).toHaveURL(/\/contact$/);
     await expect(stickyCta).toBeHidden();
   });
 
@@ -222,9 +267,8 @@ test.describe("conversion improvements", () => {
     page,
   }) => {
     await prepareDeterministicPage(page);
-    await page.goto("/");
+    await page.goto("/faq");
     await page.waitForLoadState("networkidle");
-    await page.locator("#faq").scrollIntoViewIfNeeded();
 
     await expect(
       page.getByRole("region", { name: "How much does a website cost?" }),
