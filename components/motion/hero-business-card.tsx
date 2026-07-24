@@ -8,6 +8,7 @@ import { contactDetails } from "@/content/site";
 
 const TURN_DURATION_SECONDS = 1.05;
 const IDLE_TURN_DELAY_MS = 4_000;
+type TurnSource = "idle" | "interaction";
 
 function usePrefersReducedMotion() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(true);
@@ -59,6 +60,7 @@ export function HeroBusinessCard() {
   const rotationY = useMotionValue(0);
   const dragStartRotation = useRef(0);
   const animationRef = useRef<ReturnType<typeof animate> | null>(null);
+  const animationSource = useRef<TurnSource | null>(null);
   const didPan = useRef(false);
   const [side, setSide] = useState<"front" | "back">("front");
   const [isHovered, setIsHovered] = useState(false);
@@ -67,16 +69,18 @@ export function HeroBusinessCard() {
   const isPaused = isHovered || isFocused || isPanning;
 
   const settle = useCallback(
-    (target: number) => {
+    (target: number, source: TurnSource = "interaction") => {
       const nextSide = isBackRotation(target) ? "back" : "front";
       setSide(nextSide);
       animationRef.current?.stop();
 
       if (prefersReducedMotion) {
+        animationSource.current = null;
         rotationY.set(nextSide === "back" ? 180 : 0);
         return;
       }
 
+      animationSource.current = source;
       animationRef.current = animate(rotationY, target, {
         duration: TURN_DURATION_SECONDS,
         ease: [0.22, 1, 0.36, 1],
@@ -85,19 +89,38 @@ export function HeroBusinessCard() {
     [prefersReducedMotion, rotationY],
   );
 
-  const flip = useCallback(() => {
-    const nearestHalfTurn = Math.round(rotationY.get() / 180) * 180;
-    settle(nearestHalfTurn + 180);
-  }, [rotationY, settle]);
+  const flip = useCallback(
+    (source: TurnSource = "interaction") => {
+      const nearestHalfTurn = Math.round(rotationY.get() / 180) * 180;
+      settle(nearestHalfTurn + 180, source);
+    },
+    [rotationY, settle],
+  );
 
   useEffect(() => {
     if (prefersReducedMotion || isPaused) {
       return;
     }
 
-    const timer = window.setTimeout(flip, IDLE_TURN_DELAY_MS);
+    const timer = window.setTimeout(
+      () => flip("idle"),
+      IDLE_TURN_DELAY_MS,
+    );
     return () => window.clearTimeout(timer);
   }, [flip, isPaused, prefersReducedMotion, side]);
+
+  useEffect(() => {
+    if (animationSource.current !== "idle") {
+      return;
+    }
+
+    if (isPaused) {
+      animationRef.current?.pause();
+      return;
+    }
+
+    animationRef.current?.play();
+  }, [isPaused]);
 
   useEffect(
     () => () => {
@@ -111,7 +134,7 @@ export function HeroBusinessCard() {
       <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-accent-blue/10 blur-3xl" />
       <motion.button
         type="button"
-        aria-label={`Design Hutch business card, showing ${side}`}
+        aria-label={`Design Hutch card, showing ${side}`}
         aria-describedby="hero-card-instructions"
         aria-pressed={side === "back"}
         data-side={side}
@@ -122,15 +145,26 @@ export function HeroBusinessCard() {
         onHoverEnd={() => setIsHovered(false)}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        onClick={() => {
-          if (!didPan.current) {
+        onTapStart={() => {
+          didPan.current = false;
+        }}
+        onTap={() => {
+          if (didPan.current) {
+            didPan.current = false;
+            return;
+          }
+          flip();
+        }}
+        onKeyDown={(event) => {
+          if (event.key === " ") {
+            event.preventDefault();
             flip();
           }
         }}
         onPanStart={() => {
-          didPan.current = false;
           setIsPanning(true);
           animationRef.current?.stop();
+          animationSource.current = null;
           dragStartRotation.current = rotationY.get();
         }}
         onPan={(_, info) => {
@@ -140,9 +174,6 @@ export function HeroBusinessCard() {
         onPanEnd={() => {
           settle(Math.round(rotationY.get() / 180) * 180);
           setIsPanning(false);
-          window.setTimeout(() => {
-            didPan.current = false;
-          }, 0);
         }}
       >
         <span className="absolute inset-0 overflow-hidden rounded-[1.35rem] border border-white/10 bg-accent-blue [backface-visibility:hidden]">
@@ -151,6 +182,7 @@ export function HeroBusinessCard() {
             alt=""
             fill
             priority
+            draggable={false}
             sizes="(min-width: 1024px) 46vw, 100vw"
             className="object-cover"
           />
