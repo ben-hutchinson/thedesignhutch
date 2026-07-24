@@ -49,6 +49,7 @@ export function ServicesSection() {
     >
       <Reveal className="mb-12">
         <SectionHeading
+          level="h1"
           eyebrow="Services"
           title="Premium services designed for local-business growth."
           description="Clear scope, practical delivery, and modern web capability without clutter or agency overhead."
@@ -75,9 +76,9 @@ export function ServicesSection() {
                 aria-live="polite"
               >
                 <div>
-                  <h3 className="max-w-3xl text-balance font-heading text-4xl font-semibold tracking-[-0.025em] text-white sm:text-5xl">
+                  <h2 className="max-w-3xl text-balance font-heading text-4xl font-semibold tracking-[-0.025em] text-white sm:text-5xl">
                     {activeService.title}
-                  </h3>
+                  </h2>
                   <p className="mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-zinc-300 sm:text-xl">
                     {activeService.summary}
                   </p>
@@ -142,12 +143,12 @@ export function ServicesSection() {
             your business stage and goals.
           </p>
           <TrackedLink
-            href="#contact"
+            href="/contact"
             className={cn(buttonStyles({ size: "md" }), "justify-center")}
             tracking={{
               ctaId: "services_custom_scope",
               source: "services",
-              destination: "#contact",
+              destination: "/contact",
             }}
           >
             <span className="relative z-[1]">Discuss Your Project</span>

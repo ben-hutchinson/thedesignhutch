@@ -13,6 +13,7 @@ export function ProcessSection() {
       <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <Reveal>
           <SectionHeading
+            level="h1"
             eyebrow="Process"
             title="Simple, transparent steps from first call to launch."
             description="The process is built to reduce uncertainty and keep momentum. You always know what happens next and why."
@@ -29,9 +30,9 @@ export function ProcessSection() {
                   </div>
 
                   <div>
-                    <h3 className="font-heading text-2xl text-white">
+                    <h2 className="font-heading text-2xl text-white">
                       {step.title}
-                    </h3>
+                    </h2>
                     <p className="mt-2 text-sm leading-relaxed text-zinc-300">
                       {step.description}
                     </p>

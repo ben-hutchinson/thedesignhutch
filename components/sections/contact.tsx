@@ -212,6 +212,7 @@ export function ContactSection() {
 
       <Reveal className="mb-10">
         <SectionHeading
+          level="h1"
           eyebrow="Contact"
           title="Book a free website consultation"
           description="Start with a practical review of what your current site needs to improve before committing to a redesign."
@@ -358,9 +359,9 @@ export function ContactSection() {
               <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">
                 Consultation Options
               </p>
-              <h3 className="text-balance font-heading text-2xl text-white">
+              <h2 className="text-balance font-heading text-2xl text-white">
                 What the free consultation includes.
-              </h3>
+              </h2>
               <p className="text-sm text-zinc-300">
                 Use Calendly if you want to talk first. Prefer async? Email or
                 use the form and I will respond with practical next steps.

@@ -22,6 +22,7 @@ export function AboutSection() {
         <Reveal className="md:col-span-7">
           <div className="space-y-5">
             <SectionHeading
+              level="h1"
               eyebrow="About"
               title="Founder-led delivery with direct accountability."
               description="Minimal layers, clear communication, and practical decisions designed to move your business forward."
@@ -76,9 +77,9 @@ export function AboutSection() {
               <p className="text-xs uppercase tracking-[0.16em] text-zinc-400">
                 {founderProfile.role}
               </p>
-              <h3 className="mt-3 font-heading text-3xl font-semibold text-white">
+              <h2 className="mt-3 font-heading text-3xl font-semibold text-white">
                 {founderProfile.name}
-              </h3>
+              </h2>
               <p className="mt-5 text-sm leading-relaxed text-zinc-300">
                 {founderProfile.summary}
               </p>

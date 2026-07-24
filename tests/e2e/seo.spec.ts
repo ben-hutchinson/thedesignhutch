@@ -9,6 +9,36 @@ const siteUrl = "https://thedesignhutch.com";
 const indexableRoutes = [
   { path: "/", canonical: siteUrl, socialTitle: "The Design Hutch" },
   {
+    path: "/services",
+    canonical: `${siteUrl}/services`,
+    socialTitle: "Services | The Design Hutch",
+  },
+  {
+    path: "/portfolio",
+    canonical: `${siteUrl}/portfolio`,
+    socialTitle: "Portfolio | The Design Hutch",
+  },
+  {
+    path: "/process",
+    canonical: `${siteUrl}/process`,
+    socialTitle: "Process | The Design Hutch",
+  },
+  {
+    path: "/faq",
+    canonical: `${siteUrl}/faq`,
+    socialTitle: "FAQ | The Design Hutch",
+  },
+  {
+    path: "/about",
+    canonical: `${siteUrl}/about`,
+    socialTitle: "About | The Design Hutch",
+  },
+  {
+    path: "/contact",
+    canonical: `${siteUrl}/contact`,
+    socialTitle: "Contact | The Design Hutch",
+  },
+  {
     path: "/privacy",
     canonical: `${siteUrl}/privacy`,
     socialTitle: "Privacy Policy | The Design Hutch",
@@ -114,6 +144,7 @@ for (const route of indexableRoutes) {
 }
 
 test("uses a unique page title for every indexable route", async ({ page }) => {
+  test.setTimeout(90_000);
   const titles = [];
 
   for (const route of indexableRoutes) {
@@ -128,6 +159,7 @@ test("serves valid internal links and fragment targets", async ({
   page,
   request,
 }) => {
+  test.setTimeout(90_000);
   for (const route of indexableRoutes) {
     await page.goto(route.path);
 
@@ -168,28 +200,37 @@ test("serves valid internal links and fragment targets", async ({
   }
 });
 
-test("emits parseable JSON-LD with required business identities", async ({
-  page,
-}) => {
+test("emits parseable JSON-LD on the relevant routes", async ({ page }) => {
   await page.goto("/");
 
-  const blocks = await page
+  const businessBlocks = await page
     .locator('script[type="application/ld+json"]')
     .allTextContents();
-  const documents = blocks.map((block) => JSON.parse(block));
-  const types = documents.map((document) => document["@type"]);
+  const businessDocuments = businessBlocks.map((block) => JSON.parse(block));
+  const businessTypes = businessDocuments.map((document) => document["@type"]);
 
-  expect(types).toEqual(
-    expect.arrayContaining(["Organization", "LocalBusiness", "FAQPage"]),
+  expect(businessTypes).toEqual(
+    expect.arrayContaining(["Organization", "LocalBusiness"]),
   );
 
   for (const type of ["Organization", "LocalBusiness"]) {
-    const document = documents.find((value) => value["@type"] === type);
+    const document = businessDocuments.find((value) => value["@type"] === type);
     expect(document?.url).toBe(siteUrl);
     expect(document?.["@id"]).toMatch(
       new RegExp(`^${siteUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/#`),
     );
   }
+
+  await page.goto("/faq");
+  const faqBlocks = await page
+    .locator('script[type="application/ld+json"]')
+    .allTextContents();
+  const faqDocuments = faqBlocks.map((block) => JSON.parse(block));
+  const faqPage = faqDocuments.find(
+    (document) => document["@type"] === "FAQPage",
+  );
+
+  expect(faqPage?.mainEntity.length).toBeGreaterThan(0);
 });
 
 test("keeps sitemap, robots, and canonical routes consistent", async ({

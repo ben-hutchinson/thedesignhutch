@@ -20,6 +20,7 @@ export function FaqSection() {
     >
       <Reveal className="mb-10">
         <SectionHeading
+          level="h1"
           eyebrow="FAQ"
           title="Answers that remove hesitation before you enquire."
           description="If you are comparing options, these are the practical questions most owners ask before moving forward."
@@ -66,12 +67,12 @@ export function FaqSection() {
                 </TrackedAnchor>
               </p>
               <TrackedLink
-                href="#contact"
+                href="/contact"
                 className={cn(buttonStyles({}), "w-full justify-center")}
                 tracking={{
                   ctaId: "faq_enquiry",
                   source: "faq",
-                  destination: "#contact",
+                  destination: "/contact",
                 }}
               >
                 <span className="relative z-[1]">Send Enquiry</span>

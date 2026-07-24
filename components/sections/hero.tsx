@@ -46,7 +46,7 @@ export function HeroSection() {
       />
 
       <div className="container-shell relative flex min-h-[calc(100svh-4rem)] items-center pb-24 pt-20 sm:pb-28 sm:pt-24 lg:py-28">
-        <div className="grid w-full gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
+        <div className="grid w-full gap-10 md:grid-cols-[0.9fr_1fr] md:items-center md:gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <motion.div
             initial={{ opacity: 0, y: 18, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -64,7 +64,7 @@ export function HeroSection() {
               delay: 0.08,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="max-w-2xl space-y-6 lg:justify-self-end"
+            className="max-w-2xl space-y-6 md:justify-self-end"
           >
             <h1 className="text-balance font-heading text-[clamp(2.35rem,6vw,4rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-white">
               {heroContent.headline}
@@ -86,20 +86,20 @@ export function HeroSection() {
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
-                href="#contact"
+                href="/contact"
                 className={cn(buttonStyles({ size: "lg" }), "justify-center")}
                 onClick={() =>
                   trackCtaClick({
                     ctaId: "hero_primary",
                     source: "hero",
-                    destination: "#contact",
+                    destination: "/contact",
                   })
                 }
               >
                 <span className="relative z-[1]">Book Free Consultation</span>
               </Link>
               <Link
-                href="#contact"
+                href="/contact"
                 className={cn(
                   buttonStyles({ variant: "secondary", size: "lg" }),
                   "justify-center",
@@ -108,7 +108,7 @@ export function HeroSection() {
                   trackCtaClick({
                     ctaId: "hero_secondary",
                     source: "hero",
-                    destination: "#contact",
+                    destination: "/contact",
                   })
                 }
               >

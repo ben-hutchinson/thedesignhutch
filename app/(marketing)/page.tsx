@@ -1,13 +1,7 @@
 import { FunnelTracker } from "@/components/analytics/funnel-tracker";
 import { SiteShell } from "@/components/layout/site-shell";
-import { AboutSection } from "@/components/sections/about";
-import { ContactSection } from "@/components/sections/contact";
-import { FaqSection } from "@/components/sections/faq";
 import { HeroSection } from "@/components/sections/hero";
-import { PortfolioSection } from "@/components/sections/portfolio";
-import { ProcessSection } from "@/components/sections/process";
-import { ServicesSection } from "@/components/sections/services";
-import { faqs } from "@/content/faq";
+import { SiteOverviewSection } from "@/components/sections/site-overview";
 import { services } from "@/content/services";
 import { contactDetails, serviceAreas } from "@/content/site";
 import { siteConfig } from "@/lib/constants";
@@ -63,19 +57,6 @@ const jsonLdLocalBusiness = {
   },
 };
 
-const jsonLdFaqPage = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
-  })),
-};
-
 export default function HomePage() {
   return (
     <SiteShell>
@@ -91,29 +72,9 @@ export default function HomePage() {
           __html: toJsonLdScriptValue(jsonLdLocalBusiness),
         }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: toJsonLdScriptValue(jsonLdFaqPage),
-        }}
-      />
-      <FunnelTracker
-        sectionIds={[
-          "services",
-          "portfolio",
-          "process",
-          "faq",
-          "about",
-          "contact",
-        ]}
-      />
+      <FunnelTracker sectionIds={["site-overview"]} />
       <HeroSection />
-      <ServicesSection />
-      <PortfolioSection />
-      <ProcessSection />
-      <FaqSection />
-      <AboutSection />
-      <ContactSection />
+      <SiteOverviewSection />
     </SiteShell>
   );
 }
