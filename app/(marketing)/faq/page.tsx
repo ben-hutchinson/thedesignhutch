@@ -1,18 +1,16 @@
-import type { Metadata } from "next";
-
 import { FunnelTracker } from "@/components/analytics/funnel-tracker";
 import { SiteShell } from "@/components/layout/site-shell";
 import { FaqSection } from "@/components/sections/faq";
 import { faqs } from "@/content/faq";
+import { toJsonLdScriptValue } from "@/lib/json-ld";
+import { createPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "FAQ",
   description:
     "Answers to common questions about The Design Hutch pricing, timelines, redesigns, hosting, support, and DIY website builders.",
-  alternates: {
-    canonical: "/faq",
-  },
-};
+  path: "/faq",
+});
 
 const jsonLdFaqPage = {
   "@context": "https://schema.org",
@@ -33,7 +31,7 @@ export default function FaqPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLdFaqPage),
+          __html: toJsonLdScriptValue(jsonLdFaqPage),
         }}
       />
       <FunnelTracker sectionIds={["faq"]} />

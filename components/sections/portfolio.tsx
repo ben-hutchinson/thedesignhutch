@@ -21,6 +21,7 @@ export function PortfolioSection() {
     >
       <Reveal className="mb-8">
         <SectionHeading
+          level="h1"
           eyebrow="Portfolio"
           title="Proof that the work reaches launch."
           description="A closer look at how the design, build, and launch support come together for a real local business."
@@ -37,9 +38,9 @@ export function PortfolioSection() {
                 <p className="text-sm font-medium text-accent-blue">
                   {featuredProject.urlLabel}
                 </p>
-                <h3 className="mt-4 text-balance font-heading text-4xl font-semibold tracking-[-0.025em] text-white sm:text-5xl">
+                <h2 className="mt-4 text-balance font-heading text-4xl font-semibold tracking-[-0.025em] text-white sm:text-5xl">
                   {featuredProject.title}
-                </h3>
+                </h2>
                 <p className="mt-5 text-pretty text-base leading-relaxed text-zinc-300">
                   {featuredProject.summary}
                 </p>

@@ -6,7 +6,9 @@ Use this before the site goes live.
 
 ### 1. Form Delivery
 
-- Confirm the Formspree endpoint in `content/site.ts`.
+- Create the Cloudflare Turnstile widget for `thedesignhutch.com`.
+- Add `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, `FORMSPREE_ENDPOINT`, and `ALLOWED_ORIGIN=https://thedesignhutch.com` in Cloudflare Pages.
+- Confirm `/api/contact` validates Turnstile server-side and forwards to Formspree.
 - Submit a test enquiry from the live deployment.
 - Confirm the Formspree notification arrives.
 - Confirm the Formspree project forwards enquiries to the right inbox.
@@ -26,10 +28,11 @@ Use this before the site goes live.
 - Deploy the app to Cloudflare Pages.
 - Use `npm run build` as the build command.
 - Use `out` as the output directory.
-- Connect `www.thedesignhutch.com`.
-- Redirect other domain variations to `www.thedesignhutch.com`.
+- Connect `thedesignhutch.com`.
+- Redirect `www.thedesignhutch.com` and other domain variations to `https://thedesignhutch.com`.
 - Confirm `siteConfig.url` in `lib/constants.ts` matches the canonical live domain.
-- Confirm `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`, and `/icon.svg` load on production.
+- Confirm `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`, `/icon.svg`, and `/api/contact` load on production.
+- Confirm production responses include the security headers from `public/_headers`.
 
 ### 4. Analytics And Conversions
 

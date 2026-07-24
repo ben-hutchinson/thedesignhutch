@@ -20,6 +20,7 @@ export function FaqSection() {
     >
       <Reveal className="mb-10">
         <SectionHeading
+          level="h1"
           eyebrow="FAQ"
           title="Answers that remove hesitation before you enquire."
           description="If you are comparing options, these are the practical questions most owners ask before moving forward."

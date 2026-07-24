@@ -1,17 +1,14 @@
-import type { Metadata } from "next";
-
 import { FunnelTracker } from "@/components/analytics/funnel-tracker";
 import { SiteShell } from "@/components/layout/site-shell";
 import { ServicesSection } from "@/components/sections/services";
+import { createPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Services",
   description:
     "Explore The Design Hutch services: brochure websites, e-commerce stores, booking systems, hosting help, and automation support.",
-  alternates: {
-    canonical: "/services",
-  },
-};
+  path: "/services",
+});
 
 export default function ServicesPage() {
   return (

@@ -32,7 +32,7 @@ export function Accordion({ items }: AccordionProps) {
                 : "border-white/10 hover:border-white/20 hover:bg-white/[0.05]",
             )}
           >
-            <h3>
+            <h2>
               <button
                 type="button"
                 className="cta-focus flex w-full items-center justify-between gap-6 px-5 py-4 text-left text-base font-medium text-white"
@@ -52,7 +52,7 @@ export function Accordion({ items }: AccordionProps) {
                   +
                 </span>
               </button>
-            </h3>
+            </h2>
             {isOpen ? (
               <div
                 id={`${item.id}-panel`}

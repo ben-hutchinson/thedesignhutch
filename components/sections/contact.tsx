@@ -21,6 +21,11 @@ type FormState = {
   error: string | null;
 };
 
+type ContactApiResponse = {
+  ok?: boolean;
+  message?: string;
+};
+
 const initialValues: ContactFormValues = {
   name: "",
   email: "",
@@ -35,7 +40,16 @@ type CalendlyWindow = Window & {
   Calendly?: {
     initPopupWidget: (options: { url: string }) => void;
   };
+  turnstile?: {
+    reset: () => void;
+  };
 };
+
+const contactSuccessMessage =
+  "Thanks, your enquiry is in. I'll reply within 1 business day.";
+const contactFallbackError =
+  "Something went wrong while sending your message. Please email directly instead.";
+const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 export function ContactSection() {
   const [values, setValues] = useState<ContactFormValues>(initialValues);
@@ -69,8 +83,14 @@ export function ContactSection() {
     setValues((prev) => ({ ...prev, [key]: value }));
   };
 
+  const resetTurnstile = () => {
+    (window as CalendlyWindow).turnstile?.reset();
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const turnstileToken = String(formData.get("cf-turnstile-response") ?? "");
 
     const parsed = contactSchema.safeParse(values);
 
@@ -82,6 +102,16 @@ export function ContactSection() {
       return;
     }
 
+    if (turnstileSiteKey && !turnstileToken) {
+      setState({
+        loading: false,
+        success: null,
+        error: "Please complete the verification check and try again.",
+      });
+      resetTurnstile();
+      return;
+    }
+
     try {
       setState({ loading: true, success: null, error: null });
       trackEvent("contact_form_submit", {
@@ -90,17 +120,17 @@ export function ContactSection() {
       trackCtaClick({
         ctaId: "contact_submit",
         source: "contact",
-        destination: contactDetails.formspreeEndpoint,
+        destination: contactDetails.contactFormEndpoint,
       });
 
       if (parsed.data.website.trim() !== "") {
         setState({
           loading: false,
-          success:
-            "Thanks, your enquiry is in. I'll reply within 1 business day.",
+          success: contactSuccessMessage,
           error: null,
         });
         setValues(initialValues);
+        resetTurnstile();
         return;
       }
 
@@ -111,10 +141,11 @@ export function ContactSection() {
         business: parsed.data.business,
         currentWebsite: parsed.data.currentWebsite,
         enquiry: parsed.data.enquiry,
+        "cf-turnstile-response": turnstileToken,
         _subject: `New enquiry for The Design Hutch from ${parsed.data.name}`,
       });
 
-      const response = await fetch(contactDetails.formspreeEndpoint, {
+      const response = await fetch(contactDetails.contactFormEndpoint, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -122,13 +153,13 @@ export function ContactSection() {
         },
         body: formBody,
       });
+      const result = (await response
+        .json()
+        .catch(() => null)) as ContactApiResponse | null;
 
-      if (!response.ok) {
-        const failure = (await response.json().catch(() => null)) as {
-          message?: string;
-        } | null;
+      if (!response.ok || result?.ok === false) {
         throw new Error(
-          failure?.message ??
+          result?.message ??
             "Unable to send right now. Please use email instead.",
         );
       }
@@ -138,16 +169,14 @@ export function ContactSection() {
       });
       setState({
         loading: false,
-        success:
-          "Thanks, your enquiry is in. I'll reply within 1 business day.",
+        success: contactSuccessMessage,
         error: null,
       });
       setValues(initialValues);
+      resetTurnstile();
     } catch (error) {
       const errorMessage =
-        error instanceof Error
-          ? error.message
-          : "Something went wrong while sending your message. Please email directly instead.";
+        error instanceof Error ? error.message : contactFallbackError;
       trackEvent("contact_form_error", {
         source: "contact_section",
       });
@@ -156,6 +185,7 @@ export function ContactSection() {
         success: null,
         error: errorMessage,
       });
+      resetTurnstile();
     }
   };
 
@@ -173,9 +203,16 @@ export function ContactSection() {
         src="https://assets.calendly.com/assets/external/widget.js"
         strategy="lazyOnload"
       />
+      {turnstileSiteKey ? (
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+          strategy="afterInteractive"
+        />
+      ) : null}
 
       <Reveal className="mb-10">
         <SectionHeading
+          level="h1"
           eyebrow="Contact"
           title="Book a free website consultation"
           description="Start with a practical review of what your current site needs to improve before committing to a redesign."
@@ -187,7 +224,7 @@ export function ContactSection() {
           <Card className="border-white/20 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.08),rgba(255,255,255,0.03))]">
             <form
               className="space-y-4 sm:space-y-5"
-              action={contactDetails.formspreeEndpoint}
+              action={contactDetails.contactFormEndpoint}
               method="POST"
               onSubmit={handleSubmit}
               noValidate
@@ -289,6 +326,14 @@ export function ContactSection() {
                 />
               </Field>
 
+              {turnstileSiteKey ? (
+                <div
+                  className="cf-turnstile"
+                  data-sitekey={turnstileSiteKey}
+                  data-theme="dark"
+                />
+              ) : null}
+
               <Button
                 type="submit"
                 size="lg"
@@ -314,9 +359,9 @@ export function ContactSection() {
               <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">
                 Consultation Options
               </p>
-              <h3 className="text-balance font-heading text-2xl text-white">
+              <h2 className="text-balance font-heading text-2xl text-white">
                 What the free consultation includes.
-              </h3>
+              </h2>
               <p className="text-sm text-zinc-300">
                 Use Calendly if you want to talk first. Prefer async? Email or
                 use the form and I will respond with practical next steps.

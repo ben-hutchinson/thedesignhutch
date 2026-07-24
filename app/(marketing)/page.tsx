@@ -5,6 +5,7 @@ import { SiteOverviewSection } from "@/components/sections/site-overview";
 import { services } from "@/content/services";
 import { contactDetails, serviceAreas } from "@/content/site";
 import { siteConfig } from "@/lib/constants";
+import { toJsonLdScriptValue } from "@/lib/json-ld";
 
 const jsonLdOrganization = {
   "@context": "https://schema.org",
@@ -62,13 +63,13 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLdOrganization),
+          __html: toJsonLdScriptValue(jsonLdOrganization),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLdLocalBusiness),
+          __html: toJsonLdScriptValue(jsonLdLocalBusiness),
         }}
       />
       <FunnelTracker sectionIds={["site-overview"]} />

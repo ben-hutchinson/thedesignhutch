@@ -6,7 +6,8 @@ DesignHutch is structured as a static multi-page marketing app with modular sect
 
 - `app/`: Next.js routes and platform concerns.
 - `app/(marketing)/`: public marketing route group for `/`, `/services`, `/portfolio`, `/process`, `/faq`, `/about`, and `/contact`.
-- Contact form submissions post directly to Formspree.
+- Contact form submissions post to the `/api/contact` Cloudflare Pages Function, which validates the request and forwards approved enquiries to Formspree.
+- `functions/`: Cloudflare Pages Functions used for dynamic behavior that must stay compatible with a static Next export.
 - `components/layout/`: shell, navbar, footer, wrappers.
 - `components/sections/`: page-level sections in render order.
 - `components/ui/`: reusable primitives.
@@ -19,6 +20,6 @@ DesignHutch is structured as a static multi-page marketing app with modular sect
 
 - Keep section copy in `content/*` unless tightly coupled to UI state.
 - Keep page composition in `app/(marketing)/*/page.tsx`; avoid bloated section files.
-- Keep Cloudflare Pages compatibility by preserving `output: "export"` and avoiding runtime-only routes, middleware, or server actions.
+- Keep Cloudflare Pages compatibility by preserving `output: "export"` and avoiding Next runtime-only routes, middleware, or server actions.
 - Add new reusable primitives under `components/ui/` before duplicating markup.
 - Keep route handlers thin and validated with `zod` schemas from `lib/validation.ts`.

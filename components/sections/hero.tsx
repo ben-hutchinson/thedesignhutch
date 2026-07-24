@@ -1,10 +1,10 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 
 import { AmbientGrid } from "@/components/motion/ambient-grid";
+import { HeroBusinessCard } from "@/components/motion/hero-business-card";
 import { buttonStyles } from "@/components/ui/button";
 import { heroContent } from "@/content/site";
 import { trackCtaClick } from "@/lib/analytics";
@@ -53,17 +53,7 @@ export function HeroSection() {
             transition={{ duration: 0.68, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
-            <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-accent-blue/10 blur-3xl" />
-            <div className="relative overflow-hidden rounded-[1.35rem] border border-white/10 bg-accent-blue shadow-[0_34px_110px_-60px_rgba(59,130,246,0.95)]">
-              <Image
-                src="/brand/design-hutch-logo-full.png"
-                alt="The Design Hutch"
-                width={1600}
-                height={896}
-                priority
-                className="h-auto w-full"
-              />
-            </div>
+            <HeroBusinessCard />
           </motion.div>
 
           <motion.div
