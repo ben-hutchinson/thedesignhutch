@@ -22,9 +22,11 @@
 ### Task 1: Lock the card interaction contract with failing browser tests
 
 **Files:**
+
 - Create: `tests/e2e/hero-business-card.spec.ts`
 
 **Interfaces:**
+
 - Consumes: homepage route `/`.
 - Produces: an accessibility and DOM contract for a button named `Design Hutch card`, with `data-side="front|back"` and `data-auto-rotate="true|false"`.
 
@@ -40,7 +42,9 @@ test.describe("hero business card", () => {
     await page.waitForLoadState("networkidle");
   });
 
-  test("flips between its front and back with the keyboard", async ({ page }) => {
+  test("flips between its front and back with the keyboard", async ({
+    page,
+  }) => {
     const card = page.getByRole("button", {
       name: /Design Hutch card/i,
     });
@@ -56,7 +60,9 @@ test.describe("hero business card", () => {
     await expect(card).toHaveAttribute("aria-pressed", "false");
   });
 
-  test("disables idle rotation when reduced motion is requested", async ({ page }) => {
+  test("disables idle rotation when reduced motion is requested", async ({
+    page,
+  }) => {
     const card = page.getByRole("button", {
       name: /Design Hutch card/i,
     });
@@ -86,11 +92,13 @@ Do not commit a knowingly failing default-branch state. Keep this new test uncom
 ### Task 2: Build and integrate the interactive 3D hero card
 
 **Files:**
+
 - Create: `components/motion/hero-business-card.tsx`
 - Modify: `components/sections/hero.tsx`
 - Test: `tests/e2e/hero-business-card.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `contactDetails.email`, `/brand/design-hutch-logo-full.png`, Framer Motion `animate`, `motion`, and `useMotionValue`.
 - Produces: `HeroBusinessCard(): JSX.Element`, exposed as the `Design Hutch card` button contract from Task 1.
 
@@ -196,10 +204,7 @@ export function HeroBusinessCard() {
 
   useEffect(() => {
     if (prefersReducedMotion || isPaused) return;
-    const timer = window.setTimeout(
-      () => flip("idle"),
-      IDLE_TURN_DELAY_MS,
-    );
+    const timer = window.setTimeout(() => flip("idle"), IDLE_TURN_DELAY_MS);
     return () => window.clearTimeout(timer);
   }, [flip, isPaused, prefersReducedMotion, side]);
 
@@ -305,7 +310,7 @@ Remove the direct `Image` import and static logo wrapper from `components/sectio
 import { HeroBusinessCard } from "@/components/motion/hero-business-card";
 
 // Inside the existing left-hand entry motion wrapper:
-<HeroBusinessCard />
+<HeroBusinessCard />;
 ```
 
 - [x] **Step 3: Run the focused interaction test and verify green**
@@ -340,10 +345,12 @@ git commit -m "feat: add interactive hero business card"
 ### Task 3: Verify visual fidelity, accessibility, and static deployment
 
 **Files:**
+
 - Modify only if intentionally changed: `tests/e2e/visual.spec.ts-snapshots/home-page-desktop-chromium-darwin.png`
 - Modify only if intentionally changed: `tests/e2e/visual.spec.ts-snapshots/home-page-mobile-chromium-darwin.png`
 
 **Interfaces:**
+
 - Consumes: the integrated homepage card from Task 2.
 - Produces: build, test, accessibility, desktop/mobile screenshot, and browser-console evidence for completion.
 

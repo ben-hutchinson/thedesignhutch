@@ -40,14 +40,23 @@ npm run test:e2e:a11y
 
 ## Contact form integration
 
-The contact form validates submissions with Zod in the browser, then posts
-directly to Formspree.
+The contact form validates submissions with Zod in the browser, then posts to a
+Cloudflare Pages Function at `/api/contact`. The Function validates the payload
+again, verifies the Cloudflare Turnstile token server-side, and forwards valid
+enquiries to Formspree.
 
 Anti-spam and reliability hardening included:
 
 - Honeypot field (`website`) to absorb basic bot traffic
+- Cloudflare Turnstile with mandatory server-side Siteverify validation
+- Same-origin Cloudflare Pages Function proxy before Formspree delivery
 
-The current Formspree endpoint is configured in `content/site.ts`.
+Required Cloudflare Pages environment variables:
+
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
+- `TURNSTILE_SECRET_KEY`
+- `FORMSPREE_ENDPOINT`
+- `ALLOWED_ORIGIN=https://thedesignhutch.com`
 
 ## SEO and analytics
 
@@ -66,4 +75,5 @@ Deploy to Cloudflare Pages:
 1. Import this repository into Cloudflare Pages.
 2. Use `npm run build` as the build command.
 3. Use `out` as the output directory.
-4. Connect `www.thedesignhutch.com` as the custom domain.
+4. Connect `thedesignhutch.com` as the custom domain.
+5. Redirect `www.thedesignhutch.com` to `https://thedesignhutch.com`.

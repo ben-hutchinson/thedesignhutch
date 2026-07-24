@@ -11,7 +11,7 @@ export const contactDetails = {
   email: "hello@thedesignhutch.com",
   calendlyUrl:
     "https://calendly.com/hello-thedesignhutch?hide_landing_page_details=1&hide_gdpr_banner=1",
-  formspreeEndpoint: "https://formspree.io/f/mojbeved",
+  contactFormEndpoint: "/api/contact",
 };
 
 export const serviceAreas = ["South Manchester", "Cheshire"] as const;

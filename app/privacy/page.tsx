@@ -5,12 +5,36 @@ import { BrandLockup } from "@/components/brand/logo";
 import { contactDetails, serviceAreas } from "@/content/site";
 import { siteConfig } from "@/lib/constants";
 
+const privacyDescription =
+  "Privacy policy for The Design Hutch, covering contact enquiries, Calendly bookings, analytics, and website data.";
+
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description:
-    "Privacy policy for The Design Hutch, covering contact enquiries, Calendly bookings, analytics, and website data.",
+  description: privacyDescription,
   alternates: {
     canonical: "/privacy",
+  },
+  openGraph: {
+    title: "Privacy Policy | The Design Hutch",
+    description: privacyDescription,
+    url: "/privacy",
+    siteName: siteConfig.name,
+    locale: "en_GB",
+    type: "website",
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: "The Design Hutch privacy policy",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Privacy Policy | The Design Hutch",
+    description: privacyDescription,
+    images: [siteConfig.ogImage],
   },
 };
 
@@ -25,8 +49,8 @@ const policySections = [
   {
     title: "Contact Form And Email Delivery",
     body: [
-      "Contact form submissions are validated before being processed. Anti-spam measures may check technical details such as IP address, submission timing, and hidden form fields.",
-      "Email delivery may be handled by a third-party email provider such as Resend. If delivery fails, a fallback alert may be sent so the enquiry is not missed.",
+      "Contact form submissions are validated before being processed. Anti-spam measures may check technical details such as IP address, Turnstile verification status, submission timing, and hidden form fields.",
+      "The contact form is processed through a Cloudflare Pages Function and forwarded to Formspree for email delivery. If delivery fails, the website may show a fallback message asking you to email directly.",
     ],
   },
   {

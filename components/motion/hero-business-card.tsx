@@ -45,10 +45,7 @@ function HutOutline() {
         <path d="M29 43V73M67 43V73" strokeWidth="5.5" />
         <path d="M40 72V46H48V57H58V46H67" strokeWidth="5.5" />
         <path d="M67 73V57" strokeWidth="5.5" />
-        <path
-          d="M71 73C71 62 76 55 81 49C82 58 78 66 71 73Z"
-          strokeWidth="4"
-        />
+        <path d="M71 73C71 62 76 55 81 49C82 58 78 66 71 73Z" strokeWidth="4" />
         <path d="M72 73C78 70 84 68 88 62" strokeWidth="4" />
       </g>
     </svg>
@@ -102,10 +99,7 @@ export function HeroBusinessCard() {
       return;
     }
 
-    const timer = window.setTimeout(
-      () => flip("idle"),
-      IDLE_TURN_DELAY_MS,
-    );
+    const timer = window.setTimeout(() => flip("idle"), IDLE_TURN_DELAY_MS);
     return () => window.clearTimeout(timer);
   }, [flip, isPaused, prefersReducedMotion, side]);
 

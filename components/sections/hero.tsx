@@ -77,7 +77,7 @@ export function HeroSection() {
               {heroContent.proofChips.map((chip) => (
                 <span
                   key={chip}
-                  className="rounded-full border border-white/12 bg-white/[0.045] px-3 py-2 text-sm font-medium text-zinc-100 shadow-[0_1px_0_rgba(255,255,255,0.06)_inset]"
+                  className="border-white/12 rounded-full border bg-white/[0.045] px-3 py-2 text-sm font-medium text-zinc-100 shadow-[0_1px_0_rgba(255,255,255,0.06)_inset]"
                 >
                   {chip}
                 </span>

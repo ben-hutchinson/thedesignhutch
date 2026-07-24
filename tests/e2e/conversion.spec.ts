@@ -115,13 +115,13 @@ test.describe("conversion improvements", () => {
     }
   });
 
-  test("contact form includes current website and submits it to Formspree", async ({
+  test("contact form includes current website and submits it to the contact API", async ({
     page,
   }) => {
     await prepareDeterministicPage(page);
 
     let submittedPayload: string | null = null;
-    await page.route("https://formspree.io/f/mojbeved", async (route) => {
+    await page.route("**/api/contact", async (route) => {
       submittedPayload = route.request().postData();
       await route.fulfill({
         status: 200,
@@ -171,6 +171,83 @@ test.describe("conversion improvements", () => {
     expect(submittedPayload).toContain(
       "currentWebsite=https%3A%2F%2Fexample.com",
     );
+  });
+
+  test("contact honeypot submissions look successful without posting", async ({
+    page,
+  }) => {
+    await prepareDeterministicPage(page);
+
+    let apiCalled = false;
+    await page.route("**/api/contact", async (route) => {
+      apiCalled = true;
+      await route.fulfill({
+        status: 500,
+        contentType: "application/json",
+        body: JSON.stringify({ ok: false }),
+      });
+    });
+
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await page.locator("#contact").scrollIntoViewIfNeeded();
+
+    await page.getByLabel("Name").fill("Alex Taylor");
+    await page.getByLabel("Email").fill("alex@example.com");
+    await page.getByLabel("Business").fill("Taylor Studio");
+    await page
+      .locator('input[name="website"]')
+      .fill("https://spam.example", { force: true });
+    await page
+      .getByLabel("Enquiry")
+      .fill("We need to replace an outdated website and improve enquiries.");
+    await page
+      .locator("form")
+      .getByRole("button", { name: "Send Enquiry" })
+      .click();
+
+    await expect(
+      page.getByText(
+        "Thanks, your enquiry is in. I'll reply within 1 business day.",
+      ),
+    ).toBeVisible();
+    expect(apiCalled).toBe(false);
+  });
+
+  test("contact API failures show a generic fallback message", async ({
+    page,
+  }) => {
+    await prepareDeterministicPage(page);
+
+    await page.route("**/api/contact", async (route) => {
+      await route.fulfill({
+        status: 502,
+        contentType: "application/json",
+        body: JSON.stringify({
+          ok: false,
+          message: "Unable to send right now. Please use email instead.",
+        }),
+      });
+    });
+
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    await page.locator("#contact").scrollIntoViewIfNeeded();
+
+    await page.getByLabel("Name").fill("Alex Taylor");
+    await page.getByLabel("Email").fill("alex@example.com");
+    await page.getByLabel("Business").fill("Taylor Studio");
+    await page
+      .getByLabel("Enquiry")
+      .fill("We need to replace an outdated website and improve enquiries.");
+    await page
+      .locator("form")
+      .getByRole("button", { name: "Send Enquiry" })
+      .click();
+
+    await expect(
+      page.getByText("Unable to send right now. Please use email instead."),
+    ).toBeVisible();
   });
 
   test("desktop layout uses a wider container", async ({ isMobile, page }) => {

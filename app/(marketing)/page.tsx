@@ -11,6 +11,7 @@ import { faqs } from "@/content/faq";
 import { services } from "@/content/services";
 import { contactDetails, serviceAreas } from "@/content/site";
 import { siteConfig } from "@/lib/constants";
+import { toJsonLdScriptValue } from "@/lib/json-ld";
 
 const jsonLdOrganization = {
   "@context": "https://schema.org",
@@ -81,19 +82,19 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLdOrganization),
+          __html: toJsonLdScriptValue(jsonLdOrganization),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLdLocalBusiness),
+          __html: toJsonLdScriptValue(jsonLdLocalBusiness),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLdFaqPage),
+          __html: toJsonLdScriptValue(jsonLdFaqPage),
         }}
       />
       <FunnelTracker
