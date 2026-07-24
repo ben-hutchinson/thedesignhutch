@@ -11,7 +11,8 @@ export const processSteps: ProcessStep[] = [
     title: "Free Consultation",
     description:
       "We clarify your goals, audience, and what your website needs to improve first.",
-    confidencePoint: "You get practical direction before committing to a build.",
+    confidencePoint:
+      "You get practical direction before committing to a build.",
   },
   {
     step: "02",

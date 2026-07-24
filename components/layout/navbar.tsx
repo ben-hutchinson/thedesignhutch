@@ -1,181 +1,118 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { BrandLockup } from "@/components/brand/logo";
+import { buttonStyles } from "@/components/ui/button";
 import { navItems } from "@/content/site";
 import { trackCtaClick } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
-
-import { buttonStyles } from "../ui/button";
-
-const mobileMenuMotion = {
-  initial: { opacity: 0, y: -10 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -8 },
-};
-
-function normalizePath(path: string) {
-  if (path === "/") {
-    return path;
-  }
-
-  return path.replace(/\/$/, "");
-}
 
 export function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const activePath = normalizePath(pathname);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    return () => window.removeEventListener("scroll", onScroll);
+    const update = () => setScrolled(window.scrollY > 8);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
   }, []);
 
   useEffect(() => {
-    if (!menuOpen) {
-      return;
-    }
-
-    const onEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
-      }
-    };
-
+    if (!menuOpen) return;
+    const escape = (event: KeyboardEvent) =>
+      event.key === "Escape" && setMenuOpen(false);
     document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onEscape);
-
+    window.addEventListener("keydown", escape);
     return () => {
       document.body.style.overflow = "";
-      window.removeEventListener("keydown", onEscape);
+      window.removeEventListener("keydown", escape);
     };
   }, [menuOpen]);
 
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300",
-        scrolled
-          ? "bg-base-950/92 border-b border-white/10 shadow-card backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent",
+        "fixed inset-x-0 top-0 z-50 border-b transition duration-200",
+        scrolled || menuOpen
+          ? "border-white/15 bg-base-950/95 backdrop-blur-lg"
+          : "border-transparent bg-base-950/65",
       )}
     >
-      <div className="container-shell flex h-16 items-center justify-between gap-4 sm:h-[4.35rem]">
+      <div className="container-shell flex h-16 items-center justify-between gap-5">
         <Link
           href="/"
-          className="cta-focus rounded-xl"
+          className="cta-focus flex items-center gap-3 text-white"
           aria-label="The Design Hutch home"
         >
-          <BrandLockup
-            compact
-            markClassName="shadow-[0_0_24px_rgba(53,39,154,0.5)]"
-          />
+          <BrandLockup />
         </Link>
-
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "relative text-sm font-medium tracking-[0.01em] transition after:absolute after:-bottom-2 after:left-0 after:h-px after:w-full after:origin-left after:bg-gradient-to-r after:from-accent-blue after:to-accent-orange after:transition-transform",
-                activePath === item.href
-                  ? "text-white after:scale-x-100"
-                  : "text-zinc-300 after:scale-x-0 hover:text-white",
+                "border-b py-1 text-[.65rem] font-bold uppercase tracking-[.13em] transition",
+                pathname === item.href
+                  ? "border-accent-orange text-white"
+                  : "border-transparent text-[#b8b9b1] hover:border-white/40 hover:text-white",
               )}
             >
               {item.label}
             </Link>
           ))}
         </nav>
-
-        <div className="relative hidden md:block">
-          <Link
-            href="/contact"
-            className={buttonStyles({ size: "md" })}
-            aria-label="Book free consultation"
-            onClick={() =>
-              trackCtaClick({
-                ctaId: "navbar_primary",
-                source: "navbar",
-                destination: "/contact",
-              })
-            }
-          >
-            <span className="relative z-[1]">Book Free Consultation</span>
-          </Link>
-          <span className="pointer-events-none absolute -right-1 -top-1 inline-flex h-2.5 w-2.5 rounded-full bg-accent-orange/80 shadow-[0_0_0_5px_rgba(249,115,22,0.16)]" />
-        </div>
-
+        <Link
+          href="/contact"
+          className={cn(buttonStyles({ size: "md" }), "hidden md:inline-flex")}
+          onClick={() =>
+            trackCtaClick({
+              ctaId: "navbar_primary",
+              source: "navbar",
+              destination: "/contact",
+            })
+          }
+        >
+          Book a consultation
+        </Link>
         <button
           type="button"
-          className="cta-focus inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white md:hidden"
+          className="cta-focus flex w-12 flex-col items-center gap-1 text-[.58rem] uppercase tracking-[.1em] text-white md:hidden"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((prev) => !prev)}
+          onClick={() => setMenuOpen((open) => !open)}
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.08em]">
-            {menuOpen ? "Close" : "Menu"}
-          </span>
+          <span className="block h-px w-8 bg-current" />
+          <span className="block h-px w-8 bg-current" />
+          <span className="block h-px w-8 bg-current" />
+          <span>{menuOpen ? "Close" : "Menu"}</span>
         </button>
       </div>
-
-      <AnimatePresence>
-        {menuOpen ? (
-          <motion.div
-            {...mobileMenuMotion}
-            transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="md:hidden"
-          >
-            <div className="border-t border-white/10 bg-base-900/95 pb-8 pt-6 backdrop-blur-lg">
-              <nav
-                className="container-shell flex flex-col gap-3"
-                aria-label="Mobile"
-              >
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={cn(
-                      "rounded-xl border px-3 py-2 text-base transition",
-                      activePath === item.href
-                        ? "border-accent-blue/35 bg-accent-blue/10 text-white"
-                        : "border-transparent text-zinc-200 hover:border-white/10 hover:bg-white/[0.04]",
-                    )}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-                <Link
-                  href="/contact"
-                  className={cn(buttonStyles({}), "mt-2 w-full")}
-                  onClick={() => {
-                    setMenuOpen(false);
-                    trackCtaClick({
-                      ctaId: "navbar_mobile_primary",
-                      source: "navbar",
-                      destination: "/contact",
-                    });
-                  }}
-                >
-                  <span className="relative z-[1]">Book Free Consultation</span>
-                </Link>
-              </nav>
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+      {menuOpen ? (
+        <nav
+          className="container-shell grid border-t border-white/15 bg-base-950 py-6 md:hidden"
+          aria-label="Mobile"
+        >
+          {navItems.map((item, index) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center justify-between border-b border-white/15 py-4 font-heading text-3xl text-white"
+            >
+              <span>{item.label}</span>
+              <span className="font-body text-[.6rem] text-accent-orange">
+                0{index + 1}
+              </span>
+            </Link>
+          ))}
+        </nav>
+      ) : null}
     </header>
   );
 }

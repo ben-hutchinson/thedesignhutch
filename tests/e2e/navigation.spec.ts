@@ -7,32 +7,32 @@ test.describe("primary navigation", () => {
     {
       href: "/services",
       label: "Services",
-      heading: "Premium services designed for local-business growth.",
+      heading: "What I can build",
     },
     {
       href: "/portfolio",
       label: "Portfolio",
-      heading: "Proof that the work reaches launch.",
+      heading: "Recent work",
     },
     {
       href: "/process",
       label: "Process",
-      heading: "Simple, transparent steps from first call to launch.",
+      heading: "From first conversation to a supported launch",
     },
     {
       href: "/faq",
       label: "FAQ",
-      heading: "Answers that remove hesitation before you enquire.",
+      heading: "Straight answers, before you commit.",
     },
     {
       href: "/about",
       label: "About",
-      heading: "Founder-led delivery with direct accountability.",
+      heading: "The person designing and building your website",
     },
     {
       href: "/contact",
       label: "Contact",
-      heading: "Book a free website consultation",
+      heading: "Let’s make your website easier to trust",
     },
   ] as const;
 
@@ -59,7 +59,7 @@ test.describe("primary navigation", () => {
       ).toBeVisible();
       await expect(
         page.locator(`nav[aria-label="Primary"] a[href="${route.href}"]`),
-      ).toHaveClass(/after:scale-x-100/);
+      ).toHaveClass(/border-accent-orange/);
     }
   });
 
@@ -85,7 +85,7 @@ test.describe("primary navigation", () => {
     await expect(page.locator("nav[aria-label='Mobile']")).toHaveCount(0);
     await expect(
       page.getByRole("heading", {
-        name: "Premium services designed for local-business growth.",
+        name: "What I can build",
       }),
     ).toBeVisible();
   });

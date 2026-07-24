@@ -14,6 +14,7 @@ export type CtaSource =
   | "portfolio"
   | "process"
   | "faq"
+  | "about"
   | "contact"
   | "footer";
 
@@ -28,9 +29,11 @@ export type CtaId =
   | "portfolio_discuss"
   | "portfolio_visit_live_site"
   | "portfolio_walkthrough"
+  | "portfolio_case_study"
   | "process_consultation"
   | "faq_email"
   | "faq_enquiry"
+  | "about_start_conversation"
   | "contact_submit"
   | "contact_email"
   | "contact_calendly_popup"

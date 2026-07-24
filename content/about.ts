@@ -9,7 +9,7 @@ export const founderImage: {
   src: string | null;
   alt: string;
 } = {
-  src: "/founder/ben-hutchinson-headshot-cropped.jpg",
+  src: "/founder/ben-hutchinson-headshot-cropped.webp",
   alt: "Ben Hutchinson, founder of The Design Hutch",
 };
 

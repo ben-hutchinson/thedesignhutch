@@ -1,125 +1,118 @@
 import Image from "next/image";
 
+import { TrackedLink } from "@/components/analytics/tracked-link";
 import { SectionShell } from "@/components/layout/section-shell";
-import { Reveal } from "@/components/motion/reveal";
-import { Card } from "@/components/ui/card";
-import { SectionHeading } from "@/components/ui/section-heading";
 import {
-  founderImage,
   founderCommitments,
+  founderImage,
   founderProfile,
-  proofHighlights,
   trustStats,
 } from "@/content/about";
 
-export function AboutSection() {
+export function AboutSection({
+  headingLevel = "h1",
+}: {
+  headingLevel?: "h1" | "h2";
+}) {
+  const Heading = headingLevel;
   return (
     <SectionShell
       id="about"
-      className="bg-gradient-to-b from-transparent via-white/[0.01] to-transparent"
+      className="relative overflow-hidden bg-base-950 text-[#f5f1e7]"
     >
-      <div className="grid gap-4 md:grid-cols-12 md:items-start lg:gap-5">
-        <Reveal className="md:col-span-7">
-          <div className="space-y-5">
-            <SectionHeading
-              level="h1"
-              eyebrow="About"
-              title="Founder-led delivery with direct accountability."
-              description="Minimal layers, clear communication, and practical decisions designed to move your business forward."
-            />
-            <div className="grid gap-3 sm:grid-cols-2">
-              {founderCommitments.map((commitment) => (
+      <div
+        aria-hidden
+        className="absolute left-[63%] top-0 h-24 w-48 -translate-x-1/2 bg-[var(--paper)] [clip-path:polygon(0_0,50%_65%,100%_0)]"
+      />
+      <div className="container-shell !px-0">
+        <div className="grid md:grid-cols-[.56fr_.44fr] md:items-stretch">
+          <div className="relative z-10 px-[var(--space-container-x)] py-6 md:py-12">
+            <p className="border-t border-accent-blue pt-3 text-sm font-bold tracking-[.16em] text-[#8da3ff]">
+              04
+            </p>
+            <Heading className="mt-6 max-w-2xl font-heading text-[clamp(3.4rem,6vw,6rem)] leading-[.88] tracking-[-.055em]">
+              The person designing and building your website
+            </Heading>
+            <p className="mt-6 font-heading text-3xl text-[#8da3ff]">
+              {founderProfile.name}
+            </p>
+            <p className="mt-1 text-[.65rem] font-bold uppercase tracking-[.2em] text-[#9fb1ff]">
+              {founderProfile.role}
+            </p>
+            <p className="mt-5 max-w-lg text-lg leading-relaxed text-[#c4c4bd]">
+              You work directly with me from the first conversation through
+              design, build, launch and ongoing support.
+            </p>
+
+            <dl className="mt-7 grid grid-cols-3 border-y border-accent-blue/70">
+              {trustStats.map((stat, index) => (
                 <div
-                  key={commitment}
-                  className="flex gap-3 rounded-xl border border-white/10 bg-black/20 px-4 py-3"
+                  key={stat.label}
+                  className="border-r border-accent-blue/60 px-4 py-4 last:border-0"
                 >
-                  <span className="mt-1 h-2 w-2 rounded-full bg-accent-blue" />
-                  <p className="text-sm text-zinc-200">{commitment}</p>
+                  <dt className="text-[.58rem] font-bold text-[#9fb1ff]">
+                    0{index + 1}
+                  </dt>
+                  <dd className="mt-2 text-sm font-semibold">
+                    {index === 0
+                      ? "5+ years coding"
+                      : index === 1
+                        ? "One point of contact"
+                        : "No agency handoffs"}
+                  </dd>
                 </div>
               ))}
+            </dl>
+            <p className="mt-6 text-[.62rem] font-bold uppercase tracking-[.16em] text-[#9fb1ff]">
+              What you can expect
+            </p>
+            <ul className="mt-3 space-y-2">
+              {founderCommitments.slice(0, 3).map((item) => (
+                <li key={item} className="flex gap-4 text-sm">
+                  <span className="text-[#9fb1ff]">→</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <TrackedLink
+              href="/contact"
+              className="mt-7 flex max-w-sm items-center justify-between bg-accent-blue px-7 py-4 font-semibold text-white"
+              tracking={{
+                ctaId: "about_start_conversation",
+                source: "about",
+                destination: "/contact",
+              }}
+            >
+              Start a conversation <span>→</span>
+            </TrackedLink>
+            <div className="sr-only">
+              {founderCommitments.slice(3).join(" ")}
             </div>
           </div>
-        </Reveal>
 
-        <Reveal className="md:col-span-5" delay={0.08}>
-          <Card className="h-full overflow-hidden p-0">
-            <div className="relative aspect-[4/5] border-b border-white/10 bg-[radial-gradient(circle_at_50%_30%,rgba(59,130,246,0.28),transparent_45%),linear-gradient(135deg,rgba(59,130,246,0.18),rgba(249,115,22,0.12))]">
-              {founderImage.src ? (
-                <Image
-                  src={founderImage.src}
-                  alt={founderImage.alt}
-                  fill
-                  sizes="(min-width: 1024px) 34vw, 100vw"
-                  className="object-cover object-[50%_42%]"
-                />
-              ) : (
-                <div className="flex h-full flex-col items-center justify-center gap-5 p-8 text-center">
-                  <Image
-                    src="/brand/design-hutch-logo-icon.png"
-                    alt=""
-                    width={132}
-                    height={114}
-                    className="h-24 w-auto drop-shadow-[0_24px_38px_rgba(59,130,246,0.35)]"
-                  />
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.18em] text-blue-100/70">
-                      Founder-led studio
-                    </p>
-                    <p className="mt-2 font-heading text-2xl font-semibold text-white">
-                      Direct accountability from first call to launch
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className="p-6">
-              <p className="text-xs uppercase tracking-[0.16em] text-zinc-400">
-                {founderProfile.role}
-              </p>
-              <h2 className="mt-3 font-heading text-3xl font-semibold text-white">
-                {founderProfile.name}
-              </h2>
-              <p className="mt-5 text-sm leading-relaxed text-zinc-300">
-                {founderProfile.summary}
-              </p>
-            </div>
-          </Card>
-        </Reveal>
-      </div>
-
-      <Reveal className="mt-5" delay={0.12}>
-        <Card>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {trustStats.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-xl border border-white/10 bg-white/[0.02] p-4"
-              >
-                <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">
-                  {stat.label}
-                </p>
-                <p className="mt-2 font-heading text-2xl text-white">
-                  {stat.value}
-                </p>
-              </div>
-            ))}
-          </div>
-        </Card>
-      </Reveal>
-
-      <Reveal className="mt-5">
-        <div className="grid gap-3 sm:grid-cols-3">
-          {proofHighlights.map((item) => (
-            <Card key={item.title} className="p-5">
-              <p className="font-heading text-xl text-white">{item.title}</p>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-300">
-                {item.description}
-              </p>
-            </Card>
-          ))}
+          <figure className="relative min-h-[34rem] md:min-h-[47rem]">
+            {founderImage.src ? (
+              <Image
+                src={founderImage.src}
+                alt={founderImage.alt}
+                fill
+                priority={headingLevel === "h1"}
+                sizes="(min-width:768px) 48vw, 100vw"
+                className="object-cover object-[50%_38%] contrast-[1.08] saturate-[.9]"
+              />
+            ) : null}
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-[linear-gradient(90deg,#151714_0%,transparent_35%),linear-gradient(180deg,rgba(21,23,20,.25),transparent_50%)]"
+            />
+            <p className="absolute right-10 top-1/2 rotate-[-5deg] font-heading text-2xl italic text-accent-orange">
+              One person
+              <br />
+              all the way ←
+            </p>
+          </figure>
         </div>
-      </Reveal>
+      </div>
     </SectionShell>
   );
 }

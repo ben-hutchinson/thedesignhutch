@@ -1,206 +1,100 @@
 "use client";
 
-import { animate, motion, useMotionValue } from "framer-motion";
-import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
+import { LogoMark } from "@/components/brand/logo";
 import { contactDetails } from "@/content/site";
 
-const TURN_DURATION_SECONDS = 1.05;
-const IDLE_TURN_DELAY_MS = 4_000;
-type TurnSource = "idle" | "interaction";
-
-function usePrefersReducedMotion() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(true);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updatePreference = () => setPrefersReducedMotion(mediaQuery.matches);
-
-    updatePreference();
-    mediaQuery.addEventListener("change", updatePreference);
-
-    return () => mediaQuery.removeEventListener("change", updatePreference);
-  }, []);
-
-  return prefersReducedMotion;
-}
-
-function isBackRotation(rotation: number) {
-  const halfTurns = Math.round(rotation / 180);
-  return Math.abs(halfTurns % 2) === 1;
-}
-
-function HutOutline() {
-  return (
-    <svg viewBox="0 0 96 96" aria-hidden="true" className="h-full w-full">
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M18 74H78" strokeWidth="5" />
-        <path d="M24 42L48 26L72 42" strokeWidth="5.5" />
-        <path d="M29 43V73M67 43V73" strokeWidth="5.5" />
-        <path d="M40 72V46H48V57H58V46H67" strokeWidth="5.5" />
-        <path d="M67 73V57" strokeWidth="5.5" />
-        <path d="M71 73C71 62 76 55 81 49C82 58 78 66 71 73Z" strokeWidth="4" />
-        <path d="M72 73C78 70 84 68 88 62" strokeWidth="4" />
-      </g>
-    </svg>
-  );
-}
-
 export function HeroBusinessCard() {
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const rotationY = useMotionValue(0);
-  const dragStartRotation = useRef(0);
-  const animationRef = useRef<ReturnType<typeof animate> | null>(null);
-  const animationSource = useRef<TurnSource | null>(null);
-  const didPan = useRef(false);
   const [side, setSide] = useState<"front" | "back">("front");
-  const [isHovered, setIsHovered] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-  const [isPanning, setIsPanning] = useState(false);
-  const isPaused = isHovered || isFocused || isPanning;
+  const pointerStart = useRef<number | null>(null);
+  const pointerLast = useRef<number | null>(null);
+  const didDrag = useRef(false);
 
-  const settle = useCallback(
-    (target: number, source: TurnSource = "interaction") => {
-      const nextSide = isBackRotation(target) ? "back" : "front";
-      setSide(nextSide);
-      animationRef.current?.stop();
-
-      if (prefersReducedMotion) {
-        animationSource.current = null;
-        rotationY.set(nextSide === "back" ? 180 : 0);
-        return;
-      }
-
-      animationSource.current = source;
-      animationRef.current = animate(rotationY, target, {
-        duration: TURN_DURATION_SECONDS,
-        ease: [0.22, 1, 0.36, 1],
-      });
-    },
-    [prefersReducedMotion, rotationY],
-  );
-
-  const flip = useCallback(
-    (source: TurnSource = "interaction") => {
-      const nearestHalfTurn = Math.round(rotationY.get() / 180) * 180;
-      settle(nearestHalfTurn + 180, source);
-    },
-    [rotationY, settle],
-  );
-
-  useEffect(() => {
-    if (prefersReducedMotion || isPaused) {
-      return;
-    }
-
-    const timer = window.setTimeout(() => flip("idle"), IDLE_TURN_DELAY_MS);
-    return () => window.clearTimeout(timer);
-  }, [flip, isPaused, prefersReducedMotion, side]);
-
-  useEffect(() => {
-    if (animationSource.current !== "idle") {
-      return;
-    }
-
-    if (isPaused) {
-      animationRef.current?.pause();
-      return;
-    }
-
-    animationRef.current?.play();
-  }, [isPaused]);
-
-  useEffect(
-    () => () => {
-      animationRef.current?.stop();
-    },
-    [],
-  );
+  const settleDrag = () => {
+    if (pointerStart.current === null || pointerLast.current === null) return;
+    const distance = pointerLast.current - pointerStart.current;
+    if (distance < -60) setSide("back");
+    if (distance > 60) setSide("front");
+    pointerStart.current = null;
+    pointerLast.current = null;
+  };
 
   return (
-    <div className="relative [perspective:1200px]">
-      <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-accent-blue/10 blur-3xl" />
-      <motion.button
+    <div className="relative mx-auto w-[92%] max-w-[35rem] rotate-[7deg] [perspective:1200px] md:mx-0 md:rotate-[10deg]">
+      <div
+        aria-hidden
+        className="absolute -inset-8 -z-10 -rotate-[10deg] border border-white/20"
+      />
+      <button
         type="button"
+        data-testid="hero-business-card"
         aria-label={`Design Hutch card, showing ${side}`}
         aria-describedby="hero-card-instructions"
         aria-pressed={side === "back"}
         data-side={side}
-        data-auto-rotate={!prefersReducedMotion}
-        className="cta-focus relative block aspect-[25/14] w-full touch-pan-y select-none rounded-[1.35rem] text-left shadow-[0_34px_110px_-60px_rgba(59,130,246,0.95)] [transform-style:preserve-3d] [will-change:transform] active:cursor-grabbing sm:cursor-grab"
-        style={{ rotateY: rotationY }}
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        onTapStart={() => {
-          didPan.current = false;
+        data-auto-rotate="false"
+        className="cta-focus relative block aspect-[25/14] w-full touch-pan-y select-none bg-transparent text-left [transform-style:preserve-3d]"
+        style={{
+          transform: `rotateY(${side === "back" ? 180 : 0}deg)`,
+          transition: "transform 650ms cubic-bezier(.22,1,.36,1)",
         }}
-        onTap={() => {
-          if (didPan.current) {
-            didPan.current = false;
+        onClick={() => {
+          if (didDrag.current) {
+            didDrag.current = false;
             return;
           }
-          flip();
+          setSide((current) => (current === "front" ? "back" : "front"));
         }}
-        onKeyDown={(event) => {
-          if (event.key === " ") {
-            event.preventDefault();
-            flip();
-          }
+        onPointerDown={(event) => {
+          pointerStart.current = event.clientX;
+          pointerLast.current = event.clientX;
+          didDrag.current = false;
+          event.currentTarget.setPointerCapture(event.pointerId);
         }}
-        onPanStart={() => {
-          setIsPanning(true);
-          animationRef.current?.stop();
-          animationSource.current = null;
-          dragStartRotation.current = rotationY.get();
+        onPointerMove={(event) => {
+          pointerLast.current = event.clientX;
+          if (
+            pointerStart.current !== null &&
+            Math.abs(event.clientX - pointerStart.current) > 8
+          )
+            didDrag.current = true;
         }}
-        onPan={(_, info) => {
-          didPan.current = Math.abs(info.offset.x) > 5;
-          rotationY.set(dragStartRotation.current + info.offset.x * 0.45);
+        onPointerUp={(event) => {
+          pointerLast.current = event.clientX;
+          settleDrag();
         }}
-        onPanEnd={() => {
-          settle(Math.round(rotationY.get() / 180) * 180);
-          setIsPanning(false);
-        }}
+        onPointerCancel={settleDrag}
       >
-        <span className="absolute inset-0 overflow-hidden rounded-[1.35rem] border border-white/10 bg-accent-blue [backface-visibility:hidden]">
-          <Image
-            src="/brand/design-hutch-logo-full.png"
-            alt=""
-            fill
-            priority
-            draggable={false}
-            sizes="(min-width: 1024px) 46vw, 100vw"
-            className="object-cover"
-          />
-          <span className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/10" />
-        </span>
-
-        <span className="absolute inset-0 overflow-hidden rounded-[1.35rem] border border-white/15 bg-[linear-gradient(135deg,#ff8a1f_0%,#f97316_48%,#df5a0b_100%)] p-[clamp(1.1rem,4vw,2rem)] text-white shadow-[0_34px_110px_-60px_rgba(249,115,22,0.9)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
-          <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(255,255,255,0.18),transparent_36%),linear-gradient(115deg,transparent_20%,rgba(255,255,255,0.08)_48%,transparent_72%)]" />
-          <span className="relative flex h-full flex-col">
-            <span className="font-heading text-[clamp(1.25rem,4.5vw,2.2rem)] font-medium tracking-[-0.025em]">
-              Ben Hutchinson
-            </span>
-            <span className="mt-2 text-[clamp(0.9rem,3vw,1.55rem)] font-medium text-orange-50/95">
-              Founder &amp; Developer
-            </span>
-            <span className="mt-auto max-w-[78%] text-[clamp(0.78rem,3vw,1.35rem)] font-medium tracking-[-0.02em] text-white">
-              {contactDetails.email}
-            </span>
-            <span className="absolute bottom-0 right-0 h-[clamp(2.5rem,9vw,4.5rem)] w-[clamp(2.5rem,9vw,4.5rem)] text-white/95">
-              <HutOutline />
+        <span className="absolute inset-0 overflow-hidden border border-white/25 bg-[#204dbf] p-[clamp(1.2rem,4vw,2.2rem)] text-white shadow-[0_7px_0_#f0642b,0_35px_42px_-22px_rgba(0,0,0,.95)] [backface-visibility:hidden]">
+          <span className="absolute inset-0 opacity-25 [background-image:repeating-radial-gradient(circle_at_30%_20%,transparent_0,rgba(255,255,255,.12)_1px,transparent_2px,transparent_5px)]" />
+          <span className="relative flex h-full items-center justify-center">
+            <span className="inline-flex items-center gap-4 sm:gap-6">
+              <LogoMark className="h-[clamp(3.8rem,11vw,6.8rem)] w-[clamp(3.8rem,11vw,6.8rem)]" />
+              <span className="font-heading text-[clamp(1.7rem,5vw,3.7rem)] leading-none tracking-[-.045em]">
+                The Design Hutch
+              </span>
             </span>
           </span>
         </span>
-      </motion.button>
+
+        <span className="absolute inset-0 overflow-hidden border border-white/20 bg-[#f0642b] p-[clamp(1.2rem,4vw,2.2rem)] text-[#171914] shadow-[0_40px_90px_-45px_rgba(240,100,43,.8)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+          <span className="absolute inset-0 opacity-15 [background-image:linear-gradient(rgba(24,26,23,.25)_1px,transparent_1px)] [background-size:100%_28px]" />
+          <span className="relative flex h-full flex-col">
+            <span className="text-[.62rem] font-bold uppercase tracking-[.2em]">
+              Founder + developer
+            </span>
+            <span className="mt-auto font-heading text-[clamp(2rem,6vw,4rem)] leading-none tracking-[-.05em]">
+              Ben
+              <br />
+              Hutchinson
+            </span>
+            <span className="mt-3 text-[clamp(.68rem,2vw,.95rem)] font-semibold">
+              {contactDetails.email}
+            </span>
+          </span>
+        </span>
+      </button>
       <p id="hero-card-instructions" className="sr-only">
         Drag, tap, or press Enter or Space to turn the card.
       </p>

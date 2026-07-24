@@ -12,17 +12,18 @@ import { faqs } from "@/content/faq";
 import { contactDetails } from "@/content/site";
 import { cn } from "@/lib/utils";
 
-export function FaqSection() {
+export function FaqSection({
+  headingLevel = "h1",
+}: {
+  headingLevel?: "h1" | "h2";
+}) {
   return (
-    <SectionShell
-      id="faq"
-      className="border-y border-white/10 bg-gradient-to-b from-transparent via-white/[0.012] to-transparent"
-    >
+    <SectionShell id="faq" className="bg-base-900 text-[#f5f1e7]">
       <Reveal className="mb-10">
         <SectionHeading
-          level="h1"
-          eyebrow="FAQ"
-          title="Answers that remove hesitation before you enquire."
+          level={headingLevel}
+          eyebrow="Questions before we start"
+          title="Straight answers, before you commit."
           description="If you are comparing options, these are the practical questions most owners ask before moving forward."
         />
       </Reveal>
@@ -30,6 +31,7 @@ export function FaqSection() {
       <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr] lg:gap-6">
         <Reveal>
           <Accordion
+            theme="dark"
             items={faqs.map((item, index) => ({
               id: `faq-${index + 1}`,
               question: item.question,
@@ -39,11 +41,11 @@ export function FaqSection() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <Card className="h-full">
-            <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">
+          <Card className="h-full border-white/20 text-white [background:#151714]">
+            <p className="text-xs uppercase tracking-[0.16em] text-zinc-300">
               Still deciding?
             </p>
-            <h3 className="mt-3 font-heading text-2xl text-white">
+            <h3 className="mt-3 font-heading text-3xl text-white">
               Get a no-pressure consultation.
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-zinc-300">
@@ -51,12 +53,12 @@ export function FaqSection() {
               setup before committing.
             </p>
 
-            <div className="mt-5 space-y-3 rounded-xl border border-white/10 bg-black/20 p-4">
+            <div className="mt-5 space-y-3 border border-white/20 bg-white/[.03] p-4">
               <p className="text-sm text-zinc-200">
                 Prefer email first?
                 <TrackedAnchor
                   href={`mailto:${contactDetails.email}`}
-                  className="ml-1 font-medium text-accent-blue hover:text-white"
+                  className="ml-1 font-medium text-[#9fb1ff] hover:text-white"
                   tracking={{
                     ctaId: "faq_email",
                     source: "faq",

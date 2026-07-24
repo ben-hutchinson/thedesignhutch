@@ -1,7 +1,12 @@
 import { FunnelTracker } from "@/components/analytics/funnel-tracker";
 import { SiteShell } from "@/components/layout/site-shell";
 import { HeroSection } from "@/components/sections/hero";
-import { SiteOverviewSection } from "@/components/sections/site-overview";
+import { AboutSection } from "@/components/sections/about";
+import { ContactSection } from "@/components/sections/contact";
+import { FaqSection } from "@/components/sections/faq";
+import { PortfolioSection } from "@/components/sections/portfolio";
+import { ProcessSection } from "@/components/sections/process";
+import { ServicesSection } from "@/components/sections/services";
 import { services } from "@/content/services";
 import { contactDetails, serviceAreas } from "@/content/site";
 import { siteConfig } from "@/lib/constants";
@@ -72,9 +77,23 @@ export default function HomePage() {
           __html: toJsonLdScriptValue(jsonLdLocalBusiness),
         }}
       />
-      <FunnelTracker sectionIds={["site-overview"]} />
+      <FunnelTracker
+        sectionIds={[
+          "portfolio",
+          "services",
+          "process",
+          "faq",
+          "about",
+          "contact",
+        ]}
+      />
       <HeroSection />
-      <SiteOverviewSection />
+      <PortfolioSection headingLevel="h2" />
+      <ServicesSection headingLevel="h2" />
+      <ProcessSection headingLevel="h2" />
+      <FaqSection headingLevel="h2" />
+      <AboutSection headingLevel="h2" />
+      <ContactSection headingLevel="h2" />
     </SiteShell>
   );
 }

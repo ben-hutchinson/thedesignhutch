@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 import { prepareDeterministicPage } from "./utils";
 
 test.describe("conversion improvements", () => {
-  test("homepage keeps the hero, contact path, and compact route overview", async ({
+  test("homepage tells the trust story in the approved editorial order", async ({
     page,
   }) => {
     await prepareDeterministicPage(page);
@@ -17,53 +17,88 @@ test.describe("conversion improvements", () => {
     ).toBeVisible();
     await expect(
       page.getByText(
-        "I work directly with South Manchester and Cheshire businesses to audit outdated sites, redesign the customer journey, launch the new website, and support it after go-live.",
+        "Founder-led web design for South Manchester and Cheshire businesses.",
       ),
     ).toBeVisible();
-
-    for (const chip of [
-      "Free website review",
-      "Design + build to launch",
-      "Maintenance after launch",
-    ]) {
-      await expect(page.getByText(chip, { exact: true })).toBeVisible();
-    }
-
-    const overview = page.locator("#site-overview");
-    await expect(overview).toBeVisible();
-    await expect(
-      page.getByText("The important detail is still here"),
-    ).toHaveCount(0);
-    await expect(page.getByText("Use the focused pages below")).toHaveCount(0);
-    await expect(overview.getByText("View page")).toHaveCount(0);
-    await expect(
-      overview.getByText(
-        "Review past projects, including the challenge, solution, outcome and a client testimonial.",
-      ),
-    ).toBeVisible();
-    await expect(overview.getByText("See project proof")).toBeVisible();
-
-    for (const route of [
-      { href: "/services", label: "Services" },
-      { href: "/portfolio", label: "Portfolio" },
-      { href: "/process", label: "Process" },
-      { href: "/faq", label: "FAQ" },
-      { href: "/about", label: "About" },
-      { href: "/contact", label: "Contact" },
-    ]) {
-      await expect(
-        overview.getByRole("link", { name: new RegExp(route.label) }),
-      ).toHaveAttribute("href", route.href);
-    }
 
     const hero = page.locator("main section").first();
     await expect(
-      hero.getByRole("link", { name: "Book Free Consultation" }),
+      hero.getByRole("link", { name: "Book a free consultation" }),
     ).toHaveAttribute("href", "/contact");
     await expect(
-      hero.getByRole("link", { name: "Send Enquiry" }),
-    ).toHaveAttribute("href", "/contact");
-    await expect(page.locator("#contact")).toHaveCount(0);
+      hero.getByRole("link", { name: "View recent work" }),
+    ).toHaveAttribute("href", "#portfolio");
+    await expect(
+      hero.getByText("South Manchester · Cheshire · Founder-led"),
+    ).toBeVisible();
+
+    const orderedSections = [
+      "hero",
+      "portfolio",
+      "services",
+      "process",
+      "faq",
+      "about",
+      "contact",
+    ];
+    const offsets = await Promise.all(
+      orderedSections.map((id) =>
+        page
+          .locator(`#${id}`)
+          .evaluate((node) => (node as HTMLElement).offsetTop),
+      ),
+    );
+    expect(offsets).toEqual([...offsets].sort((a, b) => a - b));
+    await expect(page.locator("#site-overview")).toHaveCount(0);
+  });
+
+  test("mobile hero prioritises the proposition and CTAs over the workshop card", async ({
+    isMobile,
+    page,
+  }) => {
+    test.skip(!isMobile, "Mobile reading-order check only.");
+
+    await prepareDeterministicPage(page);
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+
+    const headingBox = await page.locator("#hero h1").boundingBox();
+    const ctaBox = await page
+      .locator("#hero")
+      .getByRole("link", { name: "Book a free consultation" })
+      .boundingBox();
+    const cardBox = await page.getByTestId("hero-business-card").boundingBox();
+
+    expect(headingBox).not.toBeNull();
+    expect(ctaBox).not.toBeNull();
+    expect(cardBox).not.toBeNull();
+    expect((headingBox?.y ?? 0) + (headingBox?.height ?? 0)).toBeLessThan(
+      cardBox?.y ?? 0,
+    );
+    expect((ctaBox?.y ?? 0) + (ctaBox?.height ?? 0)).toBeLessThan(
+      cardBox?.y ?? 0,
+    );
+  });
+
+  test("services are all scannable without carousel controls", async ({
+    page,
+  }) => {
+    await prepareDeterministicPage(page);
+    await page.goto("/");
+
+    const services = page.locator("#services");
+    for (const name of [
+      "Brochure Websites",
+      "E-commerce Stores",
+      "Booking Systems",
+      "Hosting Help",
+      "Automation / AI",
+    ]) {
+      await expect(services.getByRole("heading", { name })).toBeAttached();
+    }
+    await expect(
+      services.getByRole("button", { name: /service/i }),
+    ).toHaveCount(0);
   });
 
   test("portfolio route renders the full project proof content", async ({
@@ -126,7 +161,7 @@ test.describe("conversion improvements", () => {
     const heroPrimaryCta = page
       .locator("main section")
       .first()
-      .getByRole("link", { name: "Book Free Consultation" });
+      .getByRole("link", { name: "Book a free consultation" });
     const box = await heroPrimaryCta.boundingBox();
 
     expect(box).not.toBeNull();
@@ -141,7 +176,7 @@ test.describe("conversion improvements", () => {
 
     await expect(
       page.getByRole("heading", {
-        name: "Founder-led delivery with direct accountability.",
+        name: "The person designing and building your website",
       }),
     ).toBeVisible();
     await expect(
@@ -151,14 +186,12 @@ test.describe("conversion improvements", () => {
       "Clear, practical advice without technical jargon.",
       "Design and build quality focused on real business outcomes.",
       "Personal accountability and support beyond launch.",
-      "Collaborative decisions at each key milestone.",
-      "Transparent updates from first call to release.",
     ]) {
       await expect(page.getByText(commitment)).toBeInViewport();
     }
   });
 
-  test("contact form includes current website and submits it to the contact API", async ({
+  test("contact form stays short and does not eagerly load Calendly", async ({
     page,
   }) => {
     await prepareDeterministicPage(page);
@@ -177,29 +210,28 @@ test.describe("conversion improvements", () => {
     await page.waitForLoadState("networkidle");
 
     await expect(
-      page.getByRole("heading", { name: "Book a free website consultation" }),
+      page.getByRole("heading", {
+        name: "Let’s make your website easier to trust",
+      }),
     ).toBeVisible();
     await expect(page.getByText("Current-site review")).toBeVisible();
-    await expect(page.getByLabel("Current website (optional)")).toBeVisible();
+    await expect(page.getByLabel("Current website (optional)")).toHaveCount(0);
+    await expect(page.getByLabel("Phone (optional)")).toHaveCount(0);
     await expect(
-      page.getByRole("link", { name: "Open Calendly Popup" }),
-    ).toHaveCount(0);
-    await expect(
-      page.getByRole("button", { name: "Open Booking Popup" }),
+      page.getByRole("link", { name: "Book a free consultation" }),
     ).toBeVisible();
+    await expect(page.locator('script[src*="calendly"]')).toHaveCount(0);
+    await expect(page.locator('link[href*="calendly"]')).toHaveCount(0);
 
     await page.getByLabel("Name").fill("Alex Taylor");
     await page.getByLabel("Email").fill("alex@example.com");
     await page.getByLabel("Business").fill("Taylor Studio");
     await page
-      .getByLabel("Current website (optional)")
-      .fill("https://example.com");
-    await page
-      .getByLabel("Enquiry")
+      .getByLabel("What should your website improve?")
       .fill("We need to replace an outdated website and improve enquiries.");
     await page
       .locator("form")
-      .getByRole("button", { name: "Send Enquiry" })
+      .getByRole("button", { name: "Send my enquiry" })
       .click();
 
     await expect(
@@ -210,9 +242,8 @@ test.describe("conversion improvements", () => {
     expect(submittedPayload).toContain("name=Alex+Taylor");
     expect(submittedPayload).toContain("email=alex%40example.com");
     expect(submittedPayload).toContain("business=Taylor+Studio");
-    expect(submittedPayload).toContain(
-      "currentWebsite=https%3A%2F%2Fexample.com",
-    );
+    expect(submittedPayload).toContain("currentWebsite=");
+    expect(submittedPayload).toContain("phone=");
   });
 
   test("contact honeypot submissions look successful without posting", async ({
@@ -240,11 +271,11 @@ test.describe("conversion improvements", () => {
       .locator('input[name="website"]')
       .fill("https://spam.example", { force: true });
     await page
-      .getByLabel("Enquiry")
+      .getByLabel("What should your website improve?")
       .fill("We need to replace an outdated website and improve enquiries.");
     await page
       .locator("form")
-      .getByRole("button", { name: "Send Enquiry" })
+      .getByRole("button", { name: "Send my enquiry" })
       .click();
 
     await expect(
@@ -278,11 +309,11 @@ test.describe("conversion improvements", () => {
     await page.getByLabel("Email").fill("alex@example.com");
     await page.getByLabel("Business").fill("Taylor Studio");
     await page
-      .getByLabel("Enquiry")
+      .getByLabel("What should your website improve?")
       .fill("We need to replace an outdated website and improve enquiries.");
     await page
       .locator("form")
-      .getByRole("button", { name: "Send Enquiry" })
+      .getByRole("button", { name: "Send my enquiry" })
       .click();
 
     await expect(
@@ -314,7 +345,7 @@ test.describe("conversion improvements", () => {
 
     await page
       .locator("form")
-      .getByRole("button", { name: "Send Enquiry" })
+      .getByRole("button", { name: "Send my enquiry" })
       .click();
 
     await expect(page.getByText("Please enter your name.")).toBeVisible();
@@ -331,10 +362,12 @@ test.describe("conversion improvements", () => {
     await page.waitForLoadState("networkidle");
 
     const stickyCta = page.getByTestId("mobile-sticky-cta");
+    await expect(stickyCta).toBeHidden();
+
+    await page.locator("#portfolio").scrollIntoViewIfNeeded();
     await expect(stickyCta).toBeVisible();
 
-    await stickyCta.getByRole("link", { name: "Send Enquiry" }).click();
-    await expect(page).toHaveURL(/\/contact$/);
+    await page.locator("#contact").scrollIntoViewIfNeeded();
     await expect(stickyCta).toBeHidden();
   });
 

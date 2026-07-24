@@ -15,16 +15,16 @@ const config: Config = {
       },
       colors: {
         base: {
-          950: "#050505",
-          900: "#111111",
-          800: "#1A1A1A",
+          950: "#151714",
+          900: "#1d201c",
+          800: "#292c27",
         },
         brand: {
           purple: "#35279A",
         },
         accent: {
-          blue: "#3B82F6",
-          orange: "#F97316",
+          blue: "#3453d1",
+          orange: "#f0642b",
         },
       },
       borderRadius: {
@@ -32,10 +32,10 @@ const config: Config = {
         "2xl": "1.25rem",
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(59,130,246,0.12), 0 12px 30px -16px rgba(59,130,246,0.45)",
+        glow: "0 12px 26px -18px rgba(52,83,209,0.8)",
         "glow-orange":
           "0 0 0 1px rgba(249,115,22,0.12), 0 12px 30px -16px rgba(249,115,22,0.38)",
-        card: "0 20px 45px -25px rgba(0,0,0,0.75)",
+        card: "0 24px 60px -36px rgba(20,20,16,0.5)",
       },
       backgroundImage: {
         "brand-radial":

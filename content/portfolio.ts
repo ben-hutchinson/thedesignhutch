@@ -55,7 +55,7 @@ export const projects: Project[] = [
     },
     screenshots: [
       {
-        src: "/portfolio/doubledoublegood/desktop-home.png",
+        src: "/portfolio/doubledoublegood/desktop-home.webp",
         alt: "Double Double Good website desktop homepage screenshot",
         label: "Desktop home",
       },
@@ -65,7 +65,7 @@ export const projects: Project[] = [
         label: "Desktop detail",
       },
       {
-        src: "/portfolio/doubledoublegood/mobile-home.png",
+        src: "/portfolio/doubledoublegood/mobile-home.webp",
         alt: "Double Double Good website mobile homepage screenshot",
         label: "Mobile view",
       },

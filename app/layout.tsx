@@ -5,7 +5,7 @@ import { AnalyticsScript } from "@/components/analytics/analytics-script";
 import { siteConfig } from "@/lib/constants";
 
 import "@fontsource-variable/manrope";
-import "@fontsource-variable/space-grotesk";
+import "@fontsource-variable/newsreader";
 import "./globals.css";
 
 export const metadata: Metadata = {

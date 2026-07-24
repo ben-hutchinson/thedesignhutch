@@ -74,9 +74,7 @@ test.describe("hero business card", () => {
     await expect(card).toHaveAttribute("data-side", "front");
   });
 
-  test("auto-turns and pauses an active idle turn while hovered", async ({
-    page,
-  }) => {
+  test("does not auto-turn while idle", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await page.reload();
     await page.waitForLoadState("networkidle");
@@ -84,40 +82,9 @@ test.describe("hero business card", () => {
     const card = page.getByRole("button", {
       name: /Design Hutch card/i,
     });
-    const bounds = await card.boundingBox();
-
-    expect(bounds).not.toBeNull();
-    if (!bounds) {
-      return;
-    }
-
-    await expect(card).toHaveAttribute("data-auto-rotate", "true");
-    await expect(card).toHaveAttribute("data-side", "back", {
-      timeout: 5_500,
-    });
-
-    await page.mouse.move(
-      bounds.x + bounds.width / 2,
-      bounds.y + bounds.height / 2,
-    );
-    await page.waitForTimeout(100);
-    const pausedTransform = await card.evaluate(
-      (element) => getComputedStyle(element).transform,
-    );
-
-    await page.waitForTimeout(500);
-    await expect
-      .poll(() =>
-        card.evaluate((element) => getComputedStyle(element).transform),
-      )
-      .toBe(pausedTransform);
-
-    await page.mouse.move(0, 0);
-    await expect
-      .poll(() =>
-        card.evaluate((element) => getComputedStyle(element).transform),
-      )
-      .not.toBe(pausedTransform);
+    await expect(card).toHaveAttribute("data-auto-rotate", "false");
+    await page.waitForTimeout(4_250);
+    await expect(card).toHaveAttribute("data-side", "front");
   });
 
   test("disables idle rotation when reduced motion is requested", async ({
