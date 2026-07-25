@@ -22,7 +22,7 @@ test.describe("primary navigation", () => {
     {
       href: "/faq",
       label: "FAQ",
-      heading: "Straight answers, before you commit.",
+      heading: "Questions before we start",
     },
     {
       href: "/about",
@@ -59,7 +59,7 @@ test.describe("primary navigation", () => {
       ).toBeVisible();
       await expect(
         page.locator(`nav[aria-label="Primary"] a[href="${route.href}"]`),
-      ).toHaveClass(/border-accent-orange/);
+      ).toHaveClass(/border-accent-blue/);
     }
   });
 

@@ -1,15 +1,27 @@
 import Link from "next/link";
 
 import { TrackedAnchor } from "@/components/analytics/tracked-link";
-import { BrandLockup } from "@/components/brand/logo";
+import { LogoMark } from "@/components/brand/logo";
 import { contactDetails, navItems } from "@/content/site";
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-base-950 py-10 sm:py-12">
+    <footer className="border-t border-white/20 bg-base-950 py-10 sm:py-12">
       <div className="container-shell flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-        <Link href="/" aria-label="The Design Hutch home" className="w-fit">
-          <BrandLockup markClassName="w-44 sm:w-52" />
+        <Link
+          href="/"
+          aria-label="The Design Hutch home"
+          className="inline-flex w-fit items-center gap-5"
+        >
+          <LogoMark className="h-12 w-14" />
+          <span>
+            <span className="block font-heading text-2xl uppercase leading-none tracking-[.02em] text-[#f5f1e7]">
+              The Design Hutch
+            </span>
+            <span className="mt-2 block text-[.58rem] uppercase tracking-[.28em] text-[#8d8e88]">
+              Digital workshop
+            </span>
+          </span>
         </Link>
 
         <div className="space-y-4 md:text-right">

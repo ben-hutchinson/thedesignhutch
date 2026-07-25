@@ -6,35 +6,30 @@ export type Service = {
 
 export const services: Service[] = [
   {
-    title: "Brochure Websites",
-    summary:
-      "High-trust brochure sites that make your business look established and credible immediately.",
+    title: "Brochure websites",
+    summary: "Build trust and generate enquiries",
     bestFor:
       "Local businesses that rely on first impressions and direct enquiries.",
   },
   {
-    title: "E-commerce Stores",
-    summary:
-      "Conversion-focused storefronts with clearer product hierarchy and friction-free checkout journeys.",
+    title: "E-commerce stores",
+    summary: "Sell clearly without platform clutter",
     bestFor:
       "Growing businesses that need online sales without clunky platform limitations.",
   },
   {
-    title: "Booking Systems",
-    summary:
-      "Integrated booking experiences that reduce admin overhead and make appointments easy to secure.",
+    title: "Booking systems",
+    summary: "Make appointments easier to secure",
     bestFor: "Appointment-based services that lose time to manual scheduling.",
   },
   {
-    title: "Hosting Help",
-    summary:
-      "Practical setup, migration, and performance support to keep your website stable and fast.",
+    title: "Hosting help",
+    summary: "Keep the site fast, stable and supported",
     bestFor: "Businesses needing reliability without technical stress.",
   },
   {
-    title: "Automation / AI",
-    summary:
-      "Thoughtful automation that removes repetitive tasks and improves response speed.",
+    title: "Automation & AI",
+    summary: "Remove repetitive work thoughtfully",
     bestFor: "Teams ready to reduce manual work and operate more efficiently.",
   },
 ];

@@ -51,7 +51,9 @@ export function Button({
 }: ButtonProps) {
   return (
     <button className={buttonStyles({ variant, size, className })} {...props}>
-      <span className="relative z-[1]">{children}</span>
+      <span className="relative z-[1] inline-flex w-full items-center justify-between">
+        {children}
+      </span>
     </button>
   );
 }

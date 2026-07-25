@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { HeroBusinessCard } from "@/components/motion/hero-business-card";
+import { ArrowIcon } from "@/components/ui/arrow-icon";
 import { buttonStyles } from "@/components/ui/button";
 import { heroContent } from "@/content/site";
 import { trackCtaClick } from "@/lib/analytics";
@@ -12,7 +13,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative isolate min-h-[calc(100svh-4rem)] overflow-hidden border-b border-white/15 bg-base-950"
+      className="relative isolate min-h-[44rem] overflow-hidden border-b border-white/15 bg-base-950 md:-mt-16 md:min-h-[56.5rem]"
     >
       <div
         aria-hidden
@@ -27,24 +28,26 @@ export function HeroSection() {
         className="absolute -right-8 top-36 h-[22rem] w-[22rem] rotate-12 border border-accent-orange/25"
       />
 
-      <div className="container-shell relative grid min-h-[calc(100svh-4rem)] items-start gap-12 pb-20 pt-16 md:grid-cols-[1.08fr_.92fr] md:gap-14 md:pb-20 md:pt-20">
-        <div className="max-w-4xl">
-          <p className="mb-6 flex items-center gap-3 text-[0.66rem] font-bold uppercase tracking-[0.22em] text-[#b8b8b0]">
-            <span className="h-px w-8 bg-accent-orange" />
-            Independent digital workshop
-          </p>
-          <h1 className="text-balance font-heading text-[clamp(3.35rem,6.4vw,5.9rem)] font-medium leading-[0.87] tracking-[-0.055em] text-[#f5f1e7]">
+      <div className="container-shell relative grid min-h-[44rem] items-start gap-8 pb-9 pt-8 md:min-h-[56.5rem] md:grid-cols-[.88fr_1.12fr] md:gap-10 md:pb-16 md:pt-[11.8rem]">
+        <div className="max-w-[38rem] pl-4 md:pl-10">
+          <h1 className="text-balance font-heading text-[3.1rem] font-medium leading-[0.91] tracking-[-0.055em] text-[#f5f1e7] sm:text-[3.35rem] md:text-[clamp(3.35rem,5.1vw,4.85rem)]">
             {heroContent.headline.slice(0, -1)}
             <span className="text-accent-orange">.</span>
           </h1>
-          <p className="mt-7 max-w-2xl text-pretty text-base leading-relaxed text-[#c8c8c0] sm:text-lg">
-            {heroContent.subheadline}
+          <p className="mt-5 max-w-[29rem] text-pretty text-base leading-relaxed text-[#bdbdb6] sm:text-lg md:mt-8">
+            <span className="md:hidden">{heroContent.subheadline}</span>
+            <span className="hidden md:inline">
+              {heroContent.desktopSubheadline}
+            </span>
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-3 flex flex-col items-start gap-3 sm:flex-row md:mt-8">
             <Link
               href="/contact"
-              className={cn(buttonStyles({ size: "lg" }), "justify-center")}
+              className={cn(
+                buttonStyles({ size: "lg" }),
+                "min-w-[15.5rem] justify-between px-6 text-left normal-case tracking-normal md:min-w-[17.5rem]",
+              )}
               onClick={() =>
                 trackCtaClick({
                   ctaId: "hero_primary",
@@ -53,14 +56,12 @@ export function HeroSection() {
                 })
               }
             >
-              Book a free consultation
+              <span>Book a free consultation</span>
+              <ArrowIcon className="text-accent-orange" />
             </Link>
             <Link
               href="#portfolio"
-              className={cn(
-                buttonStyles({ variant: "secondary", size: "lg" }),
-                "justify-center text-[#f5f1e7]",
-              )}
+              className="cta-focus inline-flex items-center self-start border-b-2 border-accent-orange px-0 py-2 font-medium text-[#f5f1e7] transition hover:border-white md:min-h-12 md:py-0"
               onClick={() =>
                 trackCtaClick({
                   ctaId: "hero_secondary",
@@ -73,15 +74,17 @@ export function HeroSection() {
             </Link>
           </div>
 
-          <p className="mt-7 text-[0.67rem] font-semibold uppercase tracking-[0.16em] text-[#9d9e96]">
-            South Manchester · Cheshire · Founder-led
+          <p
+            data-testid="hero-trust-line"
+            className="mt-1 flex items-center gap-3 text-sm text-[#c1c1ba] sm:text-base md:mt-8 md:gap-4"
+          >
+            <span className="h-2.5 w-2.5 rounded-full bg-accent-orange" />
+            South Manchester <span className="text-accent-orange">·</span>
+            Cheshire <span className="text-accent-orange">·</span> Founder-led
           </p>
         </div>
 
-        <div className="relative w-full md:mt-24 md:justify-self-end">
-          <p className="mb-3 text-right text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-[#91928b]">
-            Tap or drag to turn · No agency handoffs
-          </p>
+        <div className="relative w-full md:mt-36 md:translate-x-16 md:justify-self-end">
           <HeroBusinessCard />
         </div>
       </div>

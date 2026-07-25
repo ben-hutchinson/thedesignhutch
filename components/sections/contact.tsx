@@ -6,8 +6,8 @@ import { type FormEvent, type ReactNode, useState } from "react";
 import { SectionShell } from "@/components/layout/section-shell";
 import { Button, buttonStyles } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SectionHeading } from "@/components/ui/section-heading";
 import { Textarea } from "@/components/ui/textarea";
+import { ArrowIcon } from "@/components/ui/arrow-icon";
 import { consultationChecklist, contactDetails } from "@/content/site";
 import { trackCtaClick, trackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -135,7 +135,7 @@ export function ContactSection({
   return (
     <SectionShell
       id="contact"
-      className="bg-base-950 text-[#f5f1e7]"
+      className="relative overflow-hidden bg-base-950 !pb-16 !pt-[5.25rem] text-[#f5f1e7]"
       withTransition={false}
     >
       {turnstileSiteKey ? (
@@ -144,18 +144,32 @@ export function ContactSection({
           strategy="afterInteractive"
         />
       ) : null}
-      <div className="grid gap-12 lg:grid-cols-[.78fr_1.22fr] lg:gap-20">
-        <div>
-          <SectionHeading
-            level={headingLevel}
-            eyebrow="05"
-            title="Let’s make your website easier to trust"
-            description="Start with a free, practical review of what your current site needs to improve."
-          />
+      <div
+        aria-hidden
+        className="absolute -right-16 -top-10 hidden h-12 w-96 rotate-[25deg] border border-white/30 bg-[#262722] shadow-2xl lg:block"
+      />
+      <div className="grid gap-12 lg:grid-cols-[.96fr_1.04fr] lg:gap-16">
+        <div className="lg:pl-10">
+          <p className="border-l border-accent-orange pl-7 font-heading text-3xl text-accent-orange">
+            05
+          </p>
+          {headingLevel === "h1" ? (
+            <h1 className="mt-4 max-w-xl font-heading text-[clamp(3.8rem,6vw,6rem)] leading-[.9] tracking-[-.055em]">
+              Let’s make your website easier to trust
+            </h1>
+          ) : (
+            <h2 className="mt-4 max-w-xl font-heading text-[clamp(3.8rem,6vw,6rem)] leading-[.9] tracking-[-.055em]">
+              Let’s make your website easier to trust
+            </h2>
+          )}
+          <p className="mt-6 max-w-lg border-t border-white/35 pt-4 text-lg leading-relaxed text-[#bbbcb5]">
+            Start with a free, practical review of what your current site needs
+            to improve.
+          </p>
           <p className="mt-6 rotate-[-2deg] font-heading text-2xl italic text-accent-orange">
             I reply personally within one business day.
           </p>
-          <ul className="paper-grid mt-10 grid rotate-[-1.5deg] gap-0 border border-[#181a17] p-5 text-[#181a17] shadow-[8px_10px_24px_rgba(0,0,0,.35)]">
+          <ul className="paper-grid mt-10 grid max-w-[27.5rem] rotate-[-1.5deg] gap-0 border border-[#181a17] p-5 text-[#181a17] shadow-[8px_10px_24px_rgba(0,0,0,.35)] lg:ml-14">
             {consultationChecklist.map((item) => (
               <li
                 key={item}
@@ -168,14 +182,105 @@ export function ContactSection({
               </li>
             ))}
           </ul>
-          <div className="mt-8 flex flex-wrap gap-4 text-sm">
+        </div>
+
+        <div className="w-full max-w-[36rem]">
+          <form
+            className="paper-grid border border-[#181a17] p-6 text-[#181a17] shadow-[14px_18px_34px_rgba(0,0,0,.42)] sm:p-8"
+            action={contactDetails.contactFormEndpoint}
+            method="POST"
+            onSubmit={handleSubmit}
+            noValidate
+          >
+            <input
+              type="hidden"
+              name="_subject"
+              value="New enquiry for The Design Hutch"
+            />
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              className="absolute left-[-9999px] h-px w-px opacity-0"
+              value={values.website}
+              onChange={(event) => change("website", event.target.value)}
+              aria-hidden="true"
+            />
+            <div className="grid gap-3">
+              <Field label="Name">
+                <Input
+                  name="name"
+                  autoComplete="name"
+                  placeholder="Your name"
+                  value={values.name}
+                  onChange={(event) => change("name", event.target.value)}
+                  required
+                />
+              </Field>
+              <Field label="Email">
+                <Input
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  value={values.email}
+                  onChange={(event) => change("email", event.target.value)}
+                  required
+                />
+              </Field>
+            </div>
+            <div className="mt-3">
+              <Field label="Business">
+                <Input
+                  name="business"
+                  placeholder="Your business or brand"
+                  value={values.business}
+                  onChange={(event) => change("business", event.target.value)}
+                  required
+                />
+              </Field>
+            </div>
+            <div className="mt-3">
+              <Field label="What should your website improve?">
+                <Textarea
+                  name="enquiry"
+                  rows={3}
+                  placeholder="Tell me what’s not working or what you’d like to improve."
+                  value={values.enquiry}
+                  onChange={(event) => change("enquiry", event.target.value)}
+                  required
+                />
+              </Field>
+            </div>
+            {turnstileSiteKey ? (
+              <div
+                className="cf-turnstile mt-5"
+                data-sitekey={turnstileSiteKey}
+                data-theme="light"
+              />
+            ) : null}
+            <Button
+              type="submit"
+              size="lg"
+              className="mt-5 w-full justify-between normal-case tracking-normal"
+              disabled={state.loading}
+            >
+              <span>{state.loading ? "Sending..." : "Send my enquiry"}</span>
+              <ArrowIcon />
+            </Button>
+            <div className="my-6 flex items-center gap-4 text-xs text-[#77766f]">
+              <span className="h-px flex-1 bg-[#181a17]/25" />
+              or
+              <span className="h-px flex-1 bg-[#181a17]/25" />
+            </div>
             <a
               href={contactDetails.calendlyUrl}
               target="_blank"
               rel="noreferrer"
               className={cn(
-                buttonStyles({ variant: "secondary" }),
-                "text-white",
+                buttonStyles({ variant: "ghost", size: "md" }),
+                "mx-auto flex w-fit gap-3 border-0 normal-case tracking-normal text-accent-blue",
               )}
               onClick={() =>
                 trackCtaClick({
@@ -185,117 +290,34 @@ export function ContactSection({
                 })
               }
             >
+              <CalendarIcon />
               Book a free consultation
             </a>
-            <a
-              href={`mailto:${contactDetails.email}`}
-              className="self-center font-semibold text-[#bdbeb6] underline decoration-accent-orange underline-offset-4"
-            >
-              {contactDetails.email}
-            </a>
-          </div>
-        </div>
-
-        <form
-          className="drafting-corner paper-grid border border-[#181a17] p-6 text-[#181a17] shadow-[14px_14px_0_#3453d1] sm:p-9"
-          action={contactDetails.contactFormEndpoint}
-          method="POST"
-          onSubmit={handleSubmit}
-          noValidate
-        >
-          <p className="mb-7 border-b border-[#181a17] pb-3 text-[.64rem] font-bold uppercase tracking-[.18em]">
-            Project note / 001
-          </p>
-          <input
-            type="hidden"
-            name="_subject"
-            value="New enquiry for The Design Hutch"
-          />
-          <input
-            type="text"
-            name="website"
-            tabIndex={-1}
-            autoComplete="off"
-            className="absolute left-[-9999px] h-px w-px opacity-0"
-            value={values.website}
-            onChange={(event) => change("website", event.target.value)}
-            aria-hidden="true"
-          />
-          <div className="grid gap-5 sm:grid-cols-2">
-            <Field label="Name">
-              <Input
-                name="name"
-                autoComplete="name"
-                placeholder="Your name"
-                value={values.name}
-                onChange={(event) => change("name", event.target.value)}
-                required
-              />
-            </Field>
-            <Field label="Email">
-              <Input
-                type="email"
-                name="email"
-                autoComplete="email"
-                placeholder="you@business.com"
-                value={values.email}
-                onChange={(event) => change("email", event.target.value)}
-                required
-              />
-            </Field>
-          </div>
-          <div className="mt-5">
-            <Field label="Business">
-              <Input
-                name="business"
-                placeholder="Business name"
-                value={values.business}
-                onChange={(event) => change("business", event.target.value)}
-                required
-              />
-            </Field>
-          </div>
-          <div className="mt-5">
-            <Field label="What should your website improve?">
-              <Textarea
-                name="enquiry"
-                rows={5}
-                placeholder="The problem, goal, or opportunity..."
-                value={values.enquiry}
-                onChange={(event) => change("enquiry", event.target.value)}
-                required
-              />
-            </Field>
-          </div>
-          {turnstileSiteKey ? (
-            <div
-              className="cf-turnstile mt-5"
-              data-sitekey={turnstileSiteKey}
-              data-theme="light"
-            />
-          ) : null}
-          <Button
-            type="submit"
-            size="lg"
-            className="mt-6 w-full"
-            disabled={state.loading}
+            <p className="text-center text-xs text-[#77766f]">
+              Opens a scheduling page.
+            </p>
+            <p className="mt-5 text-center text-[.63rem] text-[#66675f]">
+              Protected by Cloudflare Turnstile.
+            </p>
+            {state.success ? (
+              <p className="mt-4 text-sm font-semibold text-emerald-700">
+                {state.success}
+              </p>
+            ) : null}
+            {state.error ? (
+              <p className="mt-4 text-sm font-semibold text-rose-700">
+                {state.error}
+              </p>
+            ) : null}
+          </form>
+          <a
+            href={`mailto:${contactDetails.email}`}
+            className="mt-8 inline-flex items-center gap-3 font-medium text-[#d2d2ca] underline decoration-accent-orange underline-offset-8"
           >
-            {state.loading ? "Sending..." : "Send my enquiry"}
-          </Button>
-          <p className="mt-4 text-center text-[.63rem] text-[#66675f]">
-            Protected by Cloudflare Turnstile.
-          </p>
-          {state.success ? (
-            <p className="mt-4 text-sm font-semibold text-emerald-700">
-              {state.success}
-            </p>
-          ) : null}
-          {state.error ? (
-            <p className="mt-4 text-sm font-semibold text-rose-700">
-              {state.error}
-            </p>
-          ) : null}
-        </form>
+            <MailIcon />
+            {contactDetails.email}
+          </a>
+        </div>
       </div>
     </SectionShell>
   );
@@ -304,10 +326,39 @@ export function ContactSection({
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label className="block space-y-2 text-sm">
-      <span className="text-[.62rem] font-bold uppercase tracking-[.14em]">
-        {label}
-      </span>
+      <span className="font-semibold">{label}</span>
       {children}
     </label>
+  );
+}
+
+function CalendarIcon() {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+    >
+      <path d="M4 6h16v14H4zM4 10h16M8 3v5m8-5v5" />
+    </svg>
+  );
+}
+
+function MailIcon() {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 28 20"
+      className="h-5 w-7 text-accent-orange"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.4"
+    >
+      <rect x="1" y="1" width="26" height="18" />
+      <path d="m2 3 12 9L26 3" />
+    </svg>
   );
 }

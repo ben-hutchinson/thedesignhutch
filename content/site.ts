@@ -72,6 +72,8 @@ export const heroContent = {
     "Modern websites that help local businesses look trusted and win enquiries.",
   subheadline:
     "Founder-led web design for South Manchester and Cheshire businesses.",
+  desktopSubheadline:
+    "I work directly with South Manchester and Cheshire businesses to audit outdated sites, redesign the customer journey, launch the new website, and support it after go-live.",
   proofChips: [
     "Free website review",
     "Design + build to launch",

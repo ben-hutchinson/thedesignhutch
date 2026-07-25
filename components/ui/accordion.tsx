@@ -16,7 +16,7 @@ type AccordionProps = {
 };
 
 export function Accordion({ items, theme = "paper" }: AccordionProps) {
-  const [activeId, setActiveId] = useState<string>(items[0]?.id ?? "");
+  const [activeId, setActiveId] = useState<string>("");
 
   return (
     <div
@@ -45,7 +45,8 @@ export function Accordion({ items, theme = "paper" }: AccordionProps) {
               <button
                 type="button"
                 className={cn(
-                  "cta-focus flex w-full items-center justify-between gap-6 px-3 py-5 text-left font-body text-lg",
+                  "cta-focus flex w-full items-center justify-between gap-6 px-3 text-left font-body text-lg",
+                  theme === "dark" ? "py-3.5" : "py-5",
                   isOpen || theme === "dark" ? "text-white" : "text-[#181a17]",
                 )}
                 aria-expanded={isOpen}

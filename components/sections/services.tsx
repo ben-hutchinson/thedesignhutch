@@ -1,15 +1,67 @@
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { LogoMark } from "@/components/brand/logo";
 import { SectionShell } from "@/components/layout/section-shell";
+import { ArrowIcon } from "@/components/ui/arrow-icon";
 import { services } from "@/content/services";
 
 function ServiceSketch({ index }: { index: number }) {
+  if (index === 0)
+    return (
+      <svg
+        viewBox="0 0 180 90"
+        aria-hidden
+        className="h-20 w-40"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.2"
+      >
+        <rect x="10" y="10" width="160" height="68" />
+        <path d="M10 23h160M23 16h1m7 0h1m7 0h1M28 36h58v29H28zm0 0 58 29m0-29L28 65M101 38h50m-50 10h42m-42 10h47" />
+      </svg>
+    );
+  if (index === 1)
+    return (
+      <svg
+        viewBox="0 0 180 90"
+        aria-hidden
+        className="h-20 w-40"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.2"
+      >
+        <path d="M10 18h160v58H10zm0 13h160M20 41h140M20 66h140M35 64V51h20v13M38 51v-6c0-9 14-9 14 0v6M83 64V43h15v21M85 43v-7h11v7M124 64c0-12 24-12 24 0" />
+        <path d="M21 25h73m53 0h12" />
+      </svg>
+    );
+  if (index === 2)
+    return (
+      <svg
+        viewBox="0 0 180 90"
+        aria-hidden
+        className="h-20 w-40"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.2"
+      >
+        <rect x="12" y="9" width="156" height="72" />
+        <path d="M12 24h156M55 24v57M25 36h18m-18 9h18m-18 9h18" />
+        {Array.from({ length: 15 }, (_, dot) => (
+          <circle
+            key={dot}
+            cx={75 + (dot % 5) * 17}
+            cy={38 + Math.floor(dot / 5) * 15}
+            r={3}
+          />
+        ))}
+        <circle cx="109" cy="53" r="7" strokeWidth="2.5" />
+      </svg>
+    );
   if (index === 3)
     return (
       <svg
         viewBox="0 0 160 72"
         aria-hidden
-        className="h-16 w-36"
+        className="h-20 w-40"
         fill="none"
         stroke="currentColor"
       >
@@ -26,7 +78,7 @@ function ServiceSketch({ index }: { index: number }) {
       <svg
         viewBox="0 0 160 72"
         aria-hidden
-        className="h-16 w-36"
+        className="h-20 w-40"
         fill="none"
         stroke="currentColor"
       >
@@ -37,29 +89,7 @@ function ServiceSketch({ index }: { index: number }) {
         <circle cx="112" cy="62" r="8" />
       </svg>
     );
-  return (
-    <svg
-      viewBox="0 0 160 72"
-      aria-hidden
-      className="h-16 w-36"
-      fill="none"
-      stroke="currentColor"
-    >
-      <rect x="12" y="8" width="136" height="56" />
-      <path d="M12 20h136M50 20v44" />
-      <circle cx="20" cy="14" r="1.8" fill="currentColor" />
-      <circle cx="28" cy="14" r="1.8" fill="currentColor" />
-      <path
-        d={
-          index === 1
-            ? "M62 34h70M62 43h52M62 52h62"
-            : index === 2
-              ? "M66 31h58v25H66zM76 36v15m12-15v15m12-15v15"
-              : "M61 31l25 18 28-22 22 18"
-        }
-      />
-    </svg>
-  );
+  return null;
 }
 
 export function ServicesSection({
@@ -71,10 +101,10 @@ export function ServicesSection({
   return (
     <SectionShell
       id="services"
-      className="bg-base-950 text-[#f4f0e6]"
+      className="bg-base-950 !py-0 text-[#f4f0e6]"
       containerClassName="!max-w-none !px-0"
     >
-      <div className="mx-auto grid max-w-[94rem] lg:grid-cols-[25rem_1fr]">
+      <div className="mx-auto grid max-w-[94rem] lg:min-h-[64rem] lg:grid-cols-[24rem_1fr]">
         <div className="paper-grid relative min-h-[34rem] border-r border-[#181a17]/40 p-8 text-[#181a17] sm:p-12 lg:min-h-full">
           <p className="font-heading text-6xl text-accent-blue">02</p>
           <Heading className="mt-6 max-w-xs font-heading text-6xl leading-[.9] tracking-[-.05em]">
@@ -87,14 +117,17 @@ export function ServicesSection({
             <p className="mb-3 rotate-[-4deg] font-heading text-lg italic text-accent-orange">
               Clear structure. Useful work.
             </p>
-            <LogoMark className="mx-auto h-52 w-52" />
+            <LogoMark
+              className="mx-auto h-52 w-60"
+              imageClassName="brightness-0"
+            />
             <p className="mt-2 text-right font-heading text-lg italic">
               Built for local business.
             </p>
           </div>
         </div>
 
-        <div className="relative px-6 sm:px-10 lg:px-12">
+        <div className="relative px-6 sm:px-10 lg:px-4">
           <div className="flex justify-between border-b border-white/25 py-4 text-[.6rem] font-bold uppercase tracking-[.18em] text-accent-orange">
             <span>The Design Hutch</span>
             <span>Founder-led web design</span>
@@ -103,7 +136,7 @@ export function ServicesSection({
             {services.map((service, index) => (
               <li
                 key={service.title}
-                className={`grid grid-cols-[3.5rem_1fr] items-center gap-4 border-b py-5 sm:grid-cols-[5rem_11rem_1fr_2rem] sm:gap-6 ${index === 1 ? "border-accent-blue text-[#7f98ff]" : "border-white/25"}`}
+                className={`grid grid-cols-[3.5rem_1fr] items-center gap-4 border-b py-5 sm:grid-cols-[5rem_10rem_1fr_2rem] sm:gap-6 lg:grid-cols-[7rem_18rem_1fr_2rem] lg:gap-12 ${index === 1 ? "min-h-[13.75rem] border-accent-blue text-[#7f98ff]" : "min-h-[9.25rem] border-white/25"}`}
               >
                 <span className="font-heading text-4xl sm:text-5xl">
                   0{index + 1}
@@ -144,7 +177,7 @@ export function ServicesSection({
               destination: "/contact",
             }}
           >
-            Discuss your project <span>→</span>
+            Discuss your project <ArrowIcon />
           </TrackedLink>
         </div>
       </div>

@@ -8,20 +8,11 @@ import { contactDetails } from "@/content/site";
 export function HeroBusinessCard() {
   const [side, setSide] = useState<"front" | "back">("front");
   const pointerStart = useRef<number | null>(null);
-  const pointerLast = useRef<number | null>(null);
+  const mouseStart = useRef<number | null>(null);
   const didDrag = useRef(false);
 
-  const settleDrag = () => {
-    if (pointerStart.current === null || pointerLast.current === null) return;
-    const distance = pointerLast.current - pointerStart.current;
-    if (distance < -60) setSide("back");
-    if (distance > 60) setSide("front");
-    pointerStart.current = null;
-    pointerLast.current = null;
-  };
-
   return (
-    <div className="relative mx-auto w-[92%] max-w-[35rem] rotate-[7deg] [perspective:1200px] md:mx-0 md:rotate-[10deg]">
+    <div className="relative mx-auto w-[68%] max-w-[38.5rem] translate-x-4 rotate-[-7deg] [perspective:1200px] md:mx-0 md:w-[94%] md:translate-x-0 md:rotate-[-10deg]">
       <div
         aria-hidden
         className="absolute -inset-8 -z-10 -rotate-[10deg] border border-white/20"
@@ -34,7 +25,8 @@ export function HeroBusinessCard() {
         aria-pressed={side === "back"}
         data-side={side}
         data-auto-rotate="false"
-        className="cta-focus relative block aspect-[25/14] w-full touch-pan-y select-none bg-transparent text-left [transform-style:preserve-3d]"
+        className="cta-focus relative block aspect-[25/14] w-full touch-none select-none bg-transparent text-left [transform-style:preserve-3d]"
+        onDragStart={(event) => event.preventDefault()}
         style={{
           transform: `rotateY(${side === "back" ? 180 : 0}deg)`,
           transition: "transform 650ms cubic-bezier(.22,1,.36,1)",
@@ -48,30 +40,49 @@ export function HeroBusinessCard() {
         }}
         onPointerDown={(event) => {
           pointerStart.current = event.clientX;
-          pointerLast.current = event.clientX;
           didDrag.current = false;
-          event.currentTarget.setPointerCapture(event.pointerId);
         }}
         onPointerMove={(event) => {
-          pointerLast.current = event.clientX;
-          if (
-            pointerStart.current !== null &&
-            Math.abs(event.clientX - pointerStart.current) > 8
-          )
-            didDrag.current = true;
+          if (pointerStart.current !== null) {
+            const distance = event.clientX - pointerStart.current;
+            if (distance < -60) setSide("back");
+            if (distance > 60) setSide("front");
+            if (Math.abs(distance) > 8) {
+              didDrag.current = true;
+            }
+          }
         }}
         onPointerUp={(event) => {
-          pointerLast.current = event.clientX;
-          settleDrag();
+          const distance = event.clientX - (pointerStart.current ?? event.clientX);
+          didDrag.current = Math.abs(distance) > 8;
+          if (distance < -60) setSide("back");
+          if (distance > 60) setSide("front");
+          pointerStart.current = null;
         }}
-        onPointerCancel={settleDrag}
+        onPointerCancel={() => {
+          pointerStart.current = null;
+        }}
+        onMouseDown={(event) => {
+          mouseStart.current = event.clientX;
+          didDrag.current = false;
+        }}
+        onMouseMove={(event) => {
+          if (mouseStart.current === null) return;
+          const distance = event.clientX - mouseStart.current;
+          if (distance < -60) setSide("back");
+          if (distance > 60) setSide("front");
+          if (Math.abs(distance) > 8) didDrag.current = true;
+        }}
+        onMouseUp={() => {
+          mouseStart.current = null;
+        }}
       >
         <span className="absolute inset-0 overflow-hidden border border-white/25 bg-[#204dbf] p-[clamp(1.2rem,4vw,2.2rem)] text-white shadow-[0_7px_0_#f0642b,0_35px_42px_-22px_rgba(0,0,0,.95)] [backface-visibility:hidden]">
           <span className="absolute inset-0 opacity-25 [background-image:repeating-radial-gradient(circle_at_30%_20%,transparent_0,rgba(255,255,255,.12)_1px,transparent_2px,transparent_5px)]" />
           <span className="relative flex h-full items-center justify-center">
-            <span className="inline-flex items-center gap-4 sm:gap-6">
-              <LogoMark className="h-[clamp(3.8rem,11vw,6.8rem)] w-[clamp(3.8rem,11vw,6.8rem)]" />
-              <span className="font-heading text-[clamp(1.7rem,5vw,3.7rem)] leading-none tracking-[-.045em]">
+            <span className="inline-flex flex-col items-center gap-3 sm:gap-4">
+              <LogoMark className="h-[clamp(4.2rem,11vw,7.6rem)] w-[clamp(4.85rem,12.5vw,8.8rem)]" />
+              <span className="whitespace-nowrap font-heading text-[clamp(1.7rem,4.1vw,3.1rem)] leading-none tracking-[-.045em]">
                 The Design Hutch
               </span>
             </span>

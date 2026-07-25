@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { SectionShell } from "@/components/layout/section-shell";
+import { ArrowIcon } from "@/components/ui/arrow-icon";
 import { projects } from "@/content/portfolio";
 
 export function PortfolioSection({
@@ -16,7 +17,7 @@ export function PortfolioSection({
   return (
     <SectionShell
       id="portfolio"
-      className="paper-grid section-cut-top text-[#181a17]"
+      className="paper-grid section-cut-top portfolio-mobile-cut !pb-16 text-[#181a17]"
       containerClassName="relative"
     >
       <div
@@ -26,17 +27,21 @@ export function PortfolioSection({
         52.8068° N<br />
         2.1004° W
       </div>
-      <header className="mb-12 flex items-end gap-6 border-t border-[#181a17]/55 pt-6 sm:gap-9">
-        <span className="border-b-2 border-accent-blue pb-1 font-heading text-5xl text-accent-blue sm:text-7xl">
+      <header className="mb-0 flex flex-col items-start gap-0 border-t border-[#181a17]/55 pt-3 sm:mb-14 sm:flex-row sm:items-end sm:gap-9 sm:pt-7">
+        <span className="border-b-2 border-accent-blue pb-1 pr-16 font-heading text-3xl text-accent-blue sm:pr-0 sm:text-7xl">
           01
         </span>
-        <span className="h-16 w-px bg-[#181a17]/45" />
-        <Heading className="font-heading text-5xl leading-none tracking-[-.045em] sm:text-7xl">
+        <span className="hidden h-16 w-px bg-[#181a17]/45 sm:block" />
+        <Heading className="-mt-1 font-heading text-5xl leading-none tracking-[-.045em] sm:mt-0 sm:text-7xl">
           Recent work
         </Heading>
       </header>
 
-      <article className="grid gap-12 lg:grid-cols-[.36fr_.64fr] lg:gap-14">
+      <p className="-mt-3 mb-12 max-w-sm text-xl leading-relaxed text-[#55564f] md:hidden">
+        A selection of websites that look the part and perform where it matters.
+      </p>
+
+      <article className="grid gap-12 lg:grid-cols-[.35fr_.65fr] lg:gap-14">
         <div>
           <h2 className="font-heading text-4xl leading-none sm:text-5xl">
             {project.title}
@@ -54,7 +59,7 @@ export function PortfolioSection({
               <dt className="font-heading text-4xl">50%</dt>
               <dd className="text-sm">lower infrastructure cost</dd>
             </div>
-            <div className="grid grid-cols-[8rem_1fr] items-baseline border-b border-[#181a17]/55 py-4">
+            <div className="grid grid-cols-[11.5rem_1fr] items-baseline border-b border-[#181a17]/55 py-4">
               <dt className="font-heading text-3xl">Responsive</dt>
               <dd className="text-sm">launch</dd>
             </div>
@@ -64,28 +69,18 @@ export function PortfolioSection({
             </div>
           </dl>
 
-          <div className="mt-8 grid gap-5 text-sm leading-relaxed text-[#4c4d46]">
-            <div>
-              <p className="text-[.6rem] font-bold uppercase tracking-[.16em] text-accent-blue">
-                The challenge
-              </p>
-              <p className="mt-2">{project.challenge}</p>
-            </div>
-            <div>
-              <p className="text-[.6rem] font-bold uppercase tracking-[.16em] text-accent-blue">
-                The solution
-              </p>
-              <p className="mt-2">{project.solution}</p>
-            </div>
-          </div>
-
-          <figure className="mt-9 border-l-2 border-accent-blue pl-6">
-            <p className="text-5xl leading-none text-accent-blue">“</p>
-            <blockquote className="font-heading text-3xl leading-tight">
-              “{project.testimonial?.quote}”
+          <figure className="mt-12 grid grid-cols-[3.2rem_1fr] gap-4">
+            <p className="font-heading text-6xl leading-none text-accent-blue">
+              “
+            </p>
+            <blockquote className="font-heading text-[2rem] leading-[1.08] sm:text-[2.5rem]">
+              It felt like my website
+              <br />
+              was in good hands.”
             </blockquote>
-            <figcaption className="mt-4 text-xs font-bold uppercase tracking-[.12em]">
-              — {project.testimonial?.attribution}
+            <figcaption className="col-start-2 mt-1 flex items-center gap-4 text-sm font-semibold">
+              <span className="h-0.5 w-7 bg-accent-blue" />
+              {project.testimonial?.attribution}
             </figcaption>
           </figure>
 
@@ -94,25 +89,25 @@ export function PortfolioSection({
               href={project.href}
               target="_blank"
               rel="noreferrer"
-              className="border-b border-accent-blue pb-1 font-heading text-xl"
+              className="inline-flex items-center gap-5 border-b-2 border-accent-blue pb-1 font-heading text-xl"
               tracking={{
                 ctaId: "portfolio_visit_live_site",
                 source: "portfolio",
                 destination: project.href,
               }}
             >
-              View the live website →
+              View the live website <ArrowIcon className="text-accent-blue" />
             </TrackedLink>
             <TrackedLink
               href="/portfolio"
-              className="border-b border-accent-blue pb-1 font-heading text-xl"
+              className="inline-flex items-center gap-5 border-b-2 border-accent-blue pb-1 font-heading text-xl"
               tracking={{
                 ctaId: "portfolio_case_study",
                 source: "portfolio",
                 destination: "/portfolio",
               }}
             >
-              Read the case study →
+              Read the case study <ArrowIcon className="text-accent-blue" />
             </TrackedLink>
           </div>
         </div>
@@ -142,39 +137,14 @@ export function PortfolioSection({
             </div>
           </div>
 
-          <div className="mt-16 grid gap-6 border-y border-[#181a17]/45 py-6 sm:grid-cols-3">
-            <div>
-              <p className="text-[.6rem] font-bold uppercase tracking-[.14em] text-accent-blue">
-                Outcomes
-              </p>
-              <ul className="mt-3 space-y-2 text-sm">
-                {project.outcomes.map((item) => (
-                  <li key={item}>+ {item}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="text-[.6rem] font-bold uppercase tracking-[.14em] text-accent-blue">
-                Timeline
-              </p>
-              <p className="mt-3 text-sm font-semibold">{project.timeline}</p>
-              <ol className="mt-2 text-sm">
-                {project.timelineSteps.map((item) => (
-                  <li key={`${item.date}-${item.label}`}>
-                    {item.date} · {item.label}
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <div>
-              <p className="text-[.6rem] font-bold uppercase tracking-[.14em] text-accent-blue">
-                Client feedback
-              </p>
-              <p className="mt-3 text-sm">
-                Responsive design, collaborative build and launch support from
-                one point of contact.
-              </p>
-            </div>
+          <div
+            aria-hidden
+            className="mt-40 flex items-center justify-end gap-5 text-[.6rem] font-bold uppercase tracking-[.15em] text-accent-blue"
+          >
+            <span className="h-px w-48 bg-accent-blue" />
+            <span>+</span>
+            <span>Editorial digital workshop</span>
+            <span>+</span>
           </div>
         </div>
       </article>

@@ -9,7 +9,7 @@ export const founderImage: {
   src: string | null;
   alt: string;
 } = {
-  src: "/founder/ben-hutchinson-headshot-cropped.webp",
+  src: "/founder/ben-hutchinson-studio.webp",
   alt: "Ben Hutchinson, founder of The Design Hutch",
 };
 
@@ -38,9 +38,9 @@ export const proofHighlights = [
 ] as const;
 
 export const founderCommitments = [
-  "Clear, practical advice without technical jargon.",
-  "Design and build quality focused on real business outcomes.",
-  "Personal accountability and support beyond launch.",
-  "Collaborative decisions at each key milestone.",
+  "Clear advice without technical jargon",
+  "Collaborative decisions at each key milestone",
+  "Support after launch",
+  "Design and build quality focused on real business outcomes",
   "Transparent updates from first call to release.",
 ] as const;

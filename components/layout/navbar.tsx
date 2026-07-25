@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { BrandLockup } from "@/components/brand/logo";
+import { ArrowIcon } from "@/components/ui/arrow-icon";
 import { buttonStyles } from "@/components/ui/button";
 import { navItems } from "@/content/site";
 import { trackCtaClick } from "@/lib/analytics";
@@ -43,7 +44,7 @@ export function Navbar() {
           : "border-transparent bg-base-950/65",
       )}
     >
-      <div className="container-shell flex h-16 items-center justify-between gap-5">
+      <div className="container-shell flex h-16 items-center justify-between gap-5 md:h-[5.5rem]">
         <Link
           href="/"
           className="cta-focus flex items-center gap-3 text-white"
@@ -52,14 +53,14 @@ export function Navbar() {
           <BrandLockup />
         </Link>
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
-          {navItems.map((item) => (
+          {navItems.map((item, index) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "border-b py-1 text-[.65rem] font-bold uppercase tracking-[.13em] transition",
-                pathname === item.href
-                  ? "border-accent-orange text-white"
+                "border-b-2 py-2 text-sm font-medium tracking-[-.02em] transition",
+                pathname === item.href || (pathname === "/" && index === 0)
+                  ? "border-accent-blue text-white"
                   : "border-transparent text-[#b8b9b1] hover:border-white/40 hover:text-white",
               )}
             >
@@ -69,7 +70,10 @@ export function Navbar() {
         </nav>
         <Link
           href="/contact"
-          className={cn(buttonStyles({ size: "md" }), "hidden md:inline-flex")}
+          className={cn(
+            buttonStyles({ size: "lg" }),
+            "hidden min-w-[16.5rem] justify-between px-6 text-left normal-case tracking-normal md:inline-flex",
+          )}
           onClick={() =>
             trackCtaClick({
               ctaId: "navbar_primary",
@@ -78,7 +82,8 @@ export function Navbar() {
             })
           }
         >
-          Book a consultation
+          <span>Book a free consultation</span>
+          <ArrowIcon className="text-accent-orange" />
         </Link>
         <button
           type="button"

@@ -56,7 +56,7 @@
 
 @layer components {
   .container-shell {
-    @apply mx-auto w-full max-w-[88rem];
+    @apply mx-auto w-full max-w-[94rem];
     padding-inline: var(--space-container-x);
   }
   .section-shell {
@@ -124,6 +124,9 @@
     clip-path: polygon(0 0, 42% 0, 45% 2rem, 100% 2rem, 100% 100%, 0 100%);
     padding-top: calc(var(--space-section-y) + 2rem);
   }
+  .portfolio-mobile-cut {
+    padding-top: 1rem !important;
+  }
   .drafting-corner {
     position: relative;
   }
@@ -170,6 +173,12 @@
 @media (max-width: 640px) {
   :root {
     --space-section-y: clamp(4.5rem, 18vw, 6rem);
+  }
+}
+
+@media (min-width: 640px) {
+  .portfolio-mobile-cut {
+    padding-top: 4rem !important;
   }
 }
 

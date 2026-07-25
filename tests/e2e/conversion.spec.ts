@@ -4,6 +4,7 @@ import { prepareDeterministicPage } from "./utils";
 
 test.describe("conversion improvements", () => {
   test("homepage tells the trust story in the approved editorial order", async ({
+    isMobile,
     page,
   }) => {
     await prepareDeterministicPage(page);
@@ -17,7 +18,9 @@ test.describe("conversion improvements", () => {
     ).toBeVisible();
     await expect(
       page.getByText(
-        "Founder-led web design for South Manchester and Cheshire businesses.",
+        isMobile
+          ? "Founder-led web design for South Manchester and Cheshire businesses."
+          : "I work directly with South Manchester and Cheshire businesses to audit outdated sites, redesign the customer journey, launch the new website, and support it after go-live.",
       ),
     ).toBeVisible();
 
@@ -28,9 +31,13 @@ test.describe("conversion improvements", () => {
     await expect(
       hero.getByRole("link", { name: "View recent work" }),
     ).toHaveAttribute("href", "#portfolio");
-    await expect(
-      hero.getByText("South Manchester · Cheshire · Founder-led"),
-    ).toBeVisible();
+    for (const trustPoint of [
+      "South Manchester",
+      "Cheshire",
+      "Founder-led",
+    ]) {
+      await expect(hero.getByTestId("hero-trust-line")).toContainText(trustPoint);
+    }
 
     const orderedSections = [
       "hero",
@@ -88,11 +95,11 @@ test.describe("conversion improvements", () => {
 
     const services = page.locator("#services");
     for (const name of [
-      "Brochure Websites",
-      "E-commerce Stores",
-      "Booking Systems",
-      "Hosting Help",
-      "Automation / AI",
+      "Brochure websites",
+      "E-commerce stores",
+      "Booking systems",
+      "Hosting help",
+      "Automation & AI",
     ]) {
       await expect(services.getByRole("heading", { name })).toBeAttached();
     }
@@ -101,7 +108,7 @@ test.describe("conversion improvements", () => {
     ).toHaveCount(0);
   });
 
-  test("portfolio route renders the full project proof content", async ({
+  test("portfolio route renders the approved concise project proof", async ({
     page,
   }) => {
     await prepareDeterministicPage(page);
@@ -116,34 +123,14 @@ test.describe("conversion improvements", () => {
     await expect(
       page.getByRole("button", { name: "Show next portfolio screenshot" }),
     ).toHaveCount(0);
+    await expect(page.getByText("50%", { exact: true })).toBeVisible();
+    await expect(page.getByText("Responsive", { exact: true })).toBeVisible();
+    await expect(page.getByText("Direct", { exact: true })).toBeVisible();
     await expect(
-      page.getByText("The challenge", { exact: true }),
-    ).toBeVisible();
-    await expect(page.getByText("The solution", { exact: true })).toBeVisible();
-    await expect(page.getByText("Outcomes", { exact: true })).toBeVisible();
-    await expect(
-      page.getByText("Client feedback", { exact: true }),
-    ).toBeVisible();
-    await expect(page.getByText("Timeline", { exact: true })).toBeVisible();
-    await expect(
-      page.getByText(
-        "The business needed migrating from a legacy PHP Wordpress site to a modernised, enticing website that customers could reliably check before visiting.",
-      ),
+      page.getByText("It felt like my website", { exact: false }),
     ).toBeVisible();
     await expect(
-      page.getByText(
-        "Reduced monthly infra spend from legacy PHP website by 50%",
-      ),
-    ).toBeVisible();
-    await expect(page.getByText("Design consultation")).toBeVisible();
-    await expect(page.getByText("April")).toHaveCount(2);
-    await expect(page.getByText("Development work")).toBeVisible();
-    await expect(page.getByText("Deployment")).toBeVisible();
-    await expect(page.getByText("May")).toBeVisible();
-    await expect(
-      page.getByText(
-        "Ben at The Design Hutch was fantastic. Initially came with a few design ideas which we refined and decided on. He then took it away and redesigned the website, checking in on key decisions along the way. It felt like my website was in good hands. Finally, we came together for an exciting release of the new website.",
-      ),
+      page.getByRole("link", { name: "View the live website" }),
     ).toBeVisible();
   });
 
@@ -183,9 +170,9 @@ test.describe("conversion improvements", () => {
       page.getByAltText("Ben Hutchinson, founder of The Design Hutch"),
     ).toBeInViewport({ ratio: 0.4 });
     for (const commitment of [
-      "Clear, practical advice without technical jargon.",
-      "Design and build quality focused on real business outcomes.",
-      "Personal accountability and support beyond launch.",
+      "Clear advice without technical jargon",
+      "Collaborative decisions at each key milestone",
+      "Support after launch",
     ]) {
       await expect(page.getByText(commitment)).toBeInViewport();
     }
@@ -218,7 +205,9 @@ test.describe("conversion improvements", () => {
     await expect(page.getByLabel("Current website (optional)")).toHaveCount(0);
     await expect(page.getByLabel("Phone (optional)")).toHaveCount(0);
     await expect(
-      page.getByRole("link", { name: "Book a free consultation" }),
+      page
+        .locator("#contact")
+        .getByRole("link", { name: "Book a free consultation" }),
     ).toBeVisible();
     await expect(page.locator('script[src*="calendly"]')).toHaveCount(0);
     await expect(page.locator('link[href*="calendly"]')).toHaveCount(0);
@@ -364,7 +353,7 @@ test.describe("conversion improvements", () => {
     const stickyCta = page.getByTestId("mobile-sticky-cta");
     await expect(stickyCta).toBeHidden();
 
-    await page.locator("#portfolio").scrollIntoViewIfNeeded();
+    await page.locator("#services").scrollIntoViewIfNeeded();
     await expect(stickyCta).toBeVisible();
 
     await page.locator("#contact").scrollIntoViewIfNeeded();
@@ -380,7 +369,7 @@ test.describe("conversion improvements", () => {
 
     await expect(
       page.getByRole("region", { name: "How much does a website cost?" }),
-    ).toHaveCount(1);
+    ).toHaveCount(0);
     await expect(
       page.getByRole("region", { name: "How long does a project take?" }),
     ).toHaveCount(0);
