@@ -123,23 +123,40 @@ test.describe("approved editorial workshop fidelity", () => {
   });
 
   test("process draws once when it enters view", async ({ page }) => {
-    await prepareDeterministicPage(page);
-    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await prepareDeterministicPage(page, { reducedMotion: "no-preference" });
     await page.goto("/");
 
     const timeline = page.getByTestId("process-timeline");
+    const firstStage = timeline.getByRole("listitem").first();
+    const path = page.getByTestId("process-line");
+
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+        ),
+      )
+      .toBe(false);
+    await expect(firstStage).toHaveCSS("opacity", "0");
+    await expect(path).toHaveCSS("opacity", "0");
+
     await timeline.scrollIntoViewIfNeeded();
-    await expect(timeline.getByRole("listitem").first()).toHaveCSS(
-      "opacity",
-      "1",
-    );
-    await expect(page.getByTestId("process-line")).toHaveCSS("opacity", "1");
+    await expect(firstStage).toHaveCSS("opacity", "1");
+    await expect(path).toHaveCSS("opacity", "1");
+
     await page.locator("#hero").scrollIntoViewIfNeeded();
+    await expect
+      .poll(() =>
+        timeline.evaluate((element) => {
+          const bounds = element.getBoundingClientRect();
+          return bounds.bottom <= 0 || bounds.top >= window.innerHeight;
+        }),
+      )
+      .toBe(true);
     await timeline.scrollIntoViewIfNeeded();
-    await expect(timeline.getByRole("listitem").first()).toHaveCSS(
-      "opacity",
-      "1",
-    );
+    await expect(firstStage).toHaveCSS("opacity", "1");
+    await expect(path).toHaveCSS("opacity", "1");
   });
 
   test("process is complete immediately for reduced-motion visitors", async ({

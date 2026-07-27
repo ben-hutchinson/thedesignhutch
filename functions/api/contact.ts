@@ -11,6 +11,11 @@ type PagesFunctionContext = {
   env: Env;
 };
 
+type ContactHandlerDependencies = {
+  fetch: typeof globalThis.fetch;
+  randomUUID: () => string;
+};
+
 type TurnstileResponse = {
   success?: boolean;
   hostname?: string;
@@ -54,16 +59,20 @@ async function validateTurnstile({
   request,
   secret,
   token,
+  fetcher,
+  randomUUID,
 }: {
   allowedOrigin: string;
   request: Request;
   secret: string;
   token: string;
+  fetcher: typeof globalThis.fetch;
+  randomUUID: () => string;
 }) {
   const siteverifyBody = new URLSearchParams({
     secret,
     response: token,
-    idempotency_key: crypto.randomUUID(),
+    idempotency_key: randomUUID(),
   });
   const remoteIp = request.headers.get("CF-Connecting-IP");
 
@@ -71,7 +80,7 @@ async function validateTurnstile({
     siteverifyBody.set("remoteip", remoteIp);
   }
 
-  const response = await fetch(
+  const response = await fetcher(
     "https://challenges.cloudflare.com/turnstile/v0/siteverify",
     {
       method: "POST",
@@ -91,14 +100,17 @@ async function validateTurnstile({
     return false;
   }
 
-  if (result.hostname && result.hostname !== getAllowedHost(allowedOrigin)) {
+  if (result.hostname !== getAllowedHost(allowedOrigin)) {
     return false;
   }
 
   return true;
 }
 
-export async function onRequest(context: PagesFunctionContext) {
+async function handleContactRequest(
+  context: PagesFunctionContext,
+  dependencies: ContactHandlerDependencies,
+) {
   const { env, request } = context;
   const allowedOrigin = env.ALLOWED_ORIGIN ?? allowedOriginDefault;
   const origin = request.headers.get("Origin");
@@ -173,6 +185,8 @@ export async function onRequest(context: PagesFunctionContext) {
     request,
     secret: env.TURNSTILE_SECRET_KEY,
     token: turnstileToken,
+    fetcher: dependencies.fetch,
+    randomUUID: dependencies.randomUUID,
   }).catch(() => false);
 
   if (!turnstileOk) {
@@ -192,14 +206,16 @@ export async function onRequest(context: PagesFunctionContext) {
     _subject: `New enquiry for The Design Hutch from ${parsed.data.name}`,
   });
 
-  const formspreeResponse = await fetch(env.FORMSPREE_ENDPOINT, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body,
-  }).catch(() => null);
+  const formspreeResponse = await dependencies
+    .fetch(env.FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body,
+    })
+    .catch(() => null);
 
   if (!formspreeResponse?.ok) {
     return jsonResponse(
@@ -209,4 +225,23 @@ export async function onRequest(context: PagesFunctionContext) {
   }
 
   return jsonResponse({ ok: true });
+}
+
+export function createContactHandler(
+  dependencies: Partial<ContactHandlerDependencies> = {},
+) {
+  const resolvedDependencies = {
+    fetch: dependencies.fetch ?? globalThis.fetch,
+    randomUUID:
+      dependencies.randomUUID ?? (() => globalThis.crypto.randomUUID()),
+  };
+
+  return (context: PagesFunctionContext) =>
+    handleContactRequest(context, resolvedDependencies);
+}
+
+const contactHandler = createContactHandler();
+
+export async function onRequest(context: PagesFunctionContext) {
+  return contactHandler(context);
 }

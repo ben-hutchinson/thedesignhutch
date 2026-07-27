@@ -144,6 +144,56 @@ test.describe("selective showpiece motion", () => {
     );
   });
 
+  test("mobile founder portrait waits for the portrait to enter view", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 412, height: 915 });
+    await prepareDeterministicPage(page, { reducedMotion: "no-preference" });
+    await page.goto("/");
+
+    const root = page.getByTestId("founder-reveal-motion");
+    const portrait = page.getByTestId("founder-portrait-motion");
+
+    await root.evaluate((element) =>
+      element.scrollIntoView({ block: "start", behavior: "instant" }),
+    );
+    await expect(
+      page.getByText("The person designing and building your website"),
+    ).toBeInViewport();
+    expect(
+      await portrait.evaluate((element) => {
+        const bounds = element.getBoundingClientRect();
+        const visibleHeight = Math.max(
+          0,
+          Math.min(bounds.bottom, window.innerHeight) - Math.max(bounds.top, 0),
+        );
+        return visibleHeight / bounds.height;
+      }),
+    ).toBeLessThan(0.1);
+    await expect(root).toHaveAttribute("data-motion-state", "hidden");
+    await expect(portrait).toHaveCSS("opacity", "0");
+
+    await portrait.evaluate((element) =>
+      element.scrollIntoView({ block: "center", behavior: "instant" }),
+    );
+    await expect
+      .poll(() =>
+        portrait.evaluate((element) => {
+          const bounds = element.getBoundingClientRect();
+          const visibleHeight = Math.max(
+            0,
+            Math.min(bounds.bottom, window.innerHeight) -
+              Math.max(bounds.top, 0),
+          );
+          return visibleHeight / bounds.height;
+        }),
+      )
+      .toBeGreaterThan(0.27);
+    await expect(root).toHaveAttribute("data-motion-state", "visible");
+    await expect(portrait).toHaveCSS("opacity", "1");
+    await expect(portrait).toHaveCSS("clip-path", "inset(0%)");
+  });
+
   test("showpiece motion does not change responsive page geometry", async ({
     page,
   }) => {
@@ -165,7 +215,7 @@ test.describe("selective showpiece motion", () => {
 test.describe("static showpiece fallback", () => {
   test.use({ javaScriptEnabled: false });
 
-  test("proof and founder content stay visible without hydration", async ({
+  test("proof, process, and founder content stay visible without hydration", async ({
     page,
   }) => {
     await page.goto("/");
@@ -186,5 +236,9 @@ test.describe("static showpiece fallback", () => {
     await expect(
       page.getByText("It felt like my website", { exact: false }),
     ).toBeVisible();
+    const stages = page.getByTestId("process-timeline").getByRole("listitem");
+    await expect(stages).toHaveCount(4);
+    await expect(stages.first()).toHaveCSS("opacity", "1");
+    await expect(stages.last()).toHaveCSS("opacity", "1");
   });
 });

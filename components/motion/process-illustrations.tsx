@@ -24,14 +24,14 @@ const sketches = [
 type ProcessIllustrationProps = {
   index: number;
   revealed: boolean;
-  reduced: boolean;
+  instant: boolean;
   delay: number;
 };
 
 export function ProcessIllustration({
   index,
   revealed,
-  reduced,
+  instant,
   delay,
 }: ProcessIllustrationProps) {
   return (
@@ -49,15 +49,15 @@ export function ProcessIllustration({
           strokeWidth="1.35"
           strokeLinecap="round"
           strokeLinejoin="round"
-          initial={reduced ? false : { pathLength: 0, opacity: 0.2 }}
+          initial={false}
           animate={
             revealed
               ? { pathLength: 1, opacity: 1 }
               : { pathLength: 0, opacity: 0.2 }
           }
           transition={{
-            duration: reduced ? 0 : 0.72,
-            delay: reduced ? 0 : delay + pathIndex * 0.1,
+            duration: instant ? 0 : 0.72,
+            delay: instant ? 0 : delay + pathIndex * 0.1,
             ease: "easeInOut",
           }}
         />

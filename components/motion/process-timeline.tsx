@@ -1,19 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { useRef } from "react";
+import { motion, useInView } from "motion/react";
 
 import { ProcessIllustration } from "@/components/motion/process-illustrations";
+import { useResolvedMotion } from "@/components/motion/use-resolved-motion";
 import type { ProcessStep } from "@/content/process";
 
 const stageVariants = {
   hidden: { opacity: 0, y: 12 },
-  visible: (index: number) => ({
+  visible: ({ index, instant }: { index: number; instant: boolean }) => ({
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.42,
-      delay: 0.65 + index * 0.62,
+      duration: instant ? 0 : 0.42,
+      delay: instant ? 0 : 0.65 + index * 0.62,
       ease: "easeOut" as const,
     },
   }),
@@ -22,22 +23,9 @@ const stageVariants = {
 export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
   const timelineRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(timelineRef, { once: true, amount: 0.25 });
-  const motionReducedPreference = useReducedMotion();
-  const [browserReducedPreference, setBrowserReducedPreference] =
-    useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updatePreference = () =>
-      setBrowserReducedPreference(mediaQuery.matches);
-
-    updatePreference();
-    mediaQuery.addEventListener("change", updatePreference);
-    return () => mediaQuery.removeEventListener("change", updatePreference);
-  }, []);
-
-  const reduced = Boolean(motionReducedPreference || browserReducedPreference);
-  const isRevealed = reduced || isInView;
+  const { hydrated, reduced } = useResolvedMotion();
+  const isRevealed = !hydrated || reduced || isInView;
+  const instant = !hydrated || reduced;
 
   return (
     <div ref={timelineRef} className="relative mt-10">
@@ -53,14 +41,14 @@ export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
           fill="none"
           stroke="var(--accent-blue)"
           strokeWidth="2"
-          initial={reduced ? false : { pathLength: 0, opacity: 0 }}
+          initial={false}
           animate={
             isRevealed
               ? { pathLength: 1, opacity: 1 }
               : { pathLength: 0, opacity: 0 }
           }
           transition={{
-            duration: reduced ? 0 : 1.25,
+            duration: instant ? 0 : 1.25,
             ease: "easeInOut",
           }}
         />
@@ -72,8 +60,8 @@ export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
         {steps.map((step, index) => (
           <motion.li
             key={step.step}
-            custom={index}
-            initial={reduced ? false : "hidden"}
+            custom={{ index, instant }}
+            initial={false}
             animate={isRevealed ? "visible" : "hidden"}
             variants={stageVariants}
             className="relative min-h-[22rem] border-b border-r border-[#181a17]/25 p-4 even:border-r-0 md:border-b-0 md:border-r md:p-6 md:last:border-r-0 md:even:border-r"
@@ -83,15 +71,15 @@ export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
                 {step.step}
               </span>
               <motion.span
-                initial={reduced ? false : { opacity: 0, rotate: -8 }}
+                initial={false}
                 animate={
                   isRevealed
                     ? { opacity: 1, rotate: -4 }
                     : { opacity: 0, rotate: -8 }
                 }
                 transition={{
-                  duration: reduced ? 0 : 0.35,
-                  delay: reduced ? 0 : 1.12 + index * 0.62,
+                  duration: instant ? 0 : 0.35,
+                  delay: instant ? 0 : 1.12 + index * 0.62,
                 }}
                 className="max-w-20 text-right font-heading text-sm italic leading-tight text-accent-orange"
               >
@@ -103,7 +91,7 @@ export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
               <ProcessIllustration
                 index={index}
                 revealed={isRevealed}
-                reduced={reduced}
+                instant={instant}
                 delay={0.9 + index * 0.62}
               />
             </div>
