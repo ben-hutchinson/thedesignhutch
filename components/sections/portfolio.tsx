@@ -29,7 +29,7 @@ export function PortfolioSection({
       </div>
       <header className="mb-0 flex flex-col items-start gap-0 border-t border-[#181a17]/55 pt-3 sm:mb-14 sm:flex-row sm:items-end sm:gap-9 sm:pt-7">
         <span className="border-b-2 border-accent-blue pb-1 pr-16 font-heading text-3xl text-accent-blue sm:pr-0 sm:text-7xl">
-          01
+          <span data-section-number>02</span>
         </span>
         <span className="hidden h-16 w-px bg-[#181a17]/45 sm:block" />
         <Heading className="-mt-1 font-heading text-5xl leading-none tracking-[-.045em] sm:mt-0 sm:text-7xl">
@@ -69,16 +69,27 @@ export function PortfolioSection({
             </div>
           </dl>
 
-          <figure className="mt-12 grid grid-cols-[3.2rem_1fr] gap-4">
-            <p className="font-heading text-6xl leading-none text-accent-blue">
+          <figure className="mt-12 grid grid-cols-[3.2rem_1fr] gap-x-4 gap-y-2">
+            <span
+              data-portfolio-quote-mark
+              aria-hidden
+              className="font-heading text-6xl leading-none text-accent-blue"
+            >
               “
-            </p>
+            </span>
             <blockquote className="font-heading text-[2rem] leading-[1.08] sm:text-[2.5rem]">
               It felt like my website
               <br />
-              was in good hands.”
+              was in good hands
+              <span
+                data-portfolio-quote-mark
+                aria-hidden
+                className="ml-1 inline-block align-[-0.08em] text-accent-blue"
+              >
+                ”
+              </span>
             </blockquote>
-            <figcaption className="col-start-2 mt-1 flex items-center gap-4 text-sm font-semibold">
+            <figcaption className="col-start-2 flex items-center gap-4 text-sm font-semibold">
               <span className="h-0.5 w-7 bg-accent-blue" />
               {project.testimonial?.attribution}
             </figcaption>
@@ -97,17 +108,6 @@ export function PortfolioSection({
               }}
             >
               View the live website <ArrowIcon className="text-accent-blue" />
-            </TrackedLink>
-            <TrackedLink
-              href="/portfolio"
-              className="inline-flex items-center gap-5 border-b-2 border-accent-blue pb-1 font-heading text-xl"
-              tracking={{
-                ctaId: "portfolio_case_study",
-                source: "portfolio",
-                destination: "/portfolio",
-              }}
-            >
-              Read the case study <ArrowIcon className="text-accent-blue" />
             </TrackedLink>
           </div>
         </div>
@@ -137,15 +137,6 @@ export function PortfolioSection({
             </div>
           </div>
 
-          <div
-            aria-hidden
-            className="mt-40 flex items-center justify-end gap-5 text-[.6rem] font-bold uppercase tracking-[.15em] text-accent-blue"
-          >
-            <span className="h-px w-48 bg-accent-blue" />
-            <span>+</span>
-            <span>Editorial digital workshop</span>
-            <span>+</span>
-          </div>
         </div>
       </article>
     </SectionShell>

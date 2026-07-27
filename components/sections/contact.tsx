@@ -31,7 +31,7 @@ const initialValues: ContactFormValues = {
   website: "",
 };
 const successMessage =
-  "Thanks, your enquiry is in. I'll reply within 1 business day.";
+  "Thanks, your enquiry is in. I'll reply personally as soon as I can.";
 const fallbackError =
   "Something went wrong while sending your message. Please email directly instead.";
 const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
@@ -167,7 +167,7 @@ export function ContactSection({
             to improve.
           </p>
           <p className="mt-6 rotate-[-2deg] font-heading text-2xl italic text-accent-orange">
-            I reply personally within one business day.
+            I reply to you personally as soon as I can.
           </p>
           <ul className="paper-grid mt-10 grid max-w-[27.5rem] rotate-[-1.5deg] gap-0 border border-[#181a17] p-5 text-[#181a17] shadow-[8px_10px_24px_rgba(0,0,0,.35)] lg:ml-14">
             {consultationChecklist.map((item) => (

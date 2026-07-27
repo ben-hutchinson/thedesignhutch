@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { TrackedAnchor } from "@/components/analytics/tracked-link";
-import { LogoMark } from "@/components/brand/logo";
+import { BrandLockup } from "@/components/brand/logo";
 import { contactDetails, navItems } from "@/content/site";
 
 export function Footer() {
@@ -11,14 +11,11 @@ export function Footer() {
         <Link
           href="/"
           aria-label="The Design Hutch home"
-          className="inline-flex w-fit items-center gap-5"
+          className="inline-flex w-fit items-center"
         >
-          <LogoMark className="h-12 w-14" />
           <span>
-            <span className="block font-heading text-2xl uppercase leading-none tracking-[.02em] text-[#f5f1e7]">
-              The Design Hutch
-            </span>
-            <span className="mt-2 block text-[.58rem] uppercase tracking-[.28em] text-[#8d8e88]">
+            <BrandLockup className="text-[#f5f1e7]" />
+            <span className="mt-2 block pl-[4.4rem] text-[.58rem] uppercase tracking-[.28em] text-[#8d8e88]">
               Digital workshop
             </span>
           </span>

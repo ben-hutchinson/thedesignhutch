@@ -106,7 +106,12 @@ export function ServicesSection({
     >
       <div className="mx-auto grid max-w-[94rem] lg:min-h-[64rem] lg:grid-cols-[24rem_1fr]">
         <div className="paper-grid relative min-h-[34rem] border-r border-[#181a17]/40 p-8 text-[#181a17] sm:p-12 lg:min-h-full">
-          <p className="font-heading text-6xl text-accent-blue">02</p>
+          <p
+            data-section-number
+            className="font-heading text-6xl text-accent-blue"
+          >
+            01
+          </p>
           <Heading className="mt-6 max-w-xs font-heading text-6xl leading-[.9] tracking-[-.05em]">
             What I can build
           </Heading>

@@ -5,6 +5,7 @@ test.describe("hero business card", () => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
     await page.waitForLoadState("networkidle");
+    await expect(page.getByTestId("hero-card-flip-cue")).toContainText("Flip");
   });
 
   test("flips between its front and back with the keyboard", async ({

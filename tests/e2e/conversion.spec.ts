@@ -41,8 +41,8 @@ test.describe("conversion improvements", () => {
 
     const orderedSections = [
       "hero",
-      "portfolio",
       "services",
+      "portfolio",
       "process",
       "faq",
       "about",
@@ -225,7 +225,7 @@ test.describe("conversion improvements", () => {
 
     await expect(
       page.getByText(
-        "Thanks, your enquiry is in. I'll reply within 1 business day.",
+        "Thanks, your enquiry is in. I'll reply personally as soon as I can.",
       ),
     ).toBeVisible();
     expect(submittedPayload).toContain("name=Alex+Taylor");
@@ -269,7 +269,7 @@ test.describe("conversion improvements", () => {
 
     await expect(
       page.getByText(
-        "Thanks, your enquiry is in. I'll reply within 1 business day.",
+        "Thanks, your enquiry is in. I'll reply personally as soon as I can.",
       ),
     ).toBeVisible();
     expect(apiCalled).toBe(false);

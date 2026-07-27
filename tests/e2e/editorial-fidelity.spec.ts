@@ -26,11 +26,11 @@ test.describe("approved editorial workshop fidelity", () => {
       page.getByText("Independent digital workshop", { exact: true }),
     ).toHaveCount(0);
 
-    const portfolioTop = await page
-      .locator("#portfolio")
+    const servicesTop = await page
+      .locator("#services")
       .evaluate((section) => section.getBoundingClientRect().top);
-    expect(portfolioTop).toBeGreaterThan(880);
-    expect(portfolioTop).toBeLessThan(1045);
+    expect(servicesTop).toBeGreaterThan(880);
+    expect(servicesTop).toBeLessThan(1045);
   });
 
   test("the supplied official logo is used throughout the page", async ({
@@ -106,5 +106,57 @@ test.describe("approved editorial workshop fidelity", () => {
     });
     await costQuestion.click();
     await expect(faq.getByRole("region")).toHaveCount(1);
+  });
+
+  test("review corrections are present across the editorial homepage", async ({
+    page,
+  }) => {
+    await prepareDeterministicPage(page);
+    await page.goto("/");
+
+    await expect(
+      page.locator("#services [data-section-number]"),
+    ).toHaveText("01");
+    await expect(
+      page.locator("#portfolio [data-section-number]"),
+    ).toHaveText("02");
+
+    const portfolio = page.locator("#portfolio");
+    const quoteMarks = portfolio.locator("[data-portfolio-quote-mark]");
+    await expect(quoteMarks).toHaveCount(2);
+    await expect(quoteMarks.nth(0)).toHaveClass(/text-accent-blue/);
+    await expect(quoteMarks.nth(1)).toHaveClass(/text-accent-blue/);
+    await expect(
+      portfolio.getByRole("link", { name: "Read the case study" }),
+    ).toHaveCount(0);
+    await expect(
+      portfolio.getByText("Editorial digital workshop", { exact: true }),
+    ).toHaveCount(0);
+
+    const faq = page.locator("#faq");
+    await expect(faq.getByRole("button")).toHaveCount(6);
+    await expect(
+      faq.getByRole("button", {
+        name: "Can you help with hosting and domains?",
+      }),
+    ).toBeVisible();
+    await expect(
+      faq.getByRole("button", {
+        name: "Is this better than a DIY website builder?",
+      }),
+    ).toBeVisible();
+
+    await expect(page.getByTestId("about-commitment-arrow")).toHaveCount(3);
+    await expect(
+      page.getByText("I reply to you personally as soon as I can.", {
+        exact: true,
+      }),
+    ).toBeVisible();
+
+    const footerWordmark = page
+      .locator("footer")
+      .getByText("The Design Hutch", { exact: true });
+    await expect(footerWordmark).toHaveClass(/font-body/);
+    await expect(footerWordmark).toHaveClass(/font-medium/);
   });
 });

@@ -79,8 +79,8 @@ export default function HomePage() {
       />
       <FunnelTracker
         sectionIds={[
-          "portfolio",
           "services",
+          "portfolio",
           "process",
           "faq",
           "about",
@@ -88,8 +88,8 @@ export default function HomePage() {
         ]}
       />
       <HeroSection />
-      <PortfolioSection headingLevel="h2" />
       <ServicesSection headingLevel="h2" />
+      <PortfolioSection headingLevel="h2" />
       <ProcessSection headingLevel="h2" />
       <FaqSection headingLevel="h2" />
       <AboutSection headingLevel="h2" />

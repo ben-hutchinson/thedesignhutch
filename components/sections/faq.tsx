@@ -22,14 +22,9 @@ export function FaqSection({
         </Heading>
         <Accordion
           theme="dark"
-          items={faqs.slice(0, 4).map((item, index) => ({
+          items={faqs.map((item, index) => ({
             id: `faq-${index + 1}`,
-            question:
-              index === 2
-                ? "Can you redesign my existing site?"
-                : index === 3
-                  ? "What happens after launch?"
-                  : item.question,
+            question: item.question,
             answer: item.answer,
           }))}
         />

@@ -106,6 +106,21 @@ export function HeroBusinessCard() {
           </span>
         </span>
       </button>
+      <span
+        data-testid="hero-card-flip-cue"
+        aria-hidden
+        className="pointer-events-none absolute -bottom-9 right-1 flex rotate-[6deg] items-center gap-2 font-heading text-sm italic text-accent-orange sm:-right-8 sm:text-base"
+      >
+        <svg viewBox="0 0 42 22" className="h-5 w-10" fill="none">
+          <path
+            d="M2 18C12 3 27 3 37 13M31 12l7 1-2-7"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        Flip
+      </span>
       <p id="hero-card-instructions" className="sr-only">
         Drag, tap, or press Enter or Space to turn the card.
       </p>

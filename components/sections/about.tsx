@@ -69,9 +69,15 @@ export function AboutSection({
             </p>
             <ul className="mt-3 space-y-2">
               {founderCommitments.slice(0, 3).map((item) => (
-                <li key={item} className="flex gap-4 text-sm">
-                  <span className="text-[#9fb1ff]">→</span>
-                  {item}
+                <li key={item} className="flex items-center gap-4 text-sm">
+                  <span
+                    data-testid="about-commitment-arrow"
+                    aria-hidden
+                    className="inline-flex text-accent-orange"
+                  >
+                    <ArrowIcon className="h-5 w-5 shrink-0" />
+                  </span>
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
