@@ -1,6 +1,15 @@
 import type { Page } from "@playwright/test";
 
-export async function prepareDeterministicPage(page: Page) {
+type DeterministicPageOptions = {
+  reducedMotion?: "no-preference" | "reduce";
+};
+
+export async function prepareDeterministicPage(
+  page: Page,
+  { reducedMotion = "reduce" }: DeterministicPageOptions = {},
+) {
+  await page.emulateMedia({ reducedMotion });
+
   await page.addInitScript(() => {
     document.addEventListener(
       "DOMContentLoaded",
@@ -31,8 +40,6 @@ export async function prepareDeterministicPage(page: Page) {
       { once: true },
     );
   });
-
-  await page.emulateMedia({ reducedMotion: "reduce" });
 }
 
 export async function revealPageContent(page: Page) {

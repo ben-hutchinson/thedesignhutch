@@ -7,14 +7,20 @@ test.describe("selective showpiece motion", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await prepareDeterministicPage(page);
-    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await prepareDeterministicPage(page, { reducedMotion: "no-preference" });
     await page.goto("/");
 
     const root = page.getByTestId("portfolio-proof-motion");
     const desktopProof = page.getByTestId("portfolio-desktop-proof");
     const mobileProof = page.getByTestId("portfolio-mobile-proof");
 
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+        ),
+      )
+      .toBe(false);
     await expect(root).toHaveAttribute("data-motion-state", "hidden");
     await expect(desktopProof).toHaveCSS("opacity", "0");
     await expect(mobileProof).toHaveCSS("opacity", "0");
@@ -67,8 +73,7 @@ test.describe("selective showpiece motion", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await prepareDeterministicPage(page);
-    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await prepareDeterministicPage(page, { reducedMotion: "no-preference" });
     await page.goto("/");
 
     const root = page.getByTestId("founder-reveal-motion");
@@ -76,6 +81,13 @@ test.describe("selective showpiece motion", () => {
     const arrows = page.getByTestId("about-commitment-arrow");
     const arrowPath = arrows.first().locator("path");
 
+    await expect
+      .poll(() =>
+        page.evaluate(
+          () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+        ),
+      )
+      .toBe(false);
     await expect(root).toHaveAttribute("data-motion-state", "hidden");
     await expect(portrait).toHaveCSS("opacity", "0");
     await expect(portrait).toHaveCSS("clip-path", "inset(0% 0% 100%)");
