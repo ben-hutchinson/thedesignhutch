@@ -84,8 +84,9 @@ Refine the approved editorial digital workshop homepage so its hierarchy, intera
 ## Contact and Footer Corrections
 
 - Change the handwritten contact promise to: `I reply to you personally as soon as I can.`
+- Remove the one-business-day promise from the form success state as well; use `Thanks, your enquiry is in. I'll reply personally as soon as I can.`
 - Preserve the current working contact form, Cloudflare Turnstile handling, and Calendly booking link.
-- Make the footer `THE DESIGN HUTCH` wordmark use the same type treatment as the header lockup, including its body font, uppercase styling, and letter spacing.
+- Make the footer Design Hutch wordmark reuse the header lockup's body font, weight, casing, and letter spacing while retaining the footer colour and `Digital workshop` caption.
 
 ## Cloudflare Pages and Performance
 
