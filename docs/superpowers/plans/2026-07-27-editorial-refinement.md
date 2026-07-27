@@ -46,6 +46,7 @@
 ### Task 1: Correct homepage hierarchy and editorial details
 
 **Files:**
+
 - Modify: `tests/e2e/editorial-fidelity.spec.ts`
 - Modify: `tests/e2e/conversion.spec.ts`
 - Modify: `tests/e2e/hero-business-card.spec.ts`
@@ -58,6 +59,7 @@
 - Modify: `components/layout/footer.tsx`
 
 **Interfaces:**
+
 - Consumes: existing `BrandLockup`, `ArrowIcon`, `faqs`, section IDs, and contact submission state.
 - Produces: `[data-section-number]`, `[data-portfolio-quote-mark]`, `[data-testid="hero-card-flip-cue"]`, and `[data-testid="about-commitment-arrow"]` hooks used only for stable acceptance checks.
 
@@ -86,8 +88,12 @@ test("review corrections are present across the editorial homepage", async ({
   await prepareDeterministicPage(page);
   await page.goto("/");
 
-  await expect(page.locator("#services [data-section-number]")).toHaveText("01");
-  await expect(page.locator("#portfolio [data-section-number]")).toHaveText("02");
+  await expect(page.locator("#services [data-section-number]")).toHaveText(
+    "01",
+  );
+  await expect(page.locator("#portfolio [data-section-number]")).toHaveText(
+    "02",
+  );
 
   const portfolio = page.locator("#portfolio");
   await expect(portfolio.locator("[data-portfolio-quote-mark]")).toHaveCount(2);
@@ -107,12 +113,16 @@ test("review corrections are present across the editorial homepage", async ({
     faq.getByRole("button", { name: "Can you help with hosting and domains?" }),
   ).toBeVisible();
   await expect(
-    faq.getByRole("button", { name: "Is this better than a DIY website builder?" }),
+    faq.getByRole("button", {
+      name: "Is this better than a DIY website builder?",
+    }),
   ).toBeVisible();
 
   await expect(page.getByTestId("about-commitment-arrow")).toHaveCount(3);
   await expect(
-    page.getByText("I reply to you personally as soon as I can.", { exact: true }),
+    page.getByText("I reply to you personally as soon as I can.", {
+      exact: true,
+    }),
   ).toBeVisible();
 
   const footerWordmark = page.locator("footer").getByText("The Design Hutch", {
@@ -296,10 +306,12 @@ git commit -m "fix: apply editorial workshop review corrections"
 ### Task 2: Make the Services rows accessible and interactive
 
 **Files:**
+
 - Modify: `tests/e2e/conversion.spec.ts`
 - Modify: `components/sections/services.tsx`
 
 **Interfaces:**
+
 - Consumes: `services: Service[]`, `ServiceSketch`, and existing service section styling.
 - Produces: buttons named from each service title, `aria-expanded`, `aria-controls`, and panels named `service-panel-N`.
 
@@ -365,7 +377,9 @@ return (
     data-state={isOpen ? "open" : "closed"}
     className={cn(
       "border-b transition-colors duration-300",
-      isOpen ? "border-accent-blue text-[#7f98ff]" : "border-white/25 text-[#f4f0e6]",
+      isOpen
+        ? "border-accent-blue text-[#7f98ff]"
+        : "border-white/25 text-[#f4f0e6]",
     )}
   >
     <h2>
@@ -438,6 +452,7 @@ git commit -m "feat: make service rows interactive"
 ### Task 3: Build the compact landscape process composition
 
 **Files:**
+
 - Modify: `tests/e2e/editorial-fidelity.spec.ts`
 - Modify: `content/process.ts`
 - Create: `components/motion/process-illustrations.tsx`
@@ -445,6 +460,7 @@ git commit -m "feat: make service rows interactive"
 - Modify: `components/sections/process.tsx`
 
 **Interfaces:**
+
 - Consumes: `ProcessStep` from `content/process.ts`.
 - Produces: `ProcessTimeline({ steps }: { steps: ProcessStep[] })`, `ProcessIllustration({ index }: { index: number })`, and `[data-testid="process-timeline"]` with CSS grid layout.
 
@@ -476,7 +492,9 @@ test("process explains four practical stages in a compact responsive grid", asyn
   );
   expect(columns).toBe(isMobile ? 2 : 4);
   const hasHorizontalOverflow = await page.evaluate(
-    () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    () =>
+      document.documentElement.scrollWidth >
+      document.documentElement.clientWidth,
   );
   expect(hasHorizontalOverflow).toBe(false);
 });
@@ -509,28 +527,32 @@ export const processSteps: ProcessStep[] = [
   {
     step: "01",
     title: "Consultation",
-    description: "We map your goals, audience, current friction and the job the website needs to do.",
+    description:
+      "We map your goals, audience, current friction and the job the website needs to do.",
     outcome: "A clear brief and agreed priorities",
     annotation: "Listen first",
   },
   {
     step: "02",
     title: "Design direction",
-    description: "You see the structure, visual language and key journey before the full build begins.",
+    description:
+      "You see the structure, visual language and key journey before the full build begins.",
     outcome: "A direction you approve before build",
     annotation: "Shape the idea",
   },
   {
     step: "03",
     title: "Build & launch",
-    description: "I build responsively, test the important paths and prepare a careful release.",
+    description:
+      "I build responsively, test the important paths and prepare a careful release.",
     outcome: "A tested site ready for real customers",
     annotation: "Make it work",
   },
   {
     step: "04",
     title: "Ongoing support",
-    description: "After launch I can handle hosting, updates and practical improvements as needs change.",
+    description:
+      "After launch I can handle hosting, updates and practical improvements as needs change.",
     outcome: "A reliable site that keeps improving",
     annotation: "Keep it useful",
   },
@@ -563,7 +585,12 @@ const sketches = [
 
 export function ProcessIllustration({ index }: { index: number }) {
   return (
-    <svg viewBox="0 0 220 128" aria-hidden className="h-full w-full" fill="none">
+    <svg
+      viewBox="0 0 220 128"
+      aria-hidden
+      className="h-full w-full"
+      fill="none"
+    >
       {sketches[index]?.map((d) => (
         <path
           key={d}
@@ -610,10 +637,12 @@ export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
         {steps.map((step, index) => (
           <li
             key={step.step}
-            className="relative min-h-[22rem] border-b border-r border-[#181a17]/25 p-4 even:border-r-0 md:border-b-0 md:border-r md:p-6 md:even:border-r md:last:border-r-0"
+            className="relative min-h-[22rem] border-b border-r border-[#181a17]/25 p-4 even:border-r-0 md:border-b-0 md:border-r md:p-6 md:last:border-r-0 md:even:border-r"
           >
             <div className="flex items-start justify-between gap-3">
-              <span className="font-heading text-4xl sm:text-5xl">{step.step}</span>
+              <span className="font-heading text-4xl sm:text-5xl">
+                {step.step}
+              </span>
               <span className="rotate-[-4deg] font-heading text-sm italic text-accent-orange">
                 {step.annotation}
               </span>
@@ -663,6 +692,7 @@ git commit -m "feat: redesign the process timeline"
 ### Task 4: Animate the timeline once with Motion for React
 
 **Files:**
+
 - Modify: `tests/e2e/editorial-fidelity.spec.ts`
 - Modify: `components/motion/process-illustrations.tsx`
 - Modify: `components/motion/process-timeline.tsx`
@@ -670,6 +700,7 @@ git commit -m "feat: redesign the process timeline"
 - Modify: `package-lock.json`
 
 **Interfaces:**
+
 - Consumes: `ProcessTimeline({ steps })`, browser `prefers-reduced-motion`, and Motion's `motion`, `useInView`, and `useReducedMotion` exports from `motion/react`.
 - Produces: `data-timeline-reveal="hidden|visible|reduced"`; an in-view sequence that remains visible because `useInView(..., { once: true })` never resets.
 
@@ -766,8 +797,15 @@ export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
           stroke="var(--accent-blue)"
           strokeWidth="2"
           initial={shouldReduceMotion ? false : { pathLength: 0, opacity: 0 }}
-          animate={isRevealed ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-          transition={{ duration: shouldReduceMotion ? 0 : 1.25, ease: "easeInOut" }}
+          animate={
+            isRevealed
+              ? { pathLength: 1, opacity: 1 }
+              : { pathLength: 0, opacity: 0 }
+          }
+          transition={{
+            duration: shouldReduceMotion ? 0 : 1.25,
+            ease: "easeInOut",
+          }}
         />
       </svg>
       <ol
@@ -782,7 +820,7 @@ export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
             initial={shouldReduceMotion ? false : "hidden"}
             animate={isRevealed ? "visible" : "hidden"}
             variants={stageVariants}
-            className="relative min-h-[22rem] border-b border-r border-[#181a17]/25 p-4 even:border-r-0 md:border-b-0 md:border-r md:p-6 md:even:border-r md:last:border-r-0"
+            className="relative min-h-[22rem] border-b border-r border-[#181a17]/25 p-4 even:border-r-0 md:border-b-0 md:border-r md:p-6 md:last:border-r-0 md:even:border-r"
           >
             <div className="flex items-start justify-between gap-3">
               <span className="font-heading text-4xl sm:text-5xl">
@@ -832,19 +870,32 @@ export function ProcessIllustration({
   delay,
 }: ProcessIllustrationProps) {
   return (
-    <svg viewBox="0 0 220 128" aria-hidden className="h-full w-full" fill="none">
+    <svg
+      viewBox="0 0 220 128"
+      aria-hidden
+      className="h-full w-full"
+      fill="none"
+    >
       {sketches[index]?.map((d) => (
-<motion.path
-  key={d}
-  d={d}
-  stroke="currentColor"
-  strokeWidth="1.35"
-  strokeLinecap="round"
-  strokeLinejoin="round"
-  initial={reduced ? false : { pathLength: 0, opacity: 0.25 }}
-  animate={revealed ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0.25 }}
-  transition={{ duration: reduced ? 0 : 0.72, delay, ease: "easeInOut" }}
-/>
+        <motion.path
+          key={d}
+          d={d}
+          stroke="currentColor"
+          strokeWidth="1.35"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={reduced ? false : { pathLength: 0, opacity: 0.25 }}
+          animate={
+            revealed
+              ? { pathLength: 1, opacity: 1 }
+              : { pathLength: 0, opacity: 0.25 }
+          }
+          transition={{
+            duration: reduced ? 0 : 0.72,
+            delay,
+            ease: "easeInOut",
+          }}
+        />
       ))}
     </svg>
   );
@@ -877,6 +928,7 @@ git commit -m "feat: animate the process journey"
 ### Task 5: Run responsive visual QA and complete verification
 
 **Files:**
+
 - Modify: `tests/e2e/visual.spec.ts-snapshots/home-page-desktop-chromium-darwin.png`
 - Modify: `tests/e2e/visual.spec.ts-snapshots/home-page-mobile-chromium-darwin.png`
 - Modify: `tests/e2e/visual.spec.ts-snapshots/contact-section-desktop-chromium-darwin.png`
@@ -884,6 +936,7 @@ git commit -m "feat: animate the process journey"
 - Modify only if a verified regression is found: files changed in Tasks 1–4.
 
 **Interfaces:**
+
 - Consumes: completed homepage, desktop width `1440`, Pixel 7 mobile profile, existing deterministic-page helper.
 - Produces: reviewed visual baselines and evidence that all static/exported interactions remain healthy.
 

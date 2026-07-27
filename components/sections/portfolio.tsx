@@ -136,7 +136,6 @@ export function PortfolioSection({
               </div>
             </div>
           </div>
-
         </div>
       </article>
     </SectionShell>

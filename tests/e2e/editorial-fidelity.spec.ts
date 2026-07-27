@@ -184,12 +184,12 @@ test.describe("approved editorial workshop fidelity", () => {
     await prepareDeterministicPage(page);
     await page.goto("/");
 
-    await expect(
-      page.locator("#services [data-section-number]"),
-    ).toHaveText("01");
-    await expect(
-      page.locator("#portfolio [data-section-number]"),
-    ).toHaveText("02");
+    await expect(page.locator("#services [data-section-number]")).toHaveText(
+      "01",
+    );
+    await expect(page.locator("#portfolio [data-section-number]")).toHaveText(
+      "02",
+    );
 
     const portfolio = page.locator("#portfolio");
     const quoteMarks = portfolio.locator("[data-portfolio-quote-mark]");

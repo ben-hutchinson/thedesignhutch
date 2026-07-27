@@ -36,9 +36,7 @@ export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
     return () => mediaQuery.removeEventListener("change", updatePreference);
   }, []);
 
-  const reduced = Boolean(
-    motionReducedPreference || browserReducedPreference,
-  );
+  const reduced = Boolean(motionReducedPreference || browserReducedPreference);
   const isRevealed = reduced || isInView;
 
   return (
@@ -78,7 +76,7 @@ export function ProcessTimeline({ steps }: { steps: ProcessStep[] }) {
             initial={reduced ? false : "hidden"}
             animate={isRevealed ? "visible" : "hidden"}
             variants={stageVariants}
-            className="relative min-h-[22rem] border-b border-r border-[#181a17]/25 p-4 even:border-r-0 md:border-b-0 md:border-r md:p-6 md:even:border-r md:last:border-r-0"
+            className="relative min-h-[22rem] border-b border-r border-[#181a17]/25 p-4 even:border-r-0 md:border-b-0 md:border-r md:p-6 md:last:border-r-0 md:even:border-r"
           >
             <div className="flex items-start justify-between gap-3">
               <span className="font-heading text-4xl sm:text-5xl">

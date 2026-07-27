@@ -167,9 +167,7 @@ export function ServicesSection({
                       aria-expanded={isOpen}
                       aria-controls={panelId}
                       className="cta-focus grid min-h-[9.25rem] w-full grid-cols-[3.5rem_1fr_2rem] items-center gap-4 py-5 text-left sm:grid-cols-[5rem_10rem_1fr_2rem] sm:gap-6 lg:grid-cols-[7rem_18rem_1fr_2rem] lg:gap-12"
-                      onClick={() =>
-                        setActiveIndex(isOpen ? null : index)
-                      }
+                      onClick={() => setActiveIndex(isOpen ? null : index)}
                     >
                       <span className="font-heading text-4xl sm:text-5xl">
                         0{index + 1}

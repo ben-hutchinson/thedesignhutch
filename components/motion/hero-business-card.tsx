@@ -53,7 +53,8 @@ export function HeroBusinessCard() {
           }
         }}
         onPointerUp={(event) => {
-          const distance = event.clientX - (pointerStart.current ?? event.clientX);
+          const distance =
+            event.clientX - (pointerStart.current ?? event.clientX);
           didDrag.current = Math.abs(distance) > 8;
           if (distance < -60) setSide("back");
           if (distance > 60) setSide("front");

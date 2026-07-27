@@ -31,12 +31,10 @@ test.describe("conversion improvements", () => {
     await expect(
       hero.getByRole("link", { name: "View recent work" }),
     ).toHaveAttribute("href", "#portfolio");
-    for (const trustPoint of [
-      "South Manchester",
-      "Cheshire",
-      "Founder-led",
-    ]) {
-      await expect(hero.getByTestId("hero-trust-line")).toContainText(trustPoint);
+    for (const trustPoint of ["South Manchester", "Cheshire", "Founder-led"]) {
+      await expect(hero.getByTestId("hero-trust-line")).toContainText(
+        trustPoint,
+      );
     }
 
     const orderedSections = [
@@ -87,7 +85,9 @@ test.describe("conversion improvements", () => {
     );
   });
 
-  test("service rows disclose one useful detail at a time", async ({ page }) => {
+  test("service rows disclose one useful detail at a time", async ({
+    page,
+  }) => {
     await prepareDeterministicPage(page);
     await page.goto("/");
 
@@ -364,7 +364,10 @@ test.describe("conversion improvements", () => {
     const stickyCta = page.getByTestId("mobile-sticky-cta");
     await expect(stickyCta).toBeHidden();
 
-    await page.locator("#services").scrollIntoViewIfNeeded();
+    await page
+      .locator("#services")
+      .getByRole("button", { name: /E-commerce stores/ })
+      .scrollIntoViewIfNeeded();
     await expect(stickyCta).toBeVisible();
 
     await page.locator("#contact").scrollIntoViewIfNeeded();
