@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "motion/react";
+
 const sketches = [
   [
     "M30 32h112v72H30zM42 46h55M42 60h82M42 74h68",
@@ -17,7 +21,19 @@ const sketches = [
   ],
 ] as const;
 
-export function ProcessIllustration({ index }: { index: number }) {
+type ProcessIllustrationProps = {
+  index: number;
+  revealed: boolean;
+  reduced: boolean;
+  delay: number;
+};
+
+export function ProcessIllustration({
+  index,
+  revealed,
+  reduced,
+  delay,
+}: ProcessIllustrationProps) {
   return (
     <svg
       viewBox="0 0 220 128"
@@ -25,14 +41,25 @@ export function ProcessIllustration({ index }: { index: number }) {
       className="h-full w-full"
       fill="none"
     >
-      {sketches[index]?.map((path) => (
-        <path
+      {sketches[index]?.map((path, pathIndex) => (
+        <motion.path
           key={path}
           d={path}
           stroke="currentColor"
           strokeWidth="1.35"
           strokeLinecap="round"
           strokeLinejoin="round"
+          initial={reduced ? false : { pathLength: 0, opacity: 0.2 }}
+          animate={
+            revealed
+              ? { pathLength: 1, opacity: 1 }
+              : { pathLength: 0, opacity: 0.2 }
+          }
+          transition={{
+            duration: reduced ? 0 : 0.72,
+            delay: reduced ? 0 : delay + pathIndex * 0.1,
+            ease: "easeInOut",
+          }}
         />
       ))}
     </svg>

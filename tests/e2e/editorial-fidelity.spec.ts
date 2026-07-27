@@ -122,6 +122,46 @@ test.describe("approved editorial workshop fidelity", () => {
     expect(hasHorizontalOverflow).toBe(false);
   });
 
+  test("process draws once when it enters view", async ({ page }) => {
+    await prepareDeterministicPage(page);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.goto("/");
+
+    const timeline = page.getByTestId("process-timeline");
+    await timeline.scrollIntoViewIfNeeded();
+    await expect(timeline.getByRole("listitem").first()).toHaveCSS(
+      "opacity",
+      "1",
+    );
+    await expect(page.getByTestId("process-line")).toHaveCSS("opacity", "1");
+    await page.locator("#hero").scrollIntoViewIfNeeded();
+    await timeline.scrollIntoViewIfNeeded();
+    await expect(timeline.getByRole("listitem").first()).toHaveCSS(
+      "opacity",
+      "1",
+    );
+  });
+
+  test("process is complete immediately for reduced-motion visitors", async ({
+    page,
+  }) => {
+    await prepareDeterministicPage(page);
+    await page.goto("/");
+
+    const timeline = page.getByTestId("process-timeline");
+    expect(
+      await page.evaluate(
+        () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+      ),
+    ).toBe(true);
+    await expect(timeline.getByRole("listitem")).toHaveCount(4);
+    await expect(timeline.getByRole("listitem").first()).toHaveCSS(
+      "opacity",
+      "1",
+    );
+    await expect(page.getByTestId("process-line")).toHaveCSS("opacity", "1");
+  });
+
   test("FAQ starts as the compact closed disclosure band shown in the concept", async ({
     page,
   }) => {
