@@ -92,6 +92,36 @@ test.describe("approved editorial workshop fidelity", () => {
     ).toBeVisible();
   });
 
+  test("process explains four practical stages in a compact responsive grid", async ({
+    isMobile,
+    page,
+  }) => {
+    await prepareDeterministicPage(page);
+    await page.goto("/");
+
+    const timeline = page.getByTestId("process-timeline");
+    await expect(timeline.getByRole("listitem")).toHaveCount(4);
+    for (const outcome of [
+      "A clear brief and agreed priorities",
+      "A direction you approve before build",
+      "A tested site ready for real customers",
+      "A reliable site that keeps improving",
+    ]) {
+      await expect(timeline.getByText(outcome, { exact: true })).toBeVisible();
+    }
+
+    const columns = await timeline.evaluate(
+      (node) => getComputedStyle(node).gridTemplateColumns.split(" ").length,
+    );
+    expect(columns).toBe(isMobile ? 2 : 4);
+    const hasHorizontalOverflow = await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth,
+    );
+    expect(hasHorizontalOverflow).toBe(false);
+  });
+
   test("FAQ starts as the compact closed disclosure band shown in the concept", async ({
     page,
   }) => {
