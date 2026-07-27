@@ -24,6 +24,16 @@ test.describe("selective showpiece motion", () => {
     await expect(desktopProof).toHaveCSS("opacity", "1");
     await expect(mobileProof).toHaveCSS("opacity", "1");
     await expect(page.getByTestId("portfolio-metric")).toHaveCount(3);
+    await expect(
+      page.locator(
+        "[data-testid='portfolio-proof-motion'] dl > [data-testid='portfolio-metric'] > dt",
+      ),
+    ).toHaveCount(3);
+    await expect(
+      page.locator(
+        "[data-testid='portfolio-proof-motion'] dl > [data-testid='portfolio-metric'] > dd",
+      ),
+    ).toHaveCount(3);
     await expect(page.getByTestId("portfolio-testimonial")).toHaveCSS(
       "opacity",
       "1",

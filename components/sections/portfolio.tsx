@@ -30,24 +30,27 @@ export function PortfolioSection({
     </>
   );
   const portfolioMetrics = [
-    <div key="cost" className="grid grid-cols-[5.5rem_1fr] items-baseline py-4">
-      <dt className="font-heading text-4xl">50%</dt>
-      <dd className="text-sm">lower infrastructure cost</dd>
-    </div>,
-    <div
-      key="launch"
-      className="grid grid-cols-[11.5rem_1fr] items-baseline py-4"
-    >
-      <dt className="font-heading text-3xl">Responsive</dt>
-      <dd className="text-sm">launch</dd>
-    </div>,
-    <div
-      key="collaboration"
-      className="grid grid-cols-[6.5rem_1fr] items-baseline py-4"
-    >
-      <dt className="font-heading text-3xl">Direct</dt>
-      <dd className="text-sm">founder collaboration</dd>
-    </div>,
+    {
+      label: "50%",
+      detail: "lower infrastructure cost",
+      rowClassName: "grid grid-cols-[5.5rem_1fr] items-baseline py-4",
+      labelClassName: "font-heading text-4xl",
+      detailClassName: "text-sm",
+    },
+    {
+      label: "Responsive",
+      detail: "launch",
+      rowClassName: "grid grid-cols-[11.5rem_1fr] items-baseline py-4",
+      labelClassName: "font-heading text-3xl",
+      detailClassName: "text-sm",
+    },
+    {
+      label: "Direct",
+      detail: "founder collaboration",
+      rowClassName: "grid grid-cols-[6.5rem_1fr] items-baseline py-4",
+      labelClassName: "font-heading text-3xl",
+      detailClassName: "text-sm",
+    },
   ];
   const portfolioTestimonial = (
     <>

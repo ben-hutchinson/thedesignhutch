@@ -7,7 +7,13 @@ import { useResolvedMotion } from "@/components/motion/use-resolved-motion";
 
 type PortfolioProofMotionProps = {
   details: ReactNode;
-  metrics: ReactNode[];
+  metrics: {
+    detail: string;
+    detailClassName: string;
+    label: string;
+    labelClassName: string;
+    rowClassName: string;
+  }[];
   testimonial: ReactNode;
   cta: ReactNode;
   desktopImage: ReactNode;
@@ -51,7 +57,7 @@ export function PortfolioProofMotion({
         <dl className="mt-10 border-t border-[#181a17]/55">
           {metrics.map((metric, index) => (
             <motion.div
-              key={index}
+              key={metric.label}
               data-testid="portfolio-metric"
               initial={false}
               animate={
@@ -64,9 +70,10 @@ export function PortfolioProofMotion({
                 delay: instant ? 0 : 0.66 + index * 0.09,
                 ease: "easeOut",
               }}
-              className="origin-left border-b border-[#181a17]/55"
+              className={`${metric.rowClassName} origin-left border-b border-[#181a17]/55`}
             >
-              {metric}
+              <dt className={metric.labelClassName}>{metric.label}</dt>
+              <dd className={metric.detailClassName}>{metric.detail}</dd>
             </motion.div>
           ))}
         </dl>
