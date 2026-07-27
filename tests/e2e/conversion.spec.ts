@@ -87,25 +87,36 @@ test.describe("conversion improvements", () => {
     );
   });
 
-  test("services are all scannable without carousel controls", async ({
-    page,
-  }) => {
+  test("service rows disclose one useful detail at a time", async ({ page }) => {
     await prepareDeterministicPage(page);
     await page.goto("/");
 
     const services = page.locator("#services");
-    for (const name of [
-      "Brochure websites",
-      "E-commerce stores",
-      "Booking systems",
-      "Hosting help",
-      "Automation & AI",
-    ]) {
-      await expect(services.getByRole("heading", { name })).toBeAttached();
-    }
+    const brochure = services.getByRole("button", {
+      name: /Brochure websites/,
+    });
+    const ecommerce = services.getByRole("button", {
+      name: /E-commerce stores/,
+    });
+
+    await expect(brochure).toHaveAttribute("aria-expanded", "false");
+    await expect(ecommerce).toHaveAttribute("aria-expanded", "false");
+    await expect(services.getByRole("region")).toHaveCount(0);
+
+    await ecommerce.click();
+    await expect(ecommerce).toHaveAttribute("aria-expanded", "true");
     await expect(
-      services.getByRole("button", { name: /service/i }),
-    ).toHaveCount(0);
+      services.getByRole("region", { name: /E-commerce stores/ }),
+    ).toContainText("Growing businesses that need online sales");
+
+    await brochure.click();
+    await expect(brochure).toHaveAttribute("aria-expanded", "true");
+    await expect(ecommerce).toHaveAttribute("aria-expanded", "false");
+    await expect(services.getByRole("region")).toHaveCount(1);
+
+    await brochure.click();
+    await expect(brochure).toHaveAttribute("aria-expanded", "false");
+    await expect(services.getByRole("region")).toHaveCount(0);
   });
 
   test("portfolio route renders the approved concise project proof", async ({

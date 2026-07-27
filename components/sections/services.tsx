@@ -1,8 +1,13 @@
+"use client";
+
+import { useState } from "react";
+
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { LogoMark } from "@/components/brand/logo";
 import { SectionShell } from "@/components/layout/section-shell";
 import { ArrowIcon } from "@/components/ui/arrow-icon";
 import { services } from "@/content/services";
+import { cn } from "@/lib/utils";
 
 function ServiceSketch({ index }: { index: number }) {
   if (index === 0)
@@ -98,6 +103,7 @@ export function ServicesSection({
   headingLevel?: "h1" | "h2";
 }) {
   const Heading = headingLevel;
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   return (
     <SectionShell
       id="services"
@@ -138,40 +144,81 @@ export function ServicesSection({
             <span>Founder-led web design</span>
           </div>
           <ol>
-            {services.map((service, index) => (
-              <li
-                key={service.title}
-                className={`grid grid-cols-[3.5rem_1fr] items-center gap-4 border-b py-5 sm:grid-cols-[5rem_10rem_1fr_2rem] sm:gap-6 lg:grid-cols-[7rem_18rem_1fr_2rem] lg:gap-12 ${index === 1 ? "min-h-[13.75rem] border-accent-blue text-[#7f98ff]" : "min-h-[9.25rem] border-white/25"}`}
-              >
-                <span className="font-heading text-4xl sm:text-5xl">
-                  0{index + 1}
-                </span>
-                <span className="hidden text-[#a8a79f] sm:block">
-                  <ServiceSketch index={index} />
-                </span>
-                <div>
-                  <h2 className="font-heading text-3xl leading-none sm:text-4xl">
-                    {service.title}
+            {services.map((service, index) => {
+              const isOpen = activeIndex === index;
+              const triggerId = `service-trigger-${index + 1}`;
+              const panelId = `service-panel-${index + 1}`;
+
+              return (
+                <li
+                  key={service.title}
+                  data-state={isOpen ? "open" : "closed"}
+                  className={cn(
+                    "border-b transition-colors duration-300",
+                    isOpen
+                      ? "border-accent-blue text-[#7f98ff]"
+                      : "border-white/25 text-[#f4f0e6]",
+                  )}
+                >
+                  <h2>
+                    <button
+                      id={triggerId}
+                      type="button"
+                      aria-expanded={isOpen}
+                      aria-controls={panelId}
+                      className="cta-focus grid min-h-[9.25rem] w-full grid-cols-[3.5rem_1fr_2rem] items-center gap-4 py-5 text-left sm:grid-cols-[5rem_10rem_1fr_2rem] sm:gap-6 lg:grid-cols-[7rem_18rem_1fr_2rem] lg:gap-12"
+                      onClick={() =>
+                        setActiveIndex(isOpen ? null : index)
+                      }
+                    >
+                      <span className="font-heading text-4xl sm:text-5xl">
+                        0{index + 1}
+                      </span>
+                      <span
+                        aria-hidden
+                        className={cn(
+                          "hidden transition-colors sm:block",
+                          isOpen ? "text-[#7f98ff]" : "text-[#a8a79f]",
+                        )}
+                      >
+                        <ServiceSketch index={index} />
+                      </span>
+                      <span>
+                        <span className="block font-heading text-3xl leading-none sm:text-4xl">
+                          {service.title}
+                        </span>
+                        <span
+                          className={cn(
+                            "mt-2 block text-sm transition-colors",
+                            isOpen ? "text-[#c8c9c3]" : "text-[#aaa9a2]",
+                          )}
+                        >
+                          {service.summary}
+                        </span>
+                      </span>
+                      <span aria-hidden className="text-3xl font-light">
+                        {isOpen ? "−" : "+"}
+                      </span>
+                    </button>
                   </h2>
-                  <p
-                    className={`mt-2 text-sm ${index === 1 ? "text-[#c8c9c3]" : "text-[#aaa9a2]"}`}
-                  >
-                    {service.summary}
-                  </p>
-                  {index === 1 ? (
-                    <p className="mt-3 max-w-xl border-t border-white/20 pt-3 text-xs leading-relaxed text-white/70">
-                      <strong className="mr-2 uppercase tracking-[.12em] text-[#9aafff]">
-                        Best for
-                      </strong>
-                      {service.bestFor}
-                    </p>
+                  {isOpen ? (
+                    <div
+                      id={panelId}
+                      role="region"
+                      aria-labelledby={triggerId}
+                      className="ml-[3.5rem] border-t border-white/20 pb-6 pt-4 sm:ml-[21rem] lg:ml-[37rem]"
+                    >
+                      <p className="max-w-xl pr-6 text-sm leading-relaxed text-white/75">
+                        <strong className="mr-2 uppercase tracking-[.12em] text-[#9aafff]">
+                          Best for
+                        </strong>
+                        {service.bestFor}
+                      </p>
+                    </div>
                   ) : null}
-                </div>
-                <span aria-hidden className="text-3xl font-light">
-                  {index === 1 ? "−" : "+"}
-                </span>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ol>
           <TrackedLink
             href="/contact"
