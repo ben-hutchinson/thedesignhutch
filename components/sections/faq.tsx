@@ -11,15 +11,23 @@ export function FaqSection({
   return (
     <SectionShell
       id="faq"
-      className="border-y border-white/15 bg-base-900 !py-10 text-[#f5f1e7]"
+      className="border-t border-white/15 bg-base-900 !py-10 text-[#f5f1e7]"
       withTransition={false}
     >
       <div className="grid gap-8 lg:grid-cols-[.34fr_.66fr] lg:items-start lg:gap-14">
-        <Heading className="max-w-md font-heading text-[clamp(3.2rem,4.5vw,4.3rem)] leading-[.88] tracking-[-.05em] lg:pl-10">
-          Questions
-          <br />
-          before we start
-        </Heading>
+        <div className="lg:pl-10">
+          <p
+            data-section-number
+            className="border-t border-accent-blue pt-3 text-sm font-bold tracking-[.16em] text-[#8da3ff]"
+          >
+            04
+          </p>
+          <Heading className="mt-6 max-w-md font-heading text-[clamp(3.2rem,4.5vw,4.3rem)] leading-[.88] tracking-[-.05em]">
+            Questions
+            <br />
+            before we start
+          </Heading>
+        </div>
         <Accordion
           theme="dark"
           items={faqs.map((item, index) => ({

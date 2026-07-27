@@ -20,16 +20,16 @@ export function AboutSection({
     <SectionShell
       id="about"
       className="relative overflow-hidden bg-base-950 !py-0 text-[#f5f1e7]"
+      withTransition={false}
     >
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-[4.6rem] bg-[var(--paper)] [clip-path:polygon(0_0,100%_0,100%_100%,79%_100%,71%_20%,64%_100%,0_100%)]"
-      />
       <div className="container-shell !px-0">
-        <div className="grid pt-[4.6rem] md:min-h-[58rem] md:grid-cols-[.46fr_.54fr] md:items-stretch">
+        <div className="grid md:min-h-[58rem] md:grid-cols-[.46fr_.54fr] md:items-stretch">
           <div className="relative z-10 px-[var(--space-container-x)] py-14 md:py-16">
-            <p className="border-t border-accent-blue pt-3 text-sm font-bold tracking-[.16em] text-[#8da3ff]">
-              04
+            <p
+              data-section-number
+              className="border-t border-accent-blue pt-3 text-sm font-bold tracking-[.16em] text-[#8da3ff]"
+            >
+              05
             </p>
             <Heading className="mt-6 max-w-2xl font-heading text-[clamp(3.4rem,6vw,6rem)] leading-[.88] tracking-[-.055em] md:ml-11">
               The person designing and building your website

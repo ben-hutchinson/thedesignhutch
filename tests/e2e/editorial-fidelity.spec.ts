@@ -178,6 +178,55 @@ test.describe("approved editorial workshop fidelity", () => {
     await expect(faq.getByRole("region")).toHaveCount(1);
   });
 
+  test("editorial sections keep a continuous visible number sequence", async ({
+    page,
+  }) => {
+    await prepareDeterministicPage(page);
+    await page.goto("/");
+
+    for (const [sectionId, number] of [
+      ["services", "01"],
+      ["portfolio", "02"],
+      ["process", "03"],
+      ["faq", "04"],
+      ["about", "05"],
+      ["contact", "06"],
+    ] as const) {
+      await expect(
+        page.locator(`#${sectionId} [data-section-number]`),
+      ).toHaveText(number);
+    }
+  });
+
+  test("FAQ meets About without a contrasting paper divider", async ({
+    page,
+  }) => {
+    await prepareDeterministicPage(page);
+    await page.goto("/");
+
+    const about = page.locator("#about");
+    await about.evaluate((section) =>
+      section.scrollIntoView({ block: "start" }),
+    );
+
+    const boundaryColours = await about.evaluate((section) => {
+      const rect = section.getBoundingClientRect();
+      const x = Math.round(window.innerWidth / 2);
+      const y = Math.round(rect.top + 20);
+      const sampleColour = document
+        .elementsFromPoint(x, y)
+        .map((element) => getComputedStyle(element).backgroundColor)
+        .find((colour) => colour !== "rgba(0, 0, 0, 0)");
+
+      return {
+        sampleColour,
+        sectionColour: getComputedStyle(section).backgroundColor,
+      };
+    });
+
+    expect(boundaryColours.sampleColour).toBe(boundaryColours.sectionColour);
+  });
+
   test("review corrections are present across the editorial homepage", async ({
     page,
   }) => {

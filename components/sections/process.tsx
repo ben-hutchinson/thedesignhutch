@@ -15,7 +15,12 @@ export function ProcessSection({
       className="paper-grid !pb-0 !pt-16 text-[#181a17]"
     >
       <header className="grid gap-6 lg:grid-cols-[10rem_1fr_auto] lg:items-start">
-        <span className="font-heading text-7xl leading-none">03</span>
+        <span
+          data-section-number
+          className="font-heading text-7xl leading-none"
+        >
+          03
+        </span>
         <div>
           <Heading className="max-w-4xl font-heading text-[clamp(3.2rem,5.2vw,5.2rem)] leading-[.92] tracking-[-.05em]">
             From first conversation to a supported launch

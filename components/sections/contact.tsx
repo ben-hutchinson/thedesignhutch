@@ -150,8 +150,11 @@ export function ContactSection({
       />
       <div className="grid gap-12 lg:grid-cols-[.96fr_1.04fr] lg:gap-16">
         <div className="lg:pl-10">
-          <p className="border-l border-accent-orange pl-7 font-heading text-3xl text-accent-orange">
-            05
+          <p
+            data-section-number
+            className="border-l border-accent-orange pl-7 font-heading text-3xl text-accent-orange"
+          >
+            06
           </p>
           {headingLevel === "h1" ? (
             <h1 className="mt-4 max-w-xl font-heading text-[clamp(3.8rem,6vw,6rem)] leading-[.9] tracking-[-.055em]">
