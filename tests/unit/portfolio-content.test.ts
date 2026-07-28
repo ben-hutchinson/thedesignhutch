@@ -1,6 +1,10 @@
+import type { projects as portfolioProjects } from "../../content/portfolio";
+
 const assert: typeof import("node:assert/strict") = require("node:assert/strict");
 const test: typeof import("node:test") = require("node:test");
-const { projects } = require("../../content/portfolio.ts") as typeof import("../../content/portfolio");
+const { projects } = require("../../content/portfolio.ts") as {
+  projects: typeof portfolioProjects;
+};
 
 test("every portfolio project contains a complete featured proof", () => {
   assert.ok(projects.length > 0);

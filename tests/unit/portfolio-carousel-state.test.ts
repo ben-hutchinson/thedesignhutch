@@ -16,6 +16,14 @@ test("creates a dormant state for one project", () => {
   });
 });
 
+test("creates a paused state for multiple projects until the controller plays it", () => {
+  assert.deepEqual(createPortfolioCarouselState(3), {
+    activeIndex: 0,
+    autoplayEnabled: false,
+    direction: 1,
+  });
+});
+
 test("reduces carousel navigation with literal outcomes", () => {
   const cases = [
     {

@@ -40,7 +40,7 @@ export function createPortfolioCarouselState(
     return dormantState();
   }
 
-  return { activeIndex: 0, autoplayEnabled: true, direction: 1 };
+  return { activeIndex: 0, autoplayEnabled: false, direction: 1 };
 }
 
 export function reducePortfolioCarousel(
