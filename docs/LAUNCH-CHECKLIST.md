@@ -31,7 +31,7 @@ Use this before the site goes live.
 - Connect `thedesignhutch.com`.
 - Redirect `www.thedesignhutch.com` and other domain variations to `https://thedesignhutch.com`.
 - Confirm `siteConfig.url` in `lib/constants.ts` matches the canonical live domain.
-- Confirm `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`, `/icon.svg`, and `/api/contact` load on production.
+- Confirm `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`, `/brand/design-hutch-logo-icon.png`, and `/api/contact` load on production; verify the generated `icon`, `shortcut icon`, and `apple-touch-icon` relations all use the official PNG.
 - Confirm production responses include the security headers from `public/_headers`.
 
 ### 4. Analytics And Conversions

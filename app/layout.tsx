@@ -15,15 +15,15 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: new URL(siteConfig.logo, siteConfig.url).href,
+        url: siteConfig.logo,
         type: "image/png",
         sizes: "338x293",
       },
     ],
-    shortcut: [new URL(siteConfig.logo, siteConfig.url).href],
+    shortcut: [siteConfig.logo],
     apple: [
       {
-        url: new URL(siteConfig.logo, siteConfig.url).href,
+        url: siteConfig.logo,
         type: "image/png",
         sizes: "338x293",
       },
