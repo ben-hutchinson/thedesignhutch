@@ -200,6 +200,48 @@ test("serves valid internal links and fragment targets", async ({
   }
 });
 
+test("uses the official blue logo for browser and app icons", async ({
+  page,
+  request,
+}) => {
+  await page.goto("/");
+
+  const officialLogoPath = "/brand/design-hutch-logo-icon.png";
+  const officialLogoUrl = new URL(officialLogoPath, siteUrl).href;
+  const iconHrefs = await page
+    .locator(
+      'link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]',
+    )
+    .evaluateAll((links) =>
+      links.map((link) => (link as HTMLLinkElement).href),
+    );
+
+  expect(iconHrefs).toEqual([
+    officialLogoUrl,
+    officialLogoUrl,
+    officialLogoUrl,
+  ]);
+  expect(iconHrefs.some((href) => href.endsWith("/icon.svg"))).toBe(false);
+
+  const iconResponse = await getWithTransportRetry(request, officialLogoPath);
+  expect(iconResponse.ok()).toBe(true);
+  expect(iconResponse.headers()["content-type"]).toContain("image/png");
+
+  const manifestResponse = await getWithTransportRetry(
+    request,
+    "/manifest.webmanifest",
+  );
+  expect(manifestResponse.ok()).toBe(true);
+
+  const manifest = await manifestResponse.json();
+  expect(manifest.icons).toContainEqual({
+    src: officialLogoPath,
+    sizes: "338x293",
+    type: "image/png",
+    purpose: "any",
+  });
+});
+
 test("emits parseable JSON-LD on the relevant routes", async ({ page }) => {
   await page.goto("/");
 

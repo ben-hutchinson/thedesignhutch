@@ -12,6 +12,23 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   applicationName: siteConfig.name,
   manifest: "/manifest.webmanifest",
+  icons: {
+    icon: [
+      {
+        url: new URL(siteConfig.logo, siteConfig.url).href,
+        type: "image/png",
+        sizes: "338x293",
+      },
+    ],
+    shortcut: [new URL(siteConfig.logo, siteConfig.url).href],
+    apple: [
+      {
+        url: new URL(siteConfig.logo, siteConfig.url).href,
+        type: "image/png",
+        sizes: "338x293",
+      },
+    ],
+  },
   title: {
     default: "The Design Hutch | Premium Websites for Local Businesses",
     template: "%s | The Design Hutch",
