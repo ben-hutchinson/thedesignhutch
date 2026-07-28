@@ -4,11 +4,31 @@ export type ProjectScreenshot = {
   label: string;
 };
 
+export type ProjectMetric = {
+  label: string;
+  detail: string;
+  presentation: "numeric" | "short" | "long";
+};
+
+export type ProjectProofImage = {
+  src: string;
+  alt: string;
+};
+
 export type Project = {
+  id: string;
   title: string;
+  eyebrow: string;
   href: string;
   urlLabel: string;
   summary: string;
+  proofHeadline: string;
+  proofMetrics: [ProjectMetric, ProjectMetric, ProjectMetric];
+  featuredQuoteLines: [string, string];
+  proofImages: {
+    desktop: ProjectProofImage;
+    mobile: ProjectProofImage;
+  };
   challenge: string;
   solution: string;
   outcomes: string[];
@@ -27,11 +47,39 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    id: "double-double-good",
     title: "Double Double Good",
+    eyebrow: "Independent music emporium · Stafford",
     href: "https://doubledoublegood.co.uk",
     urlLabel: "doubledoublegood.co.uk",
     summary:
       "A clean, mobile-aware website for an independent music emporium, built to make stock, opening details, and shop credibility easier to understand at a glance.",
+    proofHeadline:
+      "A clearer, faster website for a much-loved independent record shop.",
+    proofMetrics: [
+      {
+        label: "50%",
+        detail: "lower infrastructure cost",
+        presentation: "numeric",
+      },
+      { label: "Responsive", detail: "launch", presentation: "long" },
+      {
+        label: "Direct",
+        detail: "founder collaboration",
+        presentation: "short",
+      },
+    ],
+    featuredQuoteLines: ["It felt like my website", "was in good hands"],
+    proofImages: {
+      desktop: {
+        src: "/portfolio/doubledoublegood/desktop-home.webp",
+        alt: "Double Double Good website desktop homepage screenshot",
+      },
+      mobile: {
+        src: "/portfolio/doubledoublegood/mobile-home.webp",
+        alt: "Double Double Good website mobile homepage screenshot",
+      },
+    },
     challenge:
       "The business needed migrating from a legacy PHP Wordpress site to a modernised, enticing website that customers could reliably check before visiting.",
     solution:
