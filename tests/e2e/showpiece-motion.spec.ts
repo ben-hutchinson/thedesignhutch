@@ -10,9 +10,10 @@ test.describe("selective showpiece motion", () => {
     await prepareDeterministicPage(page, { reducedMotion: "no-preference" });
     await page.goto("/");
 
-    const root = page.getByTestId("portfolio-proof-motion");
-    const desktopProof = page.getByTestId("portfolio-desktop-proof");
-    const mobileProof = page.getByTestId("portfolio-mobile-proof");
+    const carousel = page.getByTestId("portfolio-carousel");
+    const root = carousel.getByTestId("portfolio-proof-motion");
+    const desktopProof = carousel.getByTestId("portfolio-desktop-proof");
+    const mobileProof = carousel.getByTestId("portfolio-mobile-proof");
 
     await expect
       .poll(() =>
@@ -29,18 +30,18 @@ test.describe("selective showpiece motion", () => {
     await expect(root).toHaveAttribute("data-motion-state", "visible");
     await expect(desktopProof).toHaveCSS("opacity", "1");
     await expect(mobileProof).toHaveCSS("opacity", "1");
-    await expect(page.getByTestId("portfolio-metric")).toHaveCount(3);
+    await expect(carousel.getByTestId("portfolio-metric")).toHaveCount(3);
     await expect(
-      page.locator(
+      carousel.locator(
         "[data-testid='portfolio-proof-motion'] dl > [data-testid='portfolio-metric'] > dt",
       ),
     ).toHaveCount(3);
     await expect(
-      page.locator(
+      carousel.locator(
         "[data-testid='portfolio-proof-motion'] dl > [data-testid='portfolio-metric'] > dd",
       ),
     ).toHaveCount(3);
-    await expect(page.getByTestId("portfolio-testimonial")).toHaveCSS(
+    await expect(carousel.getByTestId("portfolio-testimonial")).toHaveCSS(
       "opacity",
       "1",
     );
@@ -57,13 +58,14 @@ test.describe("selective showpiece motion", () => {
     await prepareDeterministicPage(page);
     await page.goto("/");
 
-    const root = page.getByTestId("portfolio-proof-motion");
+    const carousel = page.getByTestId("portfolio-carousel");
+    const root = carousel.getByTestId("portfolio-proof-motion");
     await expect(root).toHaveAttribute("data-motion-state", "visible");
-    await expect(page.getByTestId("portfolio-desktop-proof")).toHaveCSS(
+    await expect(carousel.getByTestId("portfolio-desktop-proof")).toHaveCSS(
       "opacity",
       "1",
     );
-    await expect(page.getByTestId("portfolio-mobile-proof")).toHaveCSS(
+    await expect(carousel.getByTestId("portfolio-mobile-proof")).toHaveCSS(
       "opacity",
       "1",
     );
@@ -207,7 +209,11 @@ test.describe("selective showpiece motion", () => {
     );
 
     expect(hasHorizontalOverflow).toBe(false);
-    await expect(page.getByTestId("portfolio-proof-motion")).toBeAttached();
+    await expect(
+      page
+        .getByTestId("portfolio-carousel")
+        .getByTestId("portfolio-proof-motion"),
+    ).toBeAttached();
     await expect(page.getByTestId("founder-reveal-motion")).toBeAttached();
   });
 });
@@ -221,14 +227,14 @@ test.describe("static showpiece fallback", () => {
     await page.goto("/");
 
     await expect(
-      page.getByAltText(
-        "Double Double Good website desktop homepage screenshot",
-      ),
+      page
+        .getByTestId("portfolio-carousel")
+        .getByAltText("Double Double Good website desktop homepage screenshot"),
     ).toBeVisible();
     await expect(
-      page.getByAltText(
-        "Double Double Good website mobile homepage screenshot",
-      ),
+      page
+        .getByTestId("portfolio-carousel")
+        .getByAltText("Double Double Good website mobile homepage screenshot"),
     ).toBeVisible();
     await expect(
       page.getByAltText("Ben Hutchinson, founder of The Design Hutch"),

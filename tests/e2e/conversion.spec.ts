@@ -126,6 +126,21 @@ test.describe("conversion improvements", () => {
     await page.goto("/portfolio");
     await page.waitForLoadState("networkidle");
 
+    const carousel = page.getByTestId("portfolio-carousel");
+    await expect(carousel).toHaveAttribute("data-project-count", "1");
+    await expect(carousel).toHaveAttribute(
+      "data-active-project",
+      "double-double-good",
+    );
+    await expect(
+      page.getByRole("button", { name: "Show previous project" }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("button", { name: "Show next project" }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole("button", { name: /portfolio rotation/i }),
+    ).toHaveCount(0);
     await expect(
       page.getByAltText(
         "Double Double Good website desktop homepage screenshot",
