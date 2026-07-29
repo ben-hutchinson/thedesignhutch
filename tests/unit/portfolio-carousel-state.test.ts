@@ -4,12 +4,15 @@ import type { PortfolioCarouselAction } from "../../components/portfolio/portfol
 const assert: typeof import("node:assert/strict") = require("node:assert/strict");
 // eslint-disable-next-line @typescript-eslint/no-require-imports -- Node executes this TypeScript test as CommonJS.
 const test: typeof import("node:test") = require("node:test");
+/* eslint-disable @typescript-eslint/no-require-imports -- Node executes this TypeScript test as CommonJS. */
+const carouselState =
+  require("../../components/portfolio/portfolio-carousel-state.ts") as typeof import("../../components/portfolio/portfolio-carousel-state");
+/* eslint-enable @typescript-eslint/no-require-imports */
 const {
   createPortfolioCarouselState,
   reducePortfolioCarousel,
   shouldSchedulePortfolioAutoplay,
-  // eslint-disable-next-line @typescript-eslint/no-require-imports -- Node executes this TypeScript test as CommonJS.
-} = require("../../components/portfolio/portfolio-carousel-state.ts") as typeof import("../../components/portfolio/portfolio-carousel-state");
+} = carouselState;
 
 test("creates a dormant state for one project", () => {
   assert.deepEqual(createPortfolioCarouselState(1), {
@@ -53,7 +56,11 @@ test("reduces carousel navigation with literal outcomes", () => {
   ];
 
   for (const { name, state, action, projectCount, want } of cases) {
-    assert.deepEqual(reducePortfolioCarousel(state, action, projectCount), want, name);
+    assert.deepEqual(
+      reducePortfolioCarousel(state, action, projectCount),
+      want,
+      name,
+    );
   }
 });
 
@@ -134,5 +141,41 @@ test("schedules autoplay only when every scheduling condition is true", () => {
   assert.equal(
     shouldSchedulePortfolioAutoplay({ ...enabled, temporarilyPaused: true }),
     false,
+  );
+});
+
+test("manual navigation remains unscheduled until rotation is explicitly restarted", () => {
+  const pausedAfterManualNavigation = reducePortfolioCarousel(
+    { activeIndex: 0, autoplayEnabled: true, direction: 1 },
+    { type: "next", source: "manual" },
+    2,
+  );
+  const activeEnvironment = {
+    hasMultipleProjects: true,
+    hydrated: true,
+    inView: true,
+    documentVisible: true,
+    temporarilyPaused: false,
+  };
+
+  assert.equal(
+    shouldSchedulePortfolioAutoplay({
+      ...activeEnvironment,
+      autoplayEnabled: pausedAfterManualNavigation.autoplayEnabled,
+    }),
+    false,
+  );
+
+  const restarted = reducePortfolioCarousel(
+    pausedAfterManualNavigation,
+    { type: "play" },
+    2,
+  );
+  assert.equal(
+    shouldSchedulePortfolioAutoplay({
+      ...activeEnvironment,
+      autoplayEnabled: restarted.autoplayEnabled,
+    }),
+    true,
   );
 });

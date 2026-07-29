@@ -42,7 +42,6 @@ export function PortfolioProofMotion({
   priority,
   direction,
 }: PortfolioProofMotionProps) {
-  void direction;
   const rootRef = useRef<HTMLElement>(null);
   const inView = useInView(rootRef, { once: true, amount: 0.3 });
   const { hydrated, reduced } = useResolvedMotion();
@@ -60,12 +59,37 @@ export function PortfolioProofMotion({
   const instant = !hydrated || reduced;
   const state = revealed ? "visible" : "hidden";
   const desktopPriority = priority ? { priority: true } : {};
+  const slideVariants = reduced
+    ? {
+        enter: { opacity: 0 },
+        visible: { opacity: 1 },
+        exit: { opacity: 0 },
+      }
+    : {
+        enter: (travelDirection: CarouselDirection) => ({
+          opacity: 0,
+          x: travelDirection * 40,
+        }),
+        visible: { opacity: 1, x: 0 },
+        exit: (travelDirection: CarouselDirection) => ({
+          opacity: 0,
+          x: travelDirection * -40,
+        }),
+      };
 
   return (
-    <article
+    <motion.article
       ref={rootRef}
       data-testid="portfolio-proof-motion"
       data-motion-state={state}
+      custom={direction}
+      variants={slideVariants}
+      initial="enter"
+      animate="visible"
+      exit="exit"
+      transition={
+        reduced ? { duration: 0 } : { duration: 0.34, ease: [0.22, 1, 0.36, 1] }
+      }
       className="grid gap-12 lg:grid-cols-[.35fr_.65fr] lg:gap-14"
     >
       <div>
@@ -89,9 +113,11 @@ export function PortfolioProofMotion({
                 data-testid="portfolio-metric"
                 initial={false}
                 animate={
-                  revealed
-                    ? { opacity: 1, scaleX: 1 }
-                    : { opacity: 0, scaleX: 0.88 }
+                  instant
+                    ? { opacity: 1 }
+                    : revealed
+                      ? { opacity: 1, scaleX: 1 }
+                      : { opacity: 0, scaleX: 0.88 }
                 }
                 transition={{
                   duration: instant ? 0 : 0.28,
@@ -109,7 +135,13 @@ export function PortfolioProofMotion({
         <motion.figure
           data-testid="portfolio-testimonial"
           initial={false}
-          animate={revealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+          animate={
+            instant
+              ? { opacity: 1 }
+              : revealed
+                ? { opacity: 1, y: 0 }
+                : { opacity: 0, y: 12 }
+          }
           transition={{
             duration: instant ? 0 : 0.3,
             delay: instant ? 0 : 1.12,
@@ -163,9 +195,11 @@ export function PortfolioProofMotion({
           data-testid="portfolio-desktop-proof"
           initial={false}
           animate={
-            revealed
-              ? { opacity: 1, y: 0, rotate: 0 }
-              : { opacity: 0, y: 32, rotate: -1.5 }
+            instant
+              ? { opacity: 1 }
+              : revealed
+                ? { opacity: 1, y: 0, rotate: 0 }
+                : { opacity: 0, y: 32, rotate: -1.5 }
           }
           transition={{
             duration: instant ? 0 : 0.62,
@@ -187,13 +221,15 @@ export function PortfolioProofMotion({
             data-testid="portfolio-mobile-proof"
             initial={false}
             animate={
-              revealed
-                ? { opacity: 1, x: 0, rotate: 0 }
-                : {
-                    opacity: 0,
-                    x: compact ? 24 : 44,
-                    rotate: 1,
-                  }
+              instant
+                ? { opacity: 1 }
+                : revealed
+                  ? { opacity: 1, x: 0, rotate: 0 }
+                  : {
+                      opacity: 0,
+                      x: compact ? 24 : 44,
+                      rotate: 1,
+                    }
             }
             transition={
               instant
@@ -219,6 +255,6 @@ export function PortfolioProofMotion({
           </motion.div>
         </motion.div>
       </div>
-    </article>
+    </motion.article>
   );
 }
