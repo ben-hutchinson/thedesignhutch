@@ -1,11 +1,14 @@
 import type { PortfolioCarouselAction } from "../../components/portfolio/portfolio-carousel-state";
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- Node executes this TypeScript test as CommonJS.
 const assert: typeof import("node:assert/strict") = require("node:assert/strict");
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- Node executes this TypeScript test as CommonJS.
 const test: typeof import("node:test") = require("node:test");
 const {
   createPortfolioCarouselState,
   reducePortfolioCarousel,
   shouldSchedulePortfolioAutoplay,
+  // eslint-disable-next-line @typescript-eslint/no-require-imports -- Node executes this TypeScript test as CommonJS.
 } = require("../../components/portfolio/portfolio-carousel-state.ts") as typeof import("../../components/portfolio/portfolio-carousel-state");
 
 test("creates a dormant state for one project", () => {

@@ -1,7 +1,10 @@
 import type { projects as portfolioProjects } from "../../content/portfolio";
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- Node executes this TypeScript test as CommonJS.
 const assert: typeof import("node:assert/strict") = require("node:assert/strict");
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- Node executes this TypeScript test as CommonJS.
 const test: typeof import("node:test") = require("node:test");
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- Node executes this TypeScript test as CommonJS.
 const { projects } = require("../../content/portfolio.ts") as {
   projects: typeof portfolioProjects;
 };
