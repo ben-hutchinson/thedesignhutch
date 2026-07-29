@@ -1,15 +1,73 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type PointerEvent } from "react";
 
 import { LogoMark } from "@/components/brand/logo";
 import { contactDetails } from "@/content/site";
 
+const DRAG_ACTIVATION_PX = 8;
+const SNAP_MIDPOINT_DEGREES = 90;
+
+type PointerGesture = {
+  axis: "horizontal" | "vertical" | null;
+  cardWidth: number;
+  latestRotation: number;
+  pointerId: number;
+  startRotation: number;
+  startX: number;
+  startY: number;
+};
+
+function clampRotation(rotation: number) {
+  return Math.min(180, Math.max(0, rotation));
+}
+
 export function HeroBusinessCard() {
   const [side, setSide] = useState<"front" | "back">("front");
-  const pointerStart = useRef<number | null>(null);
-  const mouseStart = useRef<number | null>(null);
+  const [rotation, setRotation] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const pointerGesture = useRef<PointerGesture | null>(null);
   const didDrag = useRef(false);
+
+  const setSettledSide = (nextSide: "front" | "back") => {
+    setSide(nextSide);
+    setRotation(nextSide === "back" ? 180 : 0);
+  };
+
+  const suppressNextClick = () => {
+    didDrag.current = true;
+    window.setTimeout(() => {
+      didDrag.current = false;
+    }, 0);
+  };
+
+  const releasePointer = (event: PointerEvent<HTMLButtonElement>) => {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  const finishGesture = (event: PointerEvent<HTMLButtonElement>) => {
+    const gesture = pointerGesture.current;
+
+    if (!gesture || gesture.pointerId !== event.pointerId) return;
+
+    releasePointer(event);
+    pointerGesture.current = null;
+
+    if (gesture.axis === "horizontal") {
+      setSettledSide(
+        gesture.latestRotation >= SNAP_MIDPOINT_DEGREES ? "back" : "front",
+      );
+      setIsDragging(false);
+      suppressNextClick();
+      return;
+    }
+
+    if (gesture.axis === "vertical") {
+      suppressNextClick();
+    }
+  };
 
   return (
     <div className="relative mx-auto w-[68%] max-w-[38.5rem] translate-x-4 rotate-[-7deg] [perspective:1200px] md:mx-0 md:w-[94%] md:translate-x-0 md:rotate-[-10deg]">
@@ -25,58 +83,76 @@ export function HeroBusinessCard() {
         aria-pressed={side === "back"}
         data-side={side}
         data-auto-rotate="false"
-        className="cta-focus relative block aspect-[25/14] w-full touch-none select-none bg-transparent text-left [transform-style:preserve-3d]"
+        className="cta-focus relative block aspect-[25/14] w-full touch-pan-y select-none bg-transparent text-left transition-transform duration-[650ms] ease-[cubic-bezier(.22,1,.36,1)] [transform-style:preserve-3d] motion-reduce:transition-none"
         onDragStart={(event) => event.preventDefault()}
         style={{
-          transform: `rotateY(${side === "back" ? 180 : 0}deg)`,
-          transition: "transform 650ms cubic-bezier(.22,1,.36,1)",
+          transform: `rotateY(${rotation}deg)`,
+          transition: isDragging ? "none" : undefined,
         }}
         onClick={() => {
           if (didDrag.current) {
             didDrag.current = false;
             return;
           }
-          setSide((current) => (current === "front" ? "back" : "front"));
+          setSettledSide(side === "front" ? "back" : "front");
         }}
         onPointerDown={(event) => {
-          pointerStart.current = event.clientX;
+          if (
+            !event.isPrimary ||
+            (event.pointerType === "mouse" && event.button !== 0)
+          ) {
+            return;
+          }
+
+          pointerGesture.current = {
+            axis: null,
+            cardWidth: event.currentTarget.getBoundingClientRect().width,
+            latestRotation: rotation,
+            pointerId: event.pointerId,
+            startRotation: rotation,
+            startX: event.clientX,
+            startY: event.clientY,
+          };
           didDrag.current = false;
         }}
         onPointerMove={(event) => {
-          if (pointerStart.current !== null) {
-            const distance = event.clientX - pointerStart.current;
-            if (distance < -60) setSide("back");
-            if (distance > 60) setSide("front");
-            if (Math.abs(distance) > 8) {
-              didDrag.current = true;
+          const gesture = pointerGesture.current;
+
+          if (!gesture || gesture.pointerId !== event.pointerId) return;
+
+          const horizontalTravel = event.clientX - gesture.startX;
+          const verticalTravel = event.clientY - gesture.startY;
+
+          if (gesture.axis === null) {
+            if (
+              Math.max(Math.abs(horizontalTravel), Math.abs(verticalTravel)) <=
+              DRAG_ACTIVATION_PX
+            ) {
+              return;
+            }
+
+            gesture.axis =
+              Math.abs(horizontalTravel) > Math.abs(verticalTravel)
+                ? "horizontal"
+                : "vertical";
+
+            if (gesture.axis === "horizontal") {
+              event.currentTarget.setPointerCapture(event.pointerId);
+              setIsDragging(true);
             }
           }
+
+          if (gesture.axis !== "horizontal") return;
+
+          const nextRotation = clampRotation(
+            gesture.startRotation -
+              (horizontalTravel / gesture.cardWidth) * 180,
+          );
+          gesture.latestRotation = nextRotation;
+          setRotation(nextRotation);
         }}
-        onPointerUp={(event) => {
-          const distance =
-            event.clientX - (pointerStart.current ?? event.clientX);
-          didDrag.current = Math.abs(distance) > 8;
-          if (distance < -60) setSide("back");
-          if (distance > 60) setSide("front");
-          pointerStart.current = null;
-        }}
-        onPointerCancel={() => {
-          pointerStart.current = null;
-        }}
-        onMouseDown={(event) => {
-          mouseStart.current = event.clientX;
-          didDrag.current = false;
-        }}
-        onMouseMove={(event) => {
-          if (mouseStart.current === null) return;
-          const distance = event.clientX - mouseStart.current;
-          if (distance < -60) setSide("back");
-          if (distance > 60) setSide("front");
-          if (Math.abs(distance) > 8) didDrag.current = true;
-        }}
-        onMouseUp={() => {
-          mouseStart.current = null;
-        }}
+        onPointerUp={finishGesture}
+        onPointerCancel={finishGesture}
       >
         <span className="absolute inset-0 overflow-hidden border border-white/25 bg-[#204dbf] p-[clamp(1.2rem,4vw,2.2rem)] text-white shadow-[0_7px_0_#f0642b,0_35px_42px_-22px_rgba(0,0,0,.95)] [backface-visibility:hidden]">
           <span className="absolute inset-0 opacity-25 [background-image:repeating-radial-gradient(circle_at_30%_20%,transparent_0,rgba(255,255,255,.12)_1px,transparent_2px,transparent_5px)]" />
