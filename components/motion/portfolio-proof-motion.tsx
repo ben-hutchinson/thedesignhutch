@@ -38,6 +38,9 @@ const metricPresentationClasses: Record<
   },
 };
 
+const quoteMarkClassName =
+  "font-heading text-[2.5rem] leading-none text-accent-blue";
+
 export function PortfolioProofMotion({
   project,
   priority,
@@ -186,7 +189,7 @@ export function PortfolioProofMotion({
           <span
             data-portfolio-quote-mark
             aria-hidden
-            className="font-heading text-6xl leading-none text-accent-blue"
+            className={`${quoteMarkClassName} self-start`}
           >
             “
           </span>
@@ -197,7 +200,7 @@ export function PortfolioProofMotion({
             <span
               data-portfolio-quote-mark
               aria-hidden
-              className="ml-1 inline-block align-[-0.08em] text-accent-blue"
+              className={`${quoteMarkClassName} ml-1 inline-block align-[-0.08em]`}
             >
               ”
             </span>

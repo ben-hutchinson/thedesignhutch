@@ -262,6 +262,21 @@ test.describe("approved editorial workshop fidelity", () => {
     await expect(quoteMarks).toHaveCount(2);
     await expect(quoteMarks.nth(0)).toHaveClass(/text-accent-blue/);
     await expect(quoteMarks.nth(1)).toHaveClass(/text-accent-blue/);
+    const quoteMarkTypography = await quoteMarks.evaluateAll((marks) =>
+      marks.map((mark) => {
+        const style = getComputedStyle(mark);
+
+        return {
+          color: style.color,
+          fontFamily: style.fontFamily,
+          fontSize: style.fontSize,
+          fontStyle: style.fontStyle,
+          fontWeight: style.fontWeight,
+          lineHeight: style.lineHeight,
+        };
+      }),
+    );
+    expect(quoteMarkTypography[1]).toEqual(quoteMarkTypography[0]);
     await expect(
       portfolio.getByRole("link", { name: "Read the case study" }),
     ).toHaveCount(0);
