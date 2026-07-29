@@ -249,7 +249,9 @@ export function PortfolioCarousel({ projects }: PortfolioCarouselProps) {
     >
       <div
         data-testid="portfolio-transition-clip"
-        className="-mx-[var(--space-container-x)] overflow-x-clip px-[var(--space-container-x)] pb-12 [overflow-clip-margin:4rem]"
+        className={`-mx-[var(--space-container-x)] overflow-x-clip px-[var(--space-container-x)] [overflow-clip-margin:4rem] ${
+          hasMultipleProjects ? "pb-12" : ""
+        }`}
       >
         <AnimatePresence initial={false} mode="wait" custom={state.direction}>
           <PortfolioProofMotion
