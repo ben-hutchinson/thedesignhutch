@@ -310,4 +310,55 @@ test.describe("approved editorial workshop fidelity", () => {
     await expect(footerWordmark).toHaveClass(/font-body/);
     await expect(footerWordmark).toHaveClass(/font-medium/);
   });
+
+  test("portfolio quote marks sit equidistant from the words", async ({
+    page,
+  }) => {
+    await prepareDeterministicPage(page);
+    await page.goto("/portfolio");
+
+    const quoteMarkGaps = await page
+      .getByTestId("portfolio-testimonial")
+      .evaluate((testimonial) => {
+        const marks = Array.from(
+          testimonial.querySelectorAll<HTMLElement>(
+            "[data-portfolio-quote-mark]",
+          ),
+        );
+        const quote = testimonial.querySelector("blockquote");
+
+        if (marks.length !== 2 || !quote) {
+          return {
+            closing: Number.POSITIVE_INFINITY,
+            opening: Number.POSITIVE_INFINITY,
+          };
+        }
+
+        const textNodes = Array.from(quote.childNodes).filter(
+          (node) => node.nodeType === Node.TEXT_NODE && node.textContent?.trim(),
+        );
+
+        const rangeFor = (node: Node) => {
+          const range = document.createRange();
+          range.selectNodeContents(node);
+          return range.getBoundingClientRect();
+        };
+
+        const openingMark = rangeFor(marks[0]);
+        const closingMark = rangeFor(marks[1]);
+        const firstLine = rangeFor(textNodes[0]);
+        const lastLine = rangeFor(textNodes[textNodes.length - 1]);
+
+        return {
+          closing: closingMark.left - lastLine.right,
+          opening: firstLine.left - openingMark.right,
+        };
+      });
+
+    expect(quoteMarkGaps.opening).toBeGreaterThanOrEqual(2);
+    expect(quoteMarkGaps.opening).toBeLessThanOrEqual(8);
+    expect(
+      Math.abs(quoteMarkGaps.opening - quoteMarkGaps.closing),
+    ).toBeLessThanOrEqual(1);
+  });
 });

@@ -184,7 +184,7 @@ export function PortfolioProofMotion({
           onAnimationComplete={(definition) => {
             if (definition === "visible") reportSettled();
           }}
-          className="mt-12 grid grid-cols-[3.2rem_1fr] gap-x-4 gap-y-2"
+          className="mt-12 grid grid-cols-[auto_1fr] gap-x-1 gap-y-2"
         >
           <span
             data-portfolio-quote-mark
