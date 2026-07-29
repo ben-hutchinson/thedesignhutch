@@ -44,6 +44,7 @@ export function PortfolioCarousel({ projects }: PortfolioCarouselProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const pointerStartRef = useRef<PointerStart | null>(null);
   const autoplayInitializedRef = useRef(false);
+  const restoreLiveLinkFocusRef = useRef(false);
   const inView = useInView(rootRef, { amount: 0.3 });
   const { hydrated, reduced } = useResolvedMotion();
   const [state, dispatch] = useReducer(
@@ -56,7 +57,9 @@ export function PortfolioCarousel({ projects }: PortfolioCarouselProps) {
   const [focusWithin, setFocusWithin] = useState(false);
   const [documentVisible, setDocumentVisible] = useState(true);
   const [announcement, setAnnouncement] = useState("");
+  const [settledProjectId, setSettledProjectId] = useState<string | null>(null);
   const project = projects[state.activeIndex];
+  const slideSettled = settledProjectId === project?.id;
 
   useEffect(() => {
     const updateDocumentVisibility = () => {
@@ -94,12 +97,13 @@ export function PortfolioCarousel({ projects }: PortfolioCarouselProps) {
       hydrated,
       inView,
       documentVisible,
-      temporarilyPaused: hovered || focusWithin || reduced,
+      temporarilyPaused: hovered || focusWithin || reduced || !slideSettled,
     });
 
     if (!shouldSchedule) return;
 
     const timeout = window.setTimeout(() => {
+      setSettledProjectId(null);
       dispatch({ type: "next", source: "automatic" });
     }, AUTOPLAY_DELAY_MS);
 
@@ -112,6 +116,7 @@ export function PortfolioCarousel({ projects }: PortfolioCarouselProps) {
     hydrated,
     inView,
     reduced,
+    slideSettled,
     state.activeIndex,
     state.autoplayEnabled,
   ]);
@@ -124,6 +129,7 @@ export function PortfolioCarousel({ projects }: PortfolioCarouselProps) {
       );
       const nextProject = projects[nextIndex];
 
+      setSettledProjectId(null);
       dispatch(
         direction === 1
           ? { type: "next", source: "manual" }
@@ -138,11 +144,35 @@ export function PortfolioCarousel({ projects }: PortfolioCarouselProps) {
     [projectCount, projects, state.activeIndex],
   );
 
+  const handleSlideSettled = useCallback((projectId: string) => {
+    setSettledProjectId(projectId);
+
+    if (!restoreLiveLinkFocusRef.current) return;
+
+    window.requestAnimationFrame(() => {
+      const incomingLink = rootRef.current?.querySelector<HTMLElement>(
+        "[data-portfolio-live-link]",
+      );
+      incomingLink?.focus();
+      restoreLiveLinkFocusRef.current = false;
+    });
+  }, []);
+
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+
+    if (
+      event.target instanceof HTMLElement &&
+      event.target.closest("[data-portfolio-live-link]")
+    ) {
+      restoreLiveLinkFocusRef.current = true;
+      event.target.blur();
+    }
+
     if (event.key === "ArrowLeft") {
       event.preventDefault();
       navigateManually(-1);
-    } else if (event.key === "ArrowRight") {
+    } else {
       event.preventDefault();
       navigateManually(1);
     }
@@ -206,6 +236,7 @@ export function PortfolioCarousel({ projects }: PortfolioCarouselProps) {
       data-project-count={projectCount}
       data-active-project={project.id}
       data-autoplay-enabled={state.autoplayEnabled}
+      data-slide-settled={slideSettled}
       className="touch-pan-y"
       onBlur={handleBlur}
       onFocus={() => setFocusWithin(true)}
@@ -216,8 +247,26 @@ export function PortfolioCarousel({ projects }: PortfolioCarouselProps) {
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
     >
+      <div
+        data-testid="portfolio-transition-clip"
+        className="-mx-[var(--space-container-x)] overflow-x-clip px-[var(--space-container-x)] pb-12 [overflow-clip-margin:4rem]"
+      >
+        <AnimatePresence initial={false} mode="wait" custom={state.direction}>
+          <PortfolioProofMotion
+            key={project.id}
+            project={project}
+            priority={state.activeIndex === 0}
+            direction={state.direction}
+            onSettled={handleSlideSettled}
+          />
+        </AnimatePresence>
+      </div>
+
       {hasMultipleProjects ? (
-        <div className="mb-8 flex items-center justify-end gap-3 border-y border-[#181a17]/35 py-3 sm:gap-4">
+        <div
+          data-testid="portfolio-controls"
+          className="mt-4 flex items-center justify-end gap-3 border-y border-[#181a17]/35 py-3 sm:gap-4"
+        >
           <button
             type="button"
             aria-label="Show previous project"
@@ -263,15 +312,6 @@ export function PortfolioCarousel({ projects }: PortfolioCarouselProps) {
           </p>
         </div>
       ) : null}
-
-      <AnimatePresence initial={false} mode="wait" custom={state.direction}>
-        <PortfolioProofMotion
-          key={project.id}
-          project={project}
-          priority={state.activeIndex === 0}
-          direction={state.direction}
-        />
-      </AnimatePresence>
     </div>
   );
 }

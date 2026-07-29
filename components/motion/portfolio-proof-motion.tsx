@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "motion/react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { motion, useInView, useIsPresent } from "motion/react";
 
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { type CarouselDirection } from "@/components/portfolio/portfolio-carousel-state";
@@ -14,6 +14,7 @@ type PortfolioProofMotionProps = {
   project: Project;
   priority: boolean;
   direction: CarouselDirection;
+  onSettled: (projectId: string) => void;
 };
 
 const metricPresentationClasses: Record<
@@ -41,9 +42,12 @@ export function PortfolioProofMotion({
   project,
   priority,
   direction,
+  onSettled,
 }: PortfolioProofMotionProps) {
   const rootRef = useRef<HTMLElement>(null);
+  const settledRef = useRef(false);
   const inView = useInView(rootRef, { once: true, amount: 0.3 });
+  const isPresent = useIsPresent();
   const { hydrated, reduced } = useResolvedMotion();
   const [compact, setCompact] = useState(false);
 
@@ -77,11 +81,25 @@ export function PortfolioProofMotion({
         }),
       };
 
+  const reportSettled = useCallback(() => {
+    if (!revealed || !isPresent || settledRef.current) return;
+
+    settledRef.current = true;
+    onSettled(project.id);
+  }, [isPresent, onSettled, project.id, revealed]);
+
+  useEffect(() => {
+    if (hydrated && instant) reportSettled();
+  }, [hydrated, instant, reportSettled]);
+
   return (
     <motion.article
       ref={rootRef}
       data-testid="portfolio-proof-motion"
       data-motion-state={state}
+      data-presence={isPresent ? "present" : "exiting"}
+      aria-hidden={isPresent ? undefined : true}
+      inert={isPresent ? undefined : true}
       custom={direction}
       variants={slideVariants}
       initial="enter"
@@ -135,17 +153,33 @@ export function PortfolioProofMotion({
         <motion.figure
           data-testid="portfolio-testimonial"
           initial={false}
-          animate={
-            instant
-              ? { opacity: 1 }
-              : revealed
-                ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: 12 }
-          }
-          transition={{
-            duration: instant ? 0 : 0.3,
-            delay: instant ? 0 : 1.12,
-            ease: "easeOut",
+          animate={instant ? "instant" : revealed ? "visible" : "hidden"}
+          variants={{
+            instant: {
+              opacity: 1,
+              transition: { duration: 0 },
+            },
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: {
+                duration: 0.3,
+                delay: 1.12,
+                ease: "easeOut",
+              },
+            },
+            hidden: {
+              opacity: 0,
+              y: 12,
+              transition: {
+                duration: 0.3,
+                delay: 1.12,
+                ease: "easeOut",
+              },
+            },
+          }}
+          onAnimationComplete={(definition) => {
+            if (definition === "visible") reportSettled();
           }}
           className="mt-12 grid grid-cols-[3.2rem_1fr] gap-x-4 gap-y-2"
         >
@@ -175,6 +209,7 @@ export function PortfolioProofMotion({
         </motion.figure>
         <div className="mt-9 flex flex-wrap gap-7">
           <TrackedLink
+            data-portfolio-live-link
             href={project.href}
             target="_blank"
             rel="noreferrer"
